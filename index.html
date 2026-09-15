@@ -370,43 +370,53 @@
       <div class="practice-heading">Practice Problems</div>
 
       <div class="qa-block">
-        <h4>Problem 1 — Dimensional Homogeneity</h4>
+        <h4>Problem 1(a) — Dimensional Homogeneity</h4>
         <p class="qa-given"><strong>Given:</strong> $y = a\,e^{-bt}$, where $y$ has units of kg/L and $t$ is time. Find the units of $a$ and $b$.</p>
-        <p class="note">The argument of an exponential must be dimensionless:</p>
-        <p class="note">$$[bt]=1 \implies [b]=[t]^{-1}=T^{-1}$$</p>
-        <p class="note">The pre-exponential factor must carry the units of $y$:</p>
-        <p class="note">$$[a]=[y]=\text{kg/L}$$</p>
+        <p class="note">For an exponential term, the exponent must be dimensionless:</p>
+        <p class="note">$$[bt]=1$$</p>
+        <p class="note">Therefore,</p>
+        <p class="note">$$[b]=[t]^{-1}=T^{-1}$$</p>
+        <p class="note">So $b$ can have units such as $$\boxed{s^{-1}\text{ or hr}^{-1}}$$</p>
+        <p class="note">Since $e^{-bt}$ is dimensionless,</p>
+        <p class="note">$$[a]=[y]$$</p>
+        <p class="note">Given $y$ has units kg/L,</p>
+        <p class="note">$$\boxed{[a]=\frac{\text{kg}}{\text{L}}}$$</p>
         <p class="qa-answer">Answer: $[b] = \text{s}^{-1}$ or $\text{hr}^{-1}$; &nbsp; $[a] = \text{kg/L}$</p>
       </div>
 
       <div class="qa-block">
         <h4>Problem 1(b1) — Velocity Conversion</h4>
         <p class="qa-given"><strong>Convert:</strong> $1100\ \text{ft/s}$ to miles/hr.</p>
-        <p class="note">$$1100\,\frac{\text{ft}}{\text{s}} \times \frac{1\ \text{mile}}{5280\ \text{ft}} \times \frac{3600\ \text{s}}{1\ \text{hr}}$$</p>
+        <p class="note">$$1100\,\frac{ft}{s}\left(\frac{1\ mile}{5280\ ft}\right)\left(\frac{3600\ s}{1\ hr}\right)$$</p>
+        <p class="note">$$=\boxed{750\ mile/hr}$$</p>
         <p class="qa-answer">Answer: $750\ \text{miles/hr}$</p>
       </div>
 
       <div class="qa-block">
         <h4>Problem 1(b2) — Volumetric Flow Rate Conversion</h4>
         <p class="qa-given"><strong>Convert:</strong> $400\ \text{in}^3/\text{day}$ to $\text{cm}^3/\text{min}$.</p>
-        <p class="note">$$400\,\frac{\text{in}^3}{\text{day}} \times \frac{(2.54\ \text{cm})^3}{1\ \text{in}^3} \times \frac{1\ \text{day}}{1440\ \text{min}} = \frac{400 \times 16.387}{1440}$$</p>
+        <p class="note">Use $$1\,in=2.54\,cm$$ Therefore $$1\,in^3=(2.54)^3=16.387\,cm^3$$</p>
+        <p class="note">Hence $$400\frac{in^3}{day}\left(\frac{16.387\,cm^3}{in^3}\right)\left(\frac{1\,day}{1440\,min}\right)$$</p>
+        <p class="note">$$=\boxed{4.552\ cm^3/min}$$</p>
         <p class="qa-answer">Answer: $4.552\ \text{cm}^3/\text{min}$</p>
       </div>
 
       <div class="qa-block">
         <h4>Problem 1(b3) — Length Conversion<span class="qa-flag">watch direction</span></h4>
         <p class="qa-given"><strong>Convert:</strong> $1.8\ \text{nm}$ to inches.</p>
-        <p class="note">$$1.8\ \text{nm} = 1.8\times10^{-9}\ \text{m} \times \frac{1\ \text{in}}{0.0254\ \text{m}}$$</p>
-        <p class="note">Dividing by 0.0254 m/in is correct here — multiplying instead is a common error since it inverts the conversion direction.</p>
+        <p class="note">$$1.8\,nm=1.8\times10^{-9}m$$</p>
+        <p class="note">Since $$1\,in=0.0254\,m$$ $$1.8\times10^{-9}m\left(\frac{1\,in}{0.0254\,m}\right)$$</p>
+        <p class="note">$$=\boxed{7.087\times10^{-8}\ in}$$</p>
+        <p class="note"><strong>Important:</strong> multiplying by $0.0254$ would be the wrong direction for this conversion.</p>
         <p class="qa-answer">Answer: $7.087\times10^{-8}\ \text{in}$</p>
       </div>
 
       <div class="qa-block">
         <h4>Problem 2 — Significant Figures &amp; Scientific Notation</h4>
         <p class="qa-given"><strong>Express in scientific notation and give the number of significant figures:</strong> 12.44, 5300, 0.034</p>
-        <p class="note">$$12.44 = 1.244\times10^{1} \quad (4\ \text{sig. figs.})$$</p>
-        <p class="note">$$5300 = 5.3\times10^{3}\ (2\ \text{sig. figs., ambiguous}) \quad \text{or } 5.300\times10^{3}\ (4\ \text{sig. figs., if explicit})$$</p>
-        <p class="note">$$0.034 = 3.4\times10^{-2} \quad (2\ \text{sig. figs.})$$</p>
+        <p class="note"><strong>1. $12.44$</strong> $$12.44=1.244\times10^1$$ Significant figures: $$\boxed{4}$$</p>
+        <p class="note"><strong>2. $5300$</strong> — without a decimal point, trailing zeros are ambiguous. $$5300=5.3\times10^3$$ So normally: $$\boxed{2\text{ significant figures}}$$ If written as $5.300\times10^3$, it has $$\boxed{4\text{ significant figures}}$$</p>
+        <p class="note"><strong>3. $0.034$</strong> — move decimal two places: $$0.034=3.4\times10^{-2}$$ Therefore: $$\boxed{2\text{ significant figures}}$$</p>
         <p class="qa-answer">Answer: 4 SF; 2 SF (or 4 SF if written with trailing zeros shown as significant); 2 SF</p>
       </div>
     </section>
@@ -452,27 +462,28 @@
 
       <div class="qa-block">
         <h4>Problem 3 — Moles of NaOH</h4>
-        <p class="qa-given"><strong>Given:</strong> $4\ \text{lb}$ of NaOH, $M_w = 40\ \text{g/mol} = 40\ \text{lb/lb-mol}$. Find (i) lb-moles and (ii) g-moles.</p>
-        <p class="note">$$\text{(i)}\quad n = \frac{4\ \text{lb}}{40\ \text{lb/lb-mol}} = 0.10\ \text{lb-mole}$$</p>
-        <p class="note">$$\text{(ii)}\quad 4\ \text{lb} \times 453.592\ \text{g/lb} = 1814.37\ \text{g} \quad\Rightarrow\quad n = \frac{1814.37}{40} = 45.36\ \text{g-mole}$$</p>
+        <p class="qa-given"><strong>Given:</strong> $m=4\,lb$, $MW=40\ lb/lbmol$. Find (i) lb-moles and (ii) g-moles.</p>
+        <p class="note"><strong>(i) Pound-moles</strong> $$n=\frac{m}{MW}$$ $$n=\frac{4}{40}$$ $$\boxed{n=0.10\ lbmol}$$</p>
+        <p class="note"><strong>(ii) Gram-moles</strong> — convert lb to g: $$4\,lb\left(\frac{453.592\,g}{1\,lb}\right)=1814.37\,g$$ Now $$n=\frac{1814.37}{40}$$ $$\boxed{n=45.36\ gmol}$$</p>
         <p class="qa-answer">Answer: $0.10\ \text{lb-mol}$; &nbsp; $45.36\ \text{g-mol}$</p>
       </div>
 
       <div class="qa-block">
         <h4>Problem 4 — Average Molecular Weight of Gas Mixtures</h4>
         <p class="qa-given"><strong>Case 1 (dry air):</strong> $21\%\ \text{O}_2$, $79\%\ \text{N}_2$. &nbsp; <strong>Case 2:</strong> $10\%\ \text{H}_2$, $11\%\ \text{O}_2$, $79\%\ \text{N}_2$.</p>
-        <p class="note">$$\bar M_w = \sum y_i M_i$$</p>
-        <p class="note">Case 1: $(0.21)(32) + (0.79)(28) = 6.72 + 22.12 = 28.84\ \text{g/mol}$</p>
-        <p class="note">Case 2: $(0.10)(2) + (0.11)(32) + (0.79)(28) = 0.20 + 3.52 + 22.12 = 25.84\ \text{g/mol}$</p>
+        <p class="note">Use $$\boxed{\bar M=\sum y_iM_i}$$</p>
+        <p class="note"><strong>Case 1: Air</strong> $$y_{O_2}=0.21,\qquad y_{N_2}=0.79$$ $$\bar M=(0.21)(32)+(0.79)(28)$$ $$=6.72+22.12$$ $$\boxed{\bar M=28.84\ g/mol}$$</p>
+        <p class="note"><strong>Case 2</strong> $$y_{H_2}=0.10,\quad y_{O_2}=0.11,\quad y_{N_2}=0.79$$ $$\bar M=(0.10)(2)+(0.11)(32)+(0.79)(28)$$ $$=0.20+3.52+22.12$$ $$\boxed{\bar M=25.84\ g/mol}$$</p>
         <p class="qa-answer">Answer: Air $= 28.84\ \text{g/mol}$; ternary mixture $= 25.84\ \text{g/mol}$</p>
       </div>
 
       <div class="qa-block">
         <h4>Problem 5 — Mass and Mole Fractions of a Water–NaOH Mixture</h4>
-        <p class="qa-given"><strong>Given:</strong> $5\ \text{kg}\ \text{H}_2\text{O}$ and $5\ \text{kg}\ \text{NaOH}$.</p>
-        <p class="note">Mass fractions: $w_{\text{H}_2\text{O}} = \frac{5}{10} = 0.50$, &nbsp; $w_{\text{NaOH}} = \frac{5}{10} = 0.50$</p>
-        <p class="note">$$n_{\text{H}_2\text{O}} = \frac{5000}{18} = 277.78\ \text{mol}, \qquad n_{\text{NaOH}} = \frac{5000}{40} = 125.00\ \text{mol}$$</p>
-        <p class="note">$$n_{\text{total}} = 402.78\ \text{mol} \quad\Rightarrow\quad x_{\text{H}_2\text{O}} = \frac{277.78}{402.78} = 0.690, \quad x_{\text{NaOH}} = 0.310$$</p>
+        <p class="qa-given"><strong>Given:</strong> $5\,kg\ H_2O$ and $5\,kg\ NaOH$.</p>
+        <p class="note">Total mass: $$m_T=5+5=10\,kg$$</p>
+        <p class="note"><strong>Mass fractions</strong> $$w_{H_2O}=\frac{5}{10}=0.50 \qquad w_{NaOH}=\frac{5}{10}=0.50$$ Therefore $$\boxed{w_{H_2O}=0.50,\qquad w_{NaOH}=0.50}$$</p>
+        <p class="note"><strong>Mole fractions</strong> — for water: $$n_{H_2O}=\frac{5000}{18}=277.78\,mol$$ for NaOH: $$n_{NaOH}=\frac{5000}{40}=125.00\,mol$$ Total: $$n_T=277.78+125=402.78\,mol$$</p>
+        <p class="note">Thus $$x_{H_2O}=\frac{277.78}{402.78}=0.6897 \qquad x_{NaOH}=\frac{125}{402.78}=0.3103$$ Final: $$\boxed{x_{H_2O}\approx0.690} \qquad \boxed{x_{NaOH}\approx0.310}$$</p>
         <p class="qa-answer">Answer: $w_{\text{H}_2\text{O}} = w_{\text{NaOH}} = 0.50$; &nbsp; $x_{\text{H}_2\text{O}} \approx 0.690$, $x_{\text{NaOH}} \approx 0.310$</p>
       </div>
     </section>
@@ -502,12 +513,11 @@
 
       <div class="qa-block">
         <h4>Problem 6 — Aqueous Sulfuric Acid Solution</h4>
-        <p class="qa-given"><strong>Given:</strong> $0.5\ \text{M}\ \text{H}_2\text{SO}_4$, $SG = 1.03$ at $20^{\circ}\text{C}$, $Q = 1.25\ \text{m}^3/\text{min}$, $M_w(\text{H}_2\text{SO}_4) = 98\ \text{g/mol}$.</p>
-        <p class="note">(a) Mass concentration: $$C_{\text{mass}} = 0.5\,\frac{\text{mol}}{\text{L}} \times 98\,\frac{\text{g}}{\text{mol}} = 49\ \text{kg/m}^3$$</p>
-        <p class="note">(b) Solution mass flow rate: $\rho_{\text{soln}} = 1.03 \times 1000 = 1030\ \text{kg/m}^3$
-        $$\dot m_{\text{soln}} = 1.25\,\frac{\text{m}^3}{\text{min}} \times \frac{1\ \text{min}}{60\ \text{s}} \times 1030\,\frac{\text{kg}}{\text{m}^3} = 21.46\ \text{kg/s}$$</p>
-        <p class="note">(c) Acid mass flow rate: $$\dot m_{\text{acid}} = 1.25 \times \frac{1}{60} \times 49 = 1.021\ \text{kg/s}$$</p>
-        <p class="note">(d) Mass fraction: $$w_{\text{acid}} = \frac{1.021}{21.46} = 0.0476$$</p>
+        <p class="qa-given"><strong>Given:</strong> $C=0.5\,mol/L$, $SG=1.03$, $Q=1.25\,m^3/min$, $MW_{H_2SO_4}=98\,g/mol$.</p>
+        <p class="note"><strong>(a) Mass concentration</strong> $$C_m=(0.5)(98)$$ $$=49\,g/L$$ Since $1\,g/L=1\,kg/m^3$, $$\boxed{C_m=49\,kg/m^3}$$</p>
+        <p class="note"><strong>(b) Mass flow rate of solution</strong> — density: $$\rho=SG(1000)=1.03(1000)=1030\,kg/m^3$$ Convert flow rate: $$1.25\,m^3/min\left(\frac{1}{60}\right)=0.020833\,m^3/s$$ Therefore $$\dot m=\rho Q=(1030)(0.020833)$$ $$\boxed{\dot m_{solution}=21.46\,kg/s}$$</p>
+        <p class="note"><strong>(c) Mass flow rate of $H_2SO_4$</strong> $$\dot m_{H_2SO_4}=(49)(1.25)\left(\frac{1}{60}\right)$$ $$\boxed{\dot m_{H_2SO_4}=1.021\,kg/s}$$</p>
+        <p class="note"><strong>(d) Mass fraction</strong> $$w_{H_2SO_4}=\frac{\dot m_{H_2SO_4}}{\dot m_{solution}}=\frac{1.021}{21.46}$$ $$\boxed{w_{H_2SO_4}=0.0476} \quad\text{or}\quad \boxed{4.76\ wt\%}$$</p>
         <p class="qa-answer">Answer: $C_{\text{mass}}=49\ \text{kg/m}^3$; $\dot m_{\text{soln}}=21.46\ \text{kg/s}$; $\dot m_{\text{acid}}=1.021\ \text{kg/s}$; $w_{\text{acid}}=0.0476\ (4.76\%)$</p>
       </div>
     </section>
@@ -566,35 +576,36 @@
 
       <div class="qa-block">
         <h4>Problem 7 — Unsteady-State Storage Tank Balance</h4>
-        <p class="qa-given"><strong>Given:</strong> $t = 3\ \text{hr}$, accumulation $= 6000\ \text{kg}$, $F_1 = 10000\ \text{kg/hr}$, $P = 12000\ \text{kg/hr}$. Find $F_2$.</p>
-        <p class="note">$$\Delta M = \left[(F_1+F_2)-P\right]\Delta t$$</p>
-        <p class="note">$$6000 = (10000+F_2-12000)(3) \implies 2000 = F_2-2000$$</p>
+        <p class="qa-given"><strong>Given:</strong> $F_1=10000\,kg/hr$, $P=12000\,kg/hr$, $\Delta M=6000\,kg$, $\Delta t=3\,hr$. Find $F_2$.</p>
+        <p class="note">Use the basic transient balance: $$\text{Accumulation}=\text{Input}-\text{Output}$$</p>
+        <p class="note">Therefore: $$6000=(10000+F_2-12000)(3)$$ Divide by 3: $$2000=10000+F_2-12000$$ $$2000=F_2-2000$$</p>
+        <p class="note">Hence $$\boxed{F_2=4000\,kg/hr}$$</p>
         <p class="qa-answer">Answer: $F_2 = 4000\ \text{kg/hr}$</p>
       </div>
 
       <div class="qa-block">
         <h4>Problem 8 — Steady-State Mixing of Two Aqueous Streams</h4>
-        <p class="qa-given"><strong>Given:</strong> $F_1=9000\ \text{kg/hr}$ ($5\%$ NaOH, $95\%$ H₂O); $F_2=1000\ \text{kg/hr}$ ($50\%$ NaOH, $50\%$ H₂O). Find outlet $W$ and its composition.</p>
-        <p class="note">$$W = F_1+F_2 = 10000\ \text{kg/hr}$$</p>
-        <p class="note">$$\dot m_{\text{NaOH}} = (0.05)(9000)+(0.50)(1000) = 950\ \text{kg/hr} \implies w_{\text{NaOH}} = 0.095$$</p>
-        <p class="note">$$\dot m_{\text{H}_2\text{O}} = (0.95)(9000)+(0.50)(1000) = 9050\ \text{kg/hr} \implies w_{\text{H}_2\text{O}} = 0.905$$</p>
+        <p class="qa-given"><strong>Given:</strong> $F_1=9000\,kg/hr$, $F_2=1000\,kg/hr$. At steady state: $$\boxed{\text{Input}=\text{Output}}$$</p>
+        <p class="note"><strong>Step 1: Overall balance</strong> $$W=F_1+F_2$$ $$W=9000+1000$$ $$\boxed{W=10000\,kg/hr}$$</p>
+        <p class="note"><strong>Step 2: NaOH balance</strong> — from feed 1: $0.05(9000)=450\,kg/hr$; from feed 2: $0.50(1000)=500\,kg/hr$. Total NaOH: $$\dot m_{NaOH}=450+500=950\,kg/hr$$ Therefore $$w_{NaOH}=\frac{950}{10000}$$ $$\boxed{w_{NaOH}=0.095}\ \text{or}\ \boxed{9.5\ wt\%}$$</p>
+        <p class="note"><strong>Step 3: Water balance</strong> $$\dot m_{H_2O}=(0.95)(9000)+(0.50)(1000)$$ $$=8550+500$$ $$\boxed{\dot m_{H_2O}=9050\,kg/hr}$$ Therefore $$w_{H_2O}=\frac{9050}{10000}$$ $$\boxed{w_{H_2O}=0.905}\ \text{or}\ \boxed{90.5\ wt\%}$$ Check: $0.095+0.905=1$ ✓</p>
         <p class="qa-answer">Answer: $W = 10000\ \text{kg/hr}$, $w_{\text{NaOH}} = 0.095$, $w_{\text{H}_2\text{O}} = 0.905$</p>
       </div>
 
       <div class="qa-block">
         <h4>Problem 10 — Air Separation / Waste Stream Split</h4>
         <p class="qa-given"><strong>Given:</strong> Feed air ($21\%\ \text{O}_2$, $79\%\ \text{N}_2$); waste is $20\%$ of feed; $25\%$ of the fed O₂ ends up in the waste. Find the waste composition.</p>
-        <p class="note">Basis $F=100\ \text{mol}$: $\text{O}_2$ fed $=21\ \text{mol}$, $\text{N}_2$ fed $=79\ \text{mol}$, $W = 20\ \text{mol}$.</p>
-        <p class="note">$$n_{\text{O}_2,W} = 0.25(21) = 5.25\ \text{mol} \qquad n_{\text{N}_2,W} = 20-5.25 = 14.75\ \text{mol}$$</p>
-        <p class="note">$$y_{\text{O}_2} = \frac{5.25}{20}=0.2625, \qquad y_{\text{N}_2}=\frac{14.75}{20}=0.7375$$</p>
+        <p class="note">Take a basis: $$F=100\,mol$$ Therefore: $$n_{O_2}=0.21(100)=21\,mol \qquad n_{N_2}=0.79(100)=79\,mol$$ Waste is $20\%$ of feed: $$W=20\,mol$$</p>
+        <p class="note">25% of oxygen is discarded: $$n_{O_2,W}=0.25(21)=5.25\,mol$$ Therefore nitrogen in waste: $$n_{N_2,W}=20-5.25=14.75\,mol$$</p>
+        <p class="note"><strong>Waste composition</strong> $$y_{O_2}=\frac{5.25}{20}=0.2625$$ $$\boxed{y_{O_2}=26.25\%}$$ $$y_{N_2}=\frac{14.75}{20}=0.7375$$ $$\boxed{y_{N_2}=73.75\%}$$ Check: $26.25+73.75=100\%$ ✓</p>
         <p class="qa-answer">Answer: Waste is $26.25\%\ \text{O}_2$, $73.75\%\ \text{N}_2$</p>
       </div>
 
       <div class="qa-block">
         <h4>Problem 14 — Atomic / Elemental Material Balance</h4>
-        <p class="qa-given"><strong>Given:</strong> pure NH₃ feed $F$ partially dissociates; product $P$ analyzes as $17\%\ \text{N}_2$, $50\%\ \text{H}_2$, $33\%\ \text{NH}_3$ (molar). Formulate the atomic N and H balances.</p>
-        <p class="note">Nitrogen balance: $$1\cdot F = \left(2(0.17)+1(0.33)\right)P = 0.67\,P$$</p>
-        <p class="note">Hydrogen balance: $$3\cdot F = \left(2(0.50)+3(0.33)\right)P = 1.99\,P \approx 2.0\,P$$</p>
+        <p class="qa-given"><strong>Given:</strong> Feed $F=100\%\,NH_3$; product analyzes $17\%\,N_2$, $50\%\,H_2$, $33\%\,NH_3$. Let total product flow be $P$.</p>
+        <p class="note"><strong>Nitrogen balance</strong> — one mole $NH_3$ contains one N atom. Therefore $$F=\left[2(0.17)+1(0.33)\right]P$$ $$F=(0.34+0.33)P$$ $$\boxed{F=0.67P}$$</p>
+        <p class="note"><strong>Hydrogen balance</strong> — one mole $NH_3$ contains 3 H atoms. Therefore $$3F=\left[2(0.50)+3(0.33)\right]P$$ $$3F=(1.00+0.99)P$$ $$\boxed{3F=1.99P}$$ The slight mismatch is because the product percentages are rounded.</p>
         <p class="qa-answer">Answer: $F = 0.67P$ (from N); $3F = 1.99P$ (from H) — small mismatch is due to rounding of the product percentages.</p>
       </div>
     </section>
@@ -616,9 +627,10 @@
       <div class="qa-block">
         <h4>Problem 9 — Degree of Freedom Analysis on a Gas Blending System</h4>
         <p class="qa-given"><strong>Given:</strong> Blend $\text{CH}_4$, $\text{C}_2\text{H}_6$, $\text{N}_2$ from feeds $F_1$ ($20\%\ \text{CH}_4$, $80\%\ \text{N}_2$), $F_2$ ($10\%\ \text{C}_2\text{H}_6$, $90\%\ \text{N}_2$), $F_3$ ($100\%\ \text{N}_2$) into product $F_4$ with $\text{CH}_4:\text{C}_2\text{H}_6 = 1.5:1$.</p>
-        <p class="note">Unknowns: $F_1,F_2,F_3,F_4$ and 2 independent product mole fractions $\Rightarrow N_U = 6$.</p>
-        <p class="note">Independent equations: 3 component balances + 1 ratio specification $\Rightarrow N_E = 4$.</p>
-        <p class="note">$$N_D = N_U - N_E = 6-4 = 2$$</p>
+        <p class="note"><strong>Unknowns:</strong> $$F_1,\ F_2,\ F_3,\ F_4$$ and two independent product mole fractions. Therefore $$N_U=4+2=6$$</p>
+        <p class="note"><strong>Independent equations</strong> — three component balances: $$N_B=3$$ One composition-ratio relation: $$\frac{x_{CH_4}}{x_{C_2H_6}}=1.5$$ so $$N_R=1$$ Total equations: $$N_E=3+1=4$$</p>
+        <p class="note">Therefore $$N_D=N_U-N_E$$ $$N_D=6-4$$ $$\boxed{N_D=2}$$</p>
+        <p class="note"><strong>Interpretation</strong> — there are 2 degrees of freedom. Take a basis such as $F_4=100\,mol$; this fixes one degree of freedom. One more independent specification is required, e.g. one feed flow rate or total product amount: $$\boxed{\text{One additional specification is required after choosing a basis}}$$</p>
         <p class="qa-answer">Answer: $N_D = 2$. Choosing a basis (e.g. $F_4=100\ \text{mol}$) uses up one; one further specification (a feed rate or total product amount) is needed.</p>
       </div>
     </section>
@@ -655,16 +667,18 @@
 
       <div class="qa-block">
         <h4>Problem 11 — Extent of Reaction (CO Oxidation)</h4>
-        <p class="qa-given"><strong>Reaction:</strong> $2\text{CO}+\text{O}_2 \rightarrow 2\text{CO}_2$. Feed: $20\ \text{mol CO}$, $10\ \text{mol O}_2$; $15\ \text{mol CO}_2$ formed. Find $\xi$.</p>
-        <p class="note">For $\text{CO}_2$: $\nu = +2$, $n_{i0}=0$, $n_i = 15$.</p>
-        <p class="note">$$\xi = \frac{n_i-n_{i0}}{\nu_i} = \frac{15-0}{2}$$</p>
+        <p class="qa-given"><strong>Reaction:</strong> $$2CO+O_2\rightarrow2CO_2$$ Feed: $20\ \text{mol CO}$, $10\ \text{mol O}_2$; $15\ \text{mol CO}_2$ formed. Find $\xi$.</p>
+        <p class="note">For $CO_2$, $$\nu_{CO_2}=+2$$ Given: $$n_{CO_2,0}=0 \qquad n_{CO_2}=15\,mol$$</p>
+        <p class="note">Use $$\xi=\frac{n_i-n_{i0}}{\nu_i}$$ Thus $$\xi=\frac{15-0}{2}$$ $$\boxed{\xi=7.5\,mol}$$</p>
         <p class="qa-answer">Answer: $\xi = 7.5\ \text{mol}$</p>
       </div>
 
       <div class="qa-block">
         <h4>Problem 13 — Extent of Reaction for Ammonia Synthesis</h4>
-        <p class="qa-given"><strong>Reaction:</strong> $\text{N}_2+3\text{H}_2\rightarrow2\text{NH}_3$. Inlet: $18\ \text{mol H}_2$, $15\ \text{mol N}_2$. Outlet: $9\ \text{mol H}_2$, $12\ \text{mol N}_2$, $6\ \text{mol NH}_3$.</p>
-        <p class="note">$$\text{H}_2:\ \xi = \frac{9-18}{-3} = 3\ \text{mol} \qquad \text{N}_2:\ \xi = \frac{12-15}{-1} = 3\ \text{mol} \qquad \text{NH}_3:\ \xi = \frac{6-0}{2} = 3\ \text{mol}$$</p>
+        <p class="qa-given"><strong>Reaction:</strong> $$N_2+3H_2\rightarrow2NH_3$$ Inlet: $18\ \text{mol H}_2$, $15\ \text{mol N}_2$. Outlet: $9\ \text{mol H}_2$, $12\ \text{mol N}_2$, $6\ \text{mol NH}_3$. Use $$\xi=\frac{n_i-n_{i0}}{\nu_i}$$</p>
+        <p class="note"><strong>Using $H_2$:</strong> $\nu_{H_2}=-3$ $$\xi=\frac{9-18}{-3}$$ $$\boxed{\xi=3\,mol}$$</p>
+        <p class="note"><strong>Using $N_2$:</strong> $\nu_{N_2}=-1$ $$\xi=\frac{12-15}{-1}$$ $$\boxed{\xi=3\,mol}$$</p>
+        <p class="note"><strong>Using $NH_3$:</strong> initially $n_{NH_3,0}=0$, $\nu_{NH_3}=+2$ $$\xi=\frac{6-0}{2}$$ $$\boxed{\xi=3\,mol}$$ All three agree: $$\boxed{\xi=3\,mol}$$</p>
         <p class="qa-answer">Answer: $\xi = 3\ \text{mol}$ (consistent across all three species — good check on the balance)</p>
       </div>
     </section>
@@ -693,9 +707,10 @@
 
       <div class="qa-block">
         <h4>Problem 12 — Limiting Reactant and Maximum Extent</h4>
-        <p class="qa-given"><strong>Reaction:</strong> $\text{C}_7\text{H}_{16}+11\text{O}_2 \rightarrow 7\text{CO}_2+8\text{H}_2\text{O}$. Feed: $1\ \text{g-mol}\ \text{C}_7\text{H}_{16}$, $12\ \text{g-mol}\ \text{O}_2$.</p>
-        <p class="note">Stoichiometric ratio check: $$\left(\frac{n_{\text{O}_2}}{n_{\text{C}_7\text{H}_{16}}}\right)_{\text{feed}} = \frac{12}{1} = 12 > 11$$ so $\text{O}_2$ is in excess and $\text{C}_7\text{H}_{16}$ is limiting.</p>
-        <p class="note">$$\xi_{\max} = \frac{n_{\text{LR},0}}{|\nu_{\text{LR}}|} = \frac{1}{1} = 1.0\ \text{mol}$$</p>
+        <p class="qa-given"><strong>Reaction:</strong> $$C_7H_{16}+11O_2\rightarrow7CO_2+8H_2O$$ Feed: $1\ mol\ C_7H_{16}$, $12\ mol\ O_2$.</p>
+        <p class="note">Required oxygen for 1 mol heptane: $11\ mol\ O_2$. Available: $12\ mol\ O_2$. Since $$12>11$$ oxygen is in excess.</p>
+        <p class="note">Therefore $$\boxed{C_7H_{16}\text{ is the limiting reactant}}$$</p>
+        <p class="note">Maximum extent: $$\xi_{max}=\frac{n_{LR,0}}{|\nu_{LR}|}$$ $$=\frac{1}{1}$$ $$\boxed{\xi_{max}=1.0\,mol}$$</p>
         <p class="qa-answer">Answer: Limiting reactant is $\text{C}_7\text{H}_{16}$; $\xi_{\max} = 1.0\ \text{mol}$</p>
       </div>
     </section>
@@ -717,20 +732,23 @@
 
       <div class="qa-block">
         <h4>Problem 15 — Propane Combustion and Percent Excess Air <span class="qa-flag">two methods compared</span></h4>
-        <p class="qa-given"><strong>Given:</strong> $20\ \text{kg}\ \text{C}_3\text{H}_8$ burned with $400\ \text{kg}$ air. $\text{C}_3\text{H}_8+5\text{O}_2\rightarrow3\text{CO}_2+4\text{H}_2\text{O}$.</p>
-        <p class="note">$$n_{\text{C}_3\text{H}_8} = \frac{20}{44} = 0.4545\ \text{kmol} \implies n_{\text{O}_2,\text{theo}} = 5(0.4545) = 2.2727\ \text{kmol} = 72.73\ \text{kg}$$</p>
-        <p class="note"><em>Quick (incorrect) method — treating 21% as a weight percent of air:</em> $m_{\text{O}_2,\text{in}} = 0.21(400) = 84\ \text{kg} \implies \%\text{excess} = \frac{84-72.73}{72.73}\times100 = 15.5\%$</p>
-        <p class="note"><em>Correct method — air is 21 mol% O₂, i.e. 23.3 wt% O₂:</em> $$w_{\text{O}_2}=\frac{0.21(32)}{0.21(32)+0.79(28)}=0.2330 \implies m_{\text{O}_2,\text{in}} = 0.2330(400)=93.20\ \text{kg}$$</p>
-        <p class="note">$$\%\text{excess air} = \frac{93.20-72.73}{72.73}\times100$$</p>
+        <p class="qa-given"><strong>Reaction:</strong> $$C_3H_8+5O_2\rightarrow3CO_2+4H_2O$$ Given: $20\,kg\ C_3H_8$, $400\,kg\ air$.</p>
+        <p class="note"><strong>Step 1: Moles of propane</strong> $$n_{C_3H_8}=\frac{20}{44}$$ $$=0.4545\,kmol$$</p>
+        <p class="note"><strong>Step 2: Theoretical oxygen required</strong> — from stoichiometry, $1\ mol\ C_3H_8 : 5\ mol\ O_2$. Thus: $$n_{O_2,theo}=5(0.4545)$$ $$=2.2727\,kmol$$ Mass of theoretical oxygen: $$m_{O_2,theo}=2.2727(32)$$ $$\boxed{m_{O_2,theo}=72.73\,kg}$$</p>
+        <p class="note"><strong>Method exactly as written in the notes</strong> — using $21\%$ directly on the air mass: $$m_{O_2,in}=0.21(400)=84\,kg$$ Then $$\%\,excess=\frac{84-72.73}{72.73}\times100$$ $$\boxed{\%\,excess=15.5\%}$$</p>
+        <p class="note"><strong>Physically correct air calculation</strong> — air is approximately $21\ mol\%\ O_2$, not $21\ wt\%$. $$w_{O_2}=\frac{0.21(32)}{0.21(32)+0.79(28)}$$ $$=0.2330$$ Therefore: $$m_{O_2,in}=0.2330(400)$$ $$=93.20\,kg$$ Hence $$\%\,excess\ air=\frac{93.20-72.73}{72.73}\times100$$ $$\boxed{\%\,excess\ air=28.14\%}$$</p>
+        <p class="note">So for an exam following the handwritten-note method, the expected answer may be 15.5%, but the physically correct calculation gives 28.14%.</p>
         <p class="qa-answer">Answer: Quick (weight-percent-shortcut) method gives $15.5\%$; the thermodynamically correct calculation gives $28.14\%$ excess air.</p>
       </div>
 
       <div class="qa-block">
         <h4>Problem 16 — Stoichiometric Oxygen Requirement for a Fuel Mixture</h4>
-        <p class="qa-given"><strong>Given:</strong> Fuel gas: $19.5\%\ \text{C}_3\text{H}_8$, $59.4\%\ \text{C}_4\text{H}_{10}$, $21.1\%\ \text{C}_5\text{H}_{12}$. Basis: $100\ \text{mol}$ fuel gas.</p>
-        <p class="note">For $\text{C}_n\text{H}_m$: theoretical $\text{O}_2 = n + \frac{m}{4}$ mol O₂/mol fuel.</p>
-        <p class="note">$\text{C}_3\text{H}_8$: $5.0$; &nbsp; $\text{C}_4\text{H}_{10}$: $6.5$; &nbsp; $\text{C}_5\text{H}_{12}$: $8.0$ mol O₂/mol fuel</p>
-        <p class="note">$$n_{\text{O}_2,\text{theo}} = (19.5)(5.0)+(59.4)(6.5)+(21.1)(8.0) = 97.5+386.1+168.8$$</p>
+        <p class="qa-given"><strong>Given:</strong> Take a basis: $100\,mol\ \text{fuel gas}$. Components: $19.5\%\,C_3H_8$, $59.4\%\,C_4H_{10}$, $21.1\%\,C_5H_{12}$.</p>
+        <p class="note">For $C_nH_m$, theoretical oxygen is $n+\frac{m}{4}$ mol $O_2$/mol fuel.</p>
+        <p class="note"><strong>Propane:</strong> $3+\frac{8}{4}=5$. Oxygen required: $19.5(5)=97.5\,mol$</p>
+        <p class="note"><strong>Butane:</strong> $4+\frac{10}{4}=6.5$. Oxygen required: $59.4(6.5)=386.1\,mol$</p>
+        <p class="note"><strong>Pentane:</strong> $5+\frac{12}{4}=8$. Oxygen required: $21.1(8)=168.8\,mol$</p>
+        <p class="note"><strong>Total</strong> $$n_{O_2,theo}=97.5+386.1+168.8$$ $$\boxed{n_{O_2,theo}=652.4\,mol}$$ for $100$ mol fuel gas. Therefore: $$\boxed{6.524\ mol\ O_2/mol\ fuel}$$</p>
         <p class="qa-answer">Answer: $652.4\ \text{mol O}_2$ per $100\ \text{mol}$ fuel gas, i.e. $6.524\ \text{mol O}_2/\text{mol fuel}$</p>
       </div>
     </section>
@@ -784,9 +802,12 @@
       <div class="qa-block">
         <h4>Problem 17 — Multi-Unit Fermentation Process <span class="qa-flag">multi-block balance, under-specified</span></h4>
         <p class="qa-given"><strong>Given:</strong> A 3-block lactic-acid fermentation process — Block 1 (Mixer): water $F_1$ + glucose $F_2$ → $F_3$ (80% water, 20% glucose). Block 2 (Reactor): $F_3$ + Lactobacillus $F_4$ → $F_5$ (76.9% water, 19.2% glucose, 3.85% lactic acid). Block 3 (Separator): $F_5$ + vitamins $F_6$ → $F_7$ (96.2% water) + $F_8$ (83.3% glucose).</p>
-        <p class="note">Block 1: $$F_1 = 0.80\,F_3, \qquad F_2 = 0.20\,F_3, \qquad F_1+F_2=F_3$$</p>
-        <p class="note">Block 2: $$F_3+F_4 = F_5$$</p>
-        <p class="note">Block 3: $$F_5+F_6 = F_7+F_8$$ $$0.769\,F_5 = 0.962\,F_7 \implies F_7 \approx 0.7994\,F_5$$ $$0.192\,F_5 = 0.833\,F_8 \implies F_8 \approx 0.2305\,F_5$$</p>
+        <p class="note">The supplied material gives the process balances but does not provide enough numerical specifications to obtain unique values for all stream flow rates — the correct solution is the balance formulation rather than inventing missing data.</p>
+        <p class="note"><strong>Block 1: Mixer</strong> — streams: $F_1=$ pure water, $F_2=$ pure glucose, $F_3=80\%$ water + $20\%$ glucose.<br><strong>Water balance:</strong> $$F_1=0.80F_3$$ Therefore $$\boxed{F_1=0.80F_3}$$ <strong>Glucose balance:</strong> $$F_2=0.20F_3$$ Therefore $$\boxed{F_2=0.20F_3}$$ <strong>Overall balance:</strong> $$F_1+F_2=F_3$$ Substituting: $0.80F_3+0.20F_3=F_3$, which checks.</p>
+        <p class="note"><strong>Block 2: Fermenter</strong> — feed streams $F_3,\ F_4$; outlet $F_5$. Total balance: $$F_3+F_4=F_5$$ Therefore $$\boxed{F_5=F_3+F_4}$$</p>
+        <p class="note"><strong>Block 3: Separator/Purifier</strong> — inputs $F_5,\ F_6$; outputs $F_7,\ F_8$. <strong>Overall balance:</strong> $$F_5+F_6=F_7+F_8$$ $$\boxed{F_5+F_6=F_7+F_8}$$</p>
+        <p class="note"><strong>Water balance</strong> (using the compositions supplied): $$0.769F_5=0.962F_7$$ Thus $$\boxed{F_7=\frac{0.769}{0.962}F_5}$$ $$\boxed{F_7\approx0.7994F_5}$$</p>
+        <p class="note"><strong>Glucose balance:</strong> $$0.192F_5=0.833F_8$$ Hence $$F_8=\frac{0.192}{0.833}F_5$$ $$\boxed{F_8\approx0.2305F_5}$$ These are the directly supported relations from the supplied problem statement.</p>
         <p class="qa-answer">Answer: The balance equations above relate every stream to $F_5$ (or $F_3$); the problem as stated does not fix a numerical basis, so a unique numerical solution requires one more specification (e.g. a basis flow rate) — the balance formulation is the complete correct answer without inventing missing data.</p>
       </div>
     </section>
