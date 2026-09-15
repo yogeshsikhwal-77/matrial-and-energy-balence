@@ -794,8 +794,68 @@
       <div class="eq" id="eq-fsp"></div>
       <div class="eq" id="eq-extentpp"></div>
       <p class="note">
-        <strong>f<sub>ov</sub></strong> (overall conversion) is based on fresh feed to the whole process; <strong>f<sub>sp</sub></strong> (single-pass conversion) is based on the LR actually entering the reactor (fresh feed + recycle).
+        <strong>f<sub>ov</sub></strong> (overall conversion) is based on fresh feed to the whole process; <strong>f<sub>sp</sub></strong> (single-pass conversion) is based on the LR actually entering the reactor (fresh feed + recycle). $\nu_{LR}$ is the stoichiometric coefficient of the limiting reactant, which is <em>negative</em> for a reactant — so $-\nu_{LR}$ is positive and moles of LR reacted $= -\nu_{LR}\,\xi$.
       </p>
+
+      <div class="diagram">
+        <svg viewBox="0 0 720 200" xmlns="http://www.w3.org/2000/svg" font-family="Arial, Helvetica, sans-serif" font-size="13">
+          <defs>
+            <marker id="arrowB" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+              <path d="M0,0 L6,3 L0,6 z" fill="#1a1a1a"/>
+            </marker>
+          </defs>
+          <text x="260" y="18" font-weight="bold">Bypass System</text>
+          <line x1="20" y1="90" x2="90" y2="90" stroke="#1a1a1a" stroke-width="1.6" marker-end="url(#arrowB)"/>
+          <text x="10" y="75">Fresh Feed</text>
+          <rect x="90" y="65" width="60" height="50" fill="none" stroke="#1a1a1a" stroke-width="1.6"/>
+          <text x="98" y="95">Splitter</text>
+          <line x1="150" y1="90" x2="220" y2="90" stroke="#1a1a1a" stroke-width="1.6" marker-end="url(#arrowB)"/>
+          <rect x="220" y="65" width="110" height="50" fill="none" stroke="#1a1a1a" stroke-width="1.6"/>
+          <text x="235" y="95">Process Unit</text>
+          <line x1="330" y1="90" x2="480" y2="90" stroke="#1a1a1a" stroke-width="1.6" marker-end="url(#arrowB)"/>
+          <line x1="120" y1="65" x2="120" y2="30" stroke="#1a1a1a" stroke-width="1.6"/>
+          <line x1="120" y1="30" x2="500" y2="30" stroke="#1a1a1a" stroke-width="1.6"/>
+          <line x1="500" y1="30" x2="500" y2="65" stroke="#1a1a1a" stroke-width="1.6" marker-end="url(#arrowB)"/>
+          <text x="260" y="24">Bypass Stream</text>
+          <rect x="480" y="65" width="60" height="50" fill="none" stroke="#1a1a1a" stroke-width="1.6"/>
+          <text x="490" y="95">Mixer</text>
+          <line x1="540" y1="90" x2="610" y2="90" stroke="#1a1a1a" stroke-width="1.6" marker-end="url(#arrowB)"/>
+          <text x="615" y="95">Overall Product</text>
+          <text x="240" y="150" font-style="italic">Routes a fraction of untreated feed around a unit to mix with the</text>
+          <text x="240" y="168" font-style="italic">processed effluent, for precise control of final concentration or temperature.</text>
+        </svg>
+      </div>
+
+      <div class="diagram">
+        <svg viewBox="0 0 720 220" xmlns="http://www.w3.org/2000/svg" font-family="Arial, Helvetica, sans-serif" font-size="13">
+          <defs>
+            <marker id="arrowP" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+              <path d="M0,0 L6,3 L0,6 z" fill="#1a1a1a"/>
+            </marker>
+          </defs>
+          <text x="270" y="18" font-weight="bold">Purge System</text>
+          <line x1="20" y1="90" x2="90" y2="90" stroke="#1a1a1a" stroke-width="1.6" marker-end="url(#arrowP)"/>
+          <text x="10" y="75">Fresh Feed</text>
+          <rect x="90" y="65" width="60" height="50" fill="none" stroke="#1a1a1a" stroke-width="1.6"/>
+          <text x="98" y="95">Mixer</text>
+          <line x1="150" y1="90" x2="220" y2="90" stroke="#1a1a1a" stroke-width="1.6" marker-end="url(#arrowP)"/>
+          <rect x="220" y="65" width="110" height="50" fill="none" stroke="#1a1a1a" stroke-width="1.6"/>
+          <text x="235" y="95">Process Unit</text>
+          <line x1="330" y1="90" x2="400" y2="90" stroke="#1a1a1a" stroke-width="1.6" marker-end="url(#arrowP)"/>
+          <rect x="400" y="65" width="100" height="50" fill="none" stroke="#1a1a1a" stroke-width="1.6"/>
+          <text x="405" y="95">Separator/Splitter</text>
+          <line x1="500" y1="90" x2="580" y2="90" stroke="#1a1a1a" stroke-width="1.6" marker-end="url(#arrowP)"/>
+          <text x="585" y="95">Net Product</text>
+          <line x1="450" y1="115" x2="450" y2="150" stroke="#1a1a1a" stroke-width="1.6" marker-end="url(#arrowP)"/>
+          <text x="425" y="165">Purge Stream</text>
+          <line x1="450" y1="115" x2="450" y2="180" stroke="#1a1a1a" stroke-width="1"/>
+          <line x1="450" y1="180" x2="120" y2="180" stroke="#1a1a1a" stroke-width="1.6"/>
+          <line x1="120" y1="180" x2="120" y2="116" stroke="#1a1a1a" stroke-width="1.6" marker-end="url(#arrowP)"/>
+          <text x="250" y="198">Recycle (R)</text>
+          <text x="220" y="30" font-style="italic">Continuously withdraws a fraction of the recycle loop to prevent</text>
+          <text x="220" y="48" font-style="italic">accumulation of inert materials or secondary by-products.</text>
+        </svg>
+      </div>
 
       <div class="practice-heading">Practice Problems</div>
 
@@ -809,6 +869,103 @@
         <p class="note"><strong>Water balance</strong> (using the compositions supplied): $$0.769F_5=0.962F_7$$ Thus $$\boxed{F_7=\frac{0.769}{0.962}F_5}$$ $$\boxed{F_7\approx0.7994F_5}$$</p>
         <p class="note"><strong>Glucose balance:</strong> $$0.192F_5=0.833F_8$$ Hence $$F_8=\frac{0.192}{0.833}F_5$$ $$\boxed{F_8\approx0.2305F_5}$$ These are the directly supported relations from the supplied problem statement.</p>
         <p class="qa-answer">Answer: The balance equations above relate every stream to $F_5$ (or $F_3$); the problem as stated does not fix a numerical basis, so a unique numerical solution requires one more specification (e.g. a basis flow rate) — the balance formulation is the complete correct answer without inventing missing data.</p>
+      </div>
+
+      <div class="qa-block">
+        <h4>Question 1 — Evaporator–Crystallizer System with Recycle <span class="qa-flag">auto-corrected</span></h4>
+        <p class="qa-given"><strong>Given:</strong> Wet bio-material feed, $40\ wt\%$ bio-solids / $60\ wt\%$ water, at $10000\ lb/hr$. Feed combines with recycle filtrate $R$ into an evaporator; water vapor $W$ leaves the top; slurry $G$ ($50\ wt\%$ bio-solids) goes to a crystallizer/filter. Filter cake $P$ is $95\ wt\%$ dry bio-solids + $5\ wt\%$ adhering liquid (that liquid is $45\ wt\%$ bio-solids, $55\ wt\%$ water). Recycle filtrate $R$ is $45\ wt\%$ bio-solids, $55\ wt\%$ water. Find $P$, $W$, $R$, $G$.</p>
+        <div class="diagram">
+          <svg viewBox="0 0 760 260" xmlns="http://www.w3.org/2000/svg" font-family="Arial, Helvetica, sans-serif" font-size="12.5">
+            <defs>
+              <marker id="arrowE" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                <path d="M0,0 L6,3 L0,6 z" fill="#1a1a1a"/>
+              </marker>
+            </defs>
+            <line x1="330" y1="20" x2="330" y2="70" stroke="#1a1a1a" stroke-width="1.6" marker-end="url(#arrowE)"/>
+            <text x="290" y="14">Water Vapor (W)</text>
+
+            <line x1="20" y1="110" x2="90" y2="110" stroke="#1a1a1a" stroke-width="1.6" marker-end="url(#arrowE)"/>
+            <text x="8" y="95">Feed: 10000 lb/hr</text>
+            <text x="8" y="126">(40% Bio, 60% H2O)</text>
+
+            <rect x="90" y="70" width="140" height="70" fill="none" stroke="#1a1a1a" stroke-width="1.6"/>
+            <text x="108" y="110">Evaporator</text>
+
+            <line x1="230" y1="105" x2="330" y2="105" stroke="#1a1a1a" stroke-width="1.6" marker-end="url(#arrowE)"/>
+            <text x="235" y="95">Slurry (G)</text>
+            <text x="235" y="125">(50% Bio)</text>
+
+            <rect x="330" y="70" width="180" height="70" fill="none" stroke="#1a1a1a" stroke-width="1.6"/>
+            <text x="340" y="100">Crystallizer &amp;</text>
+            <text x="340" y="118">Filter</text>
+
+            <line x1="510" y1="105" x2="600" y2="105" stroke="#1a1a1a" stroke-width="1.6" marker-end="url(#arrowE)"/>
+            <text x="520" y="90">Filter Cake (P)</text>
+            <text x="520" y="122">(95% dry bio +</text>
+            <text x="520" y="136">5% filtrate)</text>
+
+            <line x1="150" y1="140" x2="150" y2="200" stroke="#1a1a1a" stroke-width="1.6"/>
+            <line x1="420" y1="140" x2="420" y2="200" stroke="#1a1a1a" stroke-width="1.6"/>
+            <line x1="420" y1="200" x2="150" y2="200" stroke="#1a1a1a" stroke-width="1.6" marker-end="url(#arrowE)"/>
+            <text x="220" y="218">Recycle Filtrate (R) — 45% Bio</text>
+          </svg>
+        </div>
+        <p class="note"><strong>Effective composition of product cake $P$</strong><br>Bio-solids fraction: $$w_{bio,P}=0.95+(0.05\times0.45)=0.95+0.0225=0.9725\ (97.25\%)$$ Water fraction: $$w_{water,P}=0.05\times0.55=0.0275\ (2.75\%)$$</p>
+        <p class="note"><strong>Overall bio-solids balance:</strong> $$\text{Bio-solids In}=\text{Bio-solids Out}$$ $$10000\times0.40=w_{bio,P}\times P$$ $$4000=0.9725\,P \implies P=\frac{4000}{0.9725}=\mathbf{4113.11\ lb/hr}$$</p>
+        <p class="note"><strong>Overall water balance:</strong> $$\text{Water In}=\text{Water Out}$$ $$10000\times0.60=W+(w_{water,P}\times P)$$ $$6000=W+(0.0275\times4113.11)$$ $$6000=W+113.11 \implies W=\mathbf{5886.89\ lb/hr}\approx\mathbf{5887\ lb/hr}$$</p>
+        <p class="note"><strong>Balances around the crystallizer/filter unit (to find $R$ and $G$)</strong><br>Total balance: $$G=P+R=4113.11+R$$ Bio-solids balance: $$0.50\,G=(w_{bio,P}\times P)+0.45\,R$$ $$0.50(4113.11+R)=4000+0.45\,R$$ $$2056.56+0.50\,R=4000+0.45\,R$$ $$0.05\,R=1943.44 \implies R=\frac{1943.44}{0.05}=\mathbf{38868.8\ lb/hr}\approx\mathbf{38869\ lb/hr}$$</p>
+        <p class="note">Slurry flow rate $G$: $$G=4113.11+38868.8=\mathbf{42981.9\ lb/hr}\approx\mathbf{42982\ lb/hr}$$</p>
+        <p class="note"><em>Auto-correction note:</em> assuming $G=P=4210.53$ (as in a crossed-out working) incorrectly gives $R=37894.74\ kg/hr$. Setting up the simultaneous species balances around the filter properly yields $R=38869\ lb/hr$ and $G=42982\ lb/hr$.</p>
+        <p class="qa-answer">Answer: $P \approx 4113\ \text{lb/hr}$, $W \approx 5887\ \text{lb/hr}$, $R \approx 38869\ \text{lb/hr}$, $G \approx 42982\ \text{lb/hr}$</p>
+      </div>
+
+      <div class="qa-block">
+        <h4>Question 2 — Separation Process with Bypass</h4>
+        <p class="qa-given"><strong>Given:</strong> Fresh feed $F=100\ kg$, $80\ wt\%\ A\ (\text{C}_4\text{H}_{10})$, $20\ wt\%\ B\ (\text{C}_5\text{H}_{12})$. A fraction bypasses directly to mix with the separator effluent; the remainder ($X$) enters a separator that fully removes B as overhead $S$ (100% B). Final blended bottom product $P$ is $90\ wt\%\ A$, $10\ wt\%\ B$. Find $S$, $P$, and $X$.</p>
+        <div class="diagram">
+          <svg viewBox="0 0 720 220" xmlns="http://www.w3.org/2000/svg" font-family="Arial, Helvetica, sans-serif" font-size="12.5">
+            <defs>
+              <marker id="arrowS" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                <path d="M0,0 L6,3 L0,6 z" fill="#1a1a1a"/>
+              </marker>
+            </defs>
+            <line x1="20" y1="110" x2="90" y2="110" stroke="#1a1a1a" stroke-width="1.6" marker-end="url(#arrowS)"/>
+            <text x="10" y="90">Feed (F = 100 kg)</text>
+            <text x="15" y="128">(80% A, 20% B)</text>
+
+            <rect x="90" y="85" width="60" height="50" fill="none" stroke="#1a1a1a" stroke-width="1.6"/>
+            <text x="98" y="115">Splitter</text>
+
+            <line x1="150" y1="110" x2="220" y2="110" stroke="#1a1a1a" stroke-width="1.6" marker-end="url(#arrowS)"/>
+            <text x="150" y="150">Stream X</text>
+
+            <rect x="220" y="85" width="110" height="50" fill="none" stroke="#1a1a1a" stroke-width="1.6"/>
+            <text x="230" y="115">Separator</text>
+
+            <line x1="275" y1="85" x2="275" y2="40" stroke="#1a1a1a" stroke-width="1.6" marker-end="url(#arrowS)"/>
+            <text x="285" y="35">Overhead (S): 100% B</text>
+
+            <line x1="330" y1="110" x2="480" y2="110" stroke="#1a1a1a" stroke-width="1.6" marker-end="url(#arrowS)"/>
+            <text x="335" y="100">Bottoms</text>
+
+            <line x1="120" y1="85" x2="120" y2="30" stroke="#1a1a1a" stroke-width="1.6"/>
+            <line x1="120" y1="30" x2="510" y2="30" stroke="#1a1a1a" stroke-width="1.6"/>
+            <line x1="510" y1="30" x2="510" y2="85" stroke="#1a1a1a" stroke-width="1.6" marker-end="url(#arrowS)"/>
+            <text x="230" y="24">Bypass Stream (F − X), 80% A / 20% B</text>
+
+            <rect x="480" y="85" width="60" height="50" fill="none" stroke="#1a1a1a" stroke-width="1.6"/>
+            <text x="490" y="115">Mixer</text>
+
+            <line x1="540" y1="110" x2="620" y2="110" stroke="#1a1a1a" stroke-width="1.6" marker-end="url(#arrowS)"/>
+            <text x="545" y="100">Final Product (P)</text>
+            <text x="545" y="130">(90% A, 10% B)</text>
+          </svg>
+        </div>
+        <p class="note"><strong>Overall balance for component A:</strong> $$0.80\,F=0.90\,P \implies 0.80(100)=0.90\,P \implies P=\frac{80}{0.90}=\mathbf{88.89\ kg}$$</p>
+        <p class="note"><strong>Overall total balance:</strong> $$F=S+P \implies S=100-88.89=\mathbf{11.11\ kg}$$</p>
+        <p class="note"><strong>Balance on separator to find $X$</strong> — since all of component B in stream $X$ is stripped into overhead $S$: $$0.20\,X=S$$ $$0.20\,X=11.11 \implies X=\frac{11.11}{0.20}=\mathbf{55.55\ kg}$$</p>
+        <p class="note"><strong>Bypass stream:</strong> $$\text{Bypass}=F-X=100-55.55=\mathbf{44.45\ kg}$$</p>
+        <p class="qa-answer">Answer: $S \approx 11.11\ \text{kg}$, $P \approx 88.89\ \text{kg}$, $X \approx 55.55\ \text{kg}$ (bypass $\approx 44.45\ \text{kg}$)</p>
       </div>
     </section>
   </div>
@@ -825,18 +982,16 @@
         </div>
         <div>
           <table>
-            <tr><th colspan="2">Standard Conditions (STP)</th></tr>
-            <tr><td>T</td><td>273.15 K (0°C)</td></tr>
-            <tr><td>P</td><td>1 atm = 101.325 kPa = 760 mmHg</td></tr>
-            <tr><td></td><td>= 14.696 psia</td></tr>
-            <tr><th colspan="2">Natural-Gas Industry Standard (SCF)</th></tr>
-            <tr><td>T</td><td>60°F</td></tr>
-            <tr><td>P</td><td>1 atm</td></tr>
+            <tr><th>System / Standard</th><th>T</th><th>P</th><th>Molar Volume</th></tr>
+            <tr><td>SI</td><td>273.15 K</td><td>101.325 kPa</td><td>22.415 m³/kmol</td></tr>
+            <tr><td>Universal / CGS</td><td>0°C (273.15 K)</td><td>760 mmHg (1 atm)</td><td>22.415 L/g-mol</td></tr>
+            <tr><td>AES / Natural Gas Standard</td><td>60°F (520 R)</td><td>14.696 psia (1 atm)</td><td>379.4 ft³/lb-mole</td></tr>
           </table>
         </div>
       </div>
       <p class="note">
-        <strong>P<sub>i</sub> = y<sub>i</sub> P</strong> (Dalton's law of partial pressures) and <strong>V<sub>i</sub> = y<sub>i</sub> V</strong> (Amagat's law of partial volumes) both apply to ideal-gas mixtures.
+        <strong>Partial Pressure (Dalton's Law):</strong> $p_i = y_i\,P_{\text{tot}}$, where $p_i\,V_{\text{tot}} = n_i R T$.
+        &nbsp;·&nbsp; <strong>Partial Volume (Amagat's Law):</strong> $v_i = y_i\,V_{\text{tot}}$, where $P_{\text{tot}}\,v_i = n_i R T$. Both apply to ideal-gas mixtures.
       </p>
     </section>
   </div>
@@ -1015,9 +1170,9 @@
       "eq-accum-rxn": "\\text{Accumulation} = \\text{Input} - \\text{Output} + \\text{Generation} - \\text{Consumption}",
       "eq-multirxn": "n_i^{out} - n_i^{in} = \\sum_j \\nu_{i,j}\\, \\xi_j",
       "eq-excessair": "\\%\\, \\text{Excess Air} = \\dfrac{\\text{Air fed} - \\text{Air theoretical}}{\\text{Air theoretical}} \\times 100",
-      "eq-fov": "f_{ov} = \\dfrac{\\text{moles of LR reacted}}{\\text{moles of LR fed to overall system (fresh feed)}}",
-      "eq-fsp": "f_{sp} = \\dfrac{\\text{moles of LR reacted per pass}}{\\text{moles of LR entering the reactor}}",
-      "eq-extentpp": "\\xi_{(\\text{per pass})} = f_{sp} \\times n_{LR,\\,\\text{in reactor}}",
+      "eq-fov": "f_{ov} = \\dfrac{-\\nu_{LR}\\,\\xi}{n_{LR}^{\\text{in, fresh}}} = \\dfrac{\\text{moles of LR reacted in overall system}}{\\text{moles of LR in fresh feed}}",
+      "eq-fsp": "f_{sp} = \\dfrac{-\\nu_{LR}\\,\\xi}{n_{LR}^{\\text{in, reactor}}} = \\dfrac{\\text{moles of LR reacted per pass}}{\\text{moles of LR entering reactor}}",
+      "eq-extentpp": "\\xi = \\dfrac{f_{ov}\\cdot n_{LR}^{\\text{in, fresh}}}{-\\nu_{LR}} = \\dfrac{f_{sp}\\cdot n_{LR}^{\\text{in, reactor}}}{-\\nu_{LR}}",
       "eq-idealgas": "PV = nRT",
       "eq-idealgas2": "P\\hat{V} = RT \\quad \\left(\\hat{V} = \\dfrac{V}{n}, \\; \\text{specific molar volume}\\right)",
       "eq-partialp": "P_i = y_i \\, P \\quad \\text{(Dalton's Law)}",
