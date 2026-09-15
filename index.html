@@ -6,7 +6,6 @@
 <title>Material & Energy Balance — Short Notes</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
 <style>
   :root{
     --bg:#ffffff;
@@ -16,58 +15,150 @@
     --heading:#1f4e79;
     --accent:#2f6fa8;
     --num:#6b6b6b;
+    --maxw:1100px;
   }
-  *{box-sizing:border-box;}
+  *{ box-sizing:border-box; }
+  html{ -webkit-text-size-adjust:100%; }
   body{
     margin:0;
     background:var(--bg);
     color:var(--ink);
     font-family: Arial, Helvetica, "Segoe UI", sans-serif;
     line-height:1.6;
-    font-size:15.5px;
+    font-size:16px;
   }
+
+  /* ---------- Header ---------- */
   header{
-    padding:40px 8vw 22px;
+    padding:18px 5vw;
     border-bottom:2px solid var(--heading);
+    position:sticky;
+    top:0;
+    background:var(--bg);
+    z-index:10;
+  }
+  header .headrow{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    flex-wrap:wrap;
+    max-width:var(--maxw);
+    margin:0 auto;
   }
   header h1{
-    font-size:2rem;
+    font-size:clamp(1.15rem, 4vw, 1.7rem);
     font-weight:700;
-    margin:0 0 6px;
+    margin:0 0 2px;
     color:var(--heading);
   }
-  header p{
+  header p.tagline{
     margin:0;
     color:var(--num);
+    font-size:0.85rem;
+    display:none;
+  }
+  #backBtn{
+    display:none;
+    background:var(--heading);
+    color:#fff;
+    border:none;
+    padding:10px 16px;
+    border-radius:6px;
+    font-size:0.9rem;
+    cursor:pointer;
+    font-family:inherit;
+    min-height:40px;
+    white-space:nowrap;
+  }
+  #backBtn:hover{ background:var(--accent); }
+  #backBtn:active{ transform:scale(0.97); }
+
+  main{
+    max-width:var(--maxw);
+    margin:0 auto;
+    padding:20px 5vw 70px;
+  }
+
+  /* ---------- Home page: topic grid ---------- */
+  #home .intro{
+    color:var(--num);
+    margin:0 0 18px;
     font-size:0.95rem;
   }
-  main{
-    max-width:900px;
-    margin:0 auto;
-    padding:36px 6vw 90px;
+  .topic-grid{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:12px;
   }
-  section{
+  .topic-card{
+    display:block;
+    width:100%;
+    text-align:left;
     background:var(--panel);
     border:1px solid var(--rule);
-    border-radius:4px;
-    padding:22px 28px;
-    margin-bottom:22px;
+    border-left:4px solid var(--heading);
+    border-radius:6px;
+    padding:16px 18px;
+    cursor:pointer;
+    font-family:inherit;
+    color:var(--ink);
+    transition:box-shadow .15s ease, border-color .15s ease, transform .1s ease;
+    -webkit-tap-highlight-color:transparent;
   }
-  section h2{
-    font-size:1.15rem;
+  .topic-card:hover{
+    box-shadow:0 3px 10px rgba(0,0,0,0.08);
+    border-left-color:var(--accent);
+  }
+  .topic-card:active{ transform:scale(0.99); }
+  .topic-card .num{
+    display:inline-block;
+    font-size:0.7rem;
+    font-weight:700;
+    color:var(--heading);
+    margin-bottom:5px;
+    letter-spacing:0.4px;
+  }
+  .topic-card .title{
+    font-size:1.02rem;
+    font-weight:700;
+    margin:0 0 4px;
+    line-height:1.35;
+  }
+  .topic-card .desc{
+    font-size:0.85rem;
+    color:var(--num);
+    margin:0;
+    line-height:1.4;
+  }
+
+  /* ---------- Topic detail pages ---------- */
+  .page{ display:none; }
+  .page.active{ display:block; }
+  #home.active{ display:block; }
+
+  section.topic-section{
+    background:var(--panel);
+    border:1px solid var(--rule);
+    border-radius:6px;
+    padding:18px 18px;
+  }
+  section.topic-section h2{
+    font-size:clamp(1.1rem, 4vw, 1.35rem);
     font-weight:700;
     margin:0 0 4px;
     color:var(--heading);
     border-bottom:1px solid var(--rule);
-    padding-bottom:8px;
+    padding-bottom:10px;
+    line-height:1.35;
   }
-  section h3{
+  section.topic-section h3{
     font-size:1rem;
     font-weight:700;
     margin:18px 0 6px;
     color:var(--accent);
   }
-  section .sub{
+  .sub{
     font-size:0.82rem;
     color:var(--num);
     margin-bottom:14px;
@@ -76,512 +167,610 @@
   .eq{
     background:#ffffff;
     border:1px solid var(--rule);
-    padding:12px 16px;
-    border-radius:4px;
+    padding:12px 12px;
+    border-radius:6px;
     margin:10px 0;
     overflow-x:auto;
+    -webkit-overflow-scrolling:touch;
   }
-  .note{
-    font-size:0.93rem;
-    color:#333;
-  }
-  .note strong{color:var(--heading);}
-  ul{margin:8px 0; padding-left:22px;}
-  li{margin:4px 0;}
+  .note{ font-size:0.93rem; color:#333; }
+  .note strong{ color:var(--heading); }
+  ul, ol{ margin:8px 0; padding-left:22px; }
+  li{ margin:5px 0; }
   table{
     width:100%;
     border-collapse:collapse;
     margin:10px 0;
-    font-size:0.92rem;
+    font-size:0.88rem;
+    display:block;
+    overflow-x:auto;
+    white-space:nowrap;
+    -webkit-overflow-scrolling:touch;
   }
+  table tr{ display:table-row; }
   td, th{
     border-bottom:1px solid var(--rule);
-    padding:6px 10px;
+    padding:8px 10px;
     text-align:left;
+    white-space:normal;
   }
-  th{color:var(--num); font-weight:600; font-size:0.8rem;}
+  th{ color:var(--num); font-weight:600; font-size:0.78rem; }
   .tag{
     display:inline-block;
-    font-size:0.7rem;
+    font-size:0.68rem;
     color:var(--heading);
     border:1px solid var(--heading);
-    padding:1px 8px;
+    padding:2px 8px;
     border-radius:3px;
-    margin-left:8px;
+    margin-left:0;
+    margin-top:6px;
     vertical-align:middle;
     font-weight:600;
   }
-  .grid2{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:16px;
-  }
+  .grid2{ display:grid; grid-template-columns:1fr; gap:14px; }
   .diagram{
     background:#fff;
     border:1px solid var(--rule);
-    border-radius:4px;
-    padding:14px;
+    border-radius:6px;
+    padding:10px;
     margin:12px 0;
     text-align:center;
+    overflow-x:auto;
+    -webkit-overflow-scrolling:touch;
   }
-  .diagram svg{max-width:100%; height:auto;}
-  .toc{
-    columns:2;
-    -webkit-columns:2;
-    font-size:0.9rem;
+  .diagram svg{ max-width:100%; height:auto; min-width:480px; }
+
+  .pagenav{
+    display:flex;
+    justify-content:space-between;
+    gap:8px;
+    margin-top:18px;
+    font-size:0.85rem;
   }
-  .toc a{color:var(--accent); text-decoration:none;}
-  .toc a:hover{text-decoration:underline;}
-  .toc li{margin:3px 0;}
-  @media (max-width:640px){
-    .grid2{grid-template-columns:1fr;}
-    .toc{columns:1;}
-    header h1{font-size:1.5rem;}
-    section{padding:16px 16px;}
+  .pagenav button{
+    flex:1;
+    background:none;
+    border:1px solid var(--rule);
+    color:var(--heading);
+    padding:11px 10px;
+    border-radius:6px;
+    cursor:pointer;
+    font-family:inherit;
+    min-height:42px;
+    font-size:0.85rem;
   }
+  .pagenav button:hover{ background:var(--panel); border-color:var(--accent); }
+  .pagenav button:disabled{ opacity:0.35; cursor:default; }
+
   footer{
     text-align:center;
-    padding:26px;
+    padding:22px;
     color:var(--num);
-    font-size:0.8rem;
+    font-size:0.78rem;
     border-top:1px solid var(--rule);
+  }
+
+  /* ================= TABLET ================= */
+  @media (min-width:641px){
+    body{ font-size:16px; }
+    header{ padding:22px 6vw; }
+    header p.tagline{ display:block; }
+    main{ padding:32px 6vw 80px; }
+    .topic-grid{ grid-template-columns:repeat(2, 1fr); gap:14px; }
+    .grid2{ grid-template-columns:1fr 1fr; }
+    section.topic-section{ padding:24px 28px; }
+    .diagram svg{ min-width:0; }
+    table{ white-space:normal; }
+    .tag{ margin-left:8px; margin-top:0; }
+    .pagenav button{ flex:none; }
+  }
+
+  /* ================= DESKTOP / LAPTOP ================= */
+  @media (min-width:1025px){
+    :root{ --maxw:1180px; }
+    body{ font-size:15.5px; }
+    header{ padding:30px 4vw 20px; }
+    main{ padding:36px 4vw 90px; }
+    .topic-grid{ grid-template-columns:repeat(3, 1fr); gap:16px; }
+    .topic-card{ padding:18px 20px; }
+    section.topic-section{ padding:26px 34px; }
+    #backBtn{ padding:8px 18px; min-height:36px; }
+  }
+
+  /* ================= LARGE DESKTOP ================= */
+  @media (min-width:1440px){
+    :root{ --maxw:1300px; }
+    .topic-grid{ grid-template-columns:repeat(4, 1fr); }
   }
 </style>
 </head>
 <body>
 
 <header>
-  <h1>Material &amp; Energy Balance — Short Notes</h1>
-  <p>Units · Properties · Pipe Flow · Reaction Engineering · Combustion &amp; Recycle Systems · Ideal Gas · Phase Equilibria</p>
+  <div class="headrow">
+    <div>
+      <h1>Material &amp; Energy Balance — Short Notes</h1>
+      <p class="tagline">Click a topic to open it</p>
+    </div>
+    <button id="backBtn" onclick="goHome()">&larr; All Topics</button>
+  </div>
 </header>
 
 <main>
 
-  <section>
-    <h2>Contents</h2>
-    <ol class="toc">
-      <li><a href="#s1">Unit Conversions</a></li>
-      <li><a href="#s2">Intensive vs Extensive Properties</a></li>
-      <li><a href="#s3">Pressure Drop in Pipe Flow</a></li>
-      <li><a href="#s4">Moles &amp; Molecular Weight</a></li>
-      <li><a href="#s5">Molar Concentration &amp; Ideal Gas Relations</a></li>
-      <li><a href="#s6">Specific Gravity &amp; API Gravity</a></li>
-      <li><a href="#s7">Mixture Density &amp; Superficial Velocity</a></li>
-      <li><a href="#s8">Temperature &amp; Pressure Conversions</a></li>
-      <li><a href="#s9">Material Balance</a></li>
-      <li><a href="#s10">Degree of Freedom Analysis (Material Balance)</a></li>
-      <li><a href="#s11">Reaction Engineering — DOF &amp; Extent of Reaction</a></li>
-      <li><a href="#s12">Limiting Reagent, Conversion, Selectivity &amp; Yield</a></li>
-      <li><a href="#s13">Combustion System Terminology</a></li>
-      <li><a href="#s14">Recycle, Purge &amp; Bypass Systems</a></li>
-      <li><a href="#s15">Ideal Gas Law &amp; Standard Conditions</a></li>
-      <li><a href="#s16">Phase Equilibria &amp; Gibbs Phase Rule</a></li>
-    </ol>
-  </section>
+  <!-- ============ HOME PAGE ============ -->
+  <div id="home" class="page active">
+    <p class="intro">16 topics — units, fluid flow, gases &amp; mixtures, material balance, reaction engineering, combustion systems, and phase equilibria.</p>
+    <div class="topic-grid" id="topicGrid"></div>
+  </div>
 
-  <section id="s1">
-    <h2>1. Unit Conversions</h2>
-    <table>
-      <tr><th>Quantity</th><th>Relation</th></tr>
-      <tr><td>Length</td><td>1 ft = 12 in</td></tr>
-      <tr><td>Length</td><td>1 in = 2.54 cm</td></tr>
-      <tr><td>Length</td><td>1 m = 100 cm</td></tr>
-      <tr><td>Length</td><td>1 mile = 5280 ft</td></tr>
-      <tr><td>Mass</td><td>1 lb = 0.4536 kg (0.45359 kg)</td></tr>
-    </table>
-  </section>
+  <!-- ============ TOPIC PAGES ============ -->
+  <div class="page" id="page-1">
+    <section class="topic-section">
+      <h2>1. Unit Conversions</h2>
+      <table>
+        <tr><th>Quantity</th><th>Relation</th></tr>
+        <tr><td>Length</td><td>1 ft = 12 in</td></tr>
+        <tr><td>Length</td><td>1 in = 2.54 cm</td></tr>
+        <tr><td>Length</td><td>1 m = 100 cm</td></tr>
+        <tr><td>Length</td><td>1 mile = 5280 ft</td></tr>
+        <tr><td>Mass</td><td>1 lb = 0.4536 kg (0.45359 kg)</td></tr>
+      </table>
+    </section>
+  </div>
 
-  <section id="s2">
-    <h2>2. Intensive vs Extensive Properties</h2>
-    <ul>
-      <li><strong>Intensive property</strong> — does not depend on the size (amount) or quantity of matter, e.g. temperature, pressure, density, concentration.</li>
-      <li><strong>Extensive property</strong> — depends on the size/quantity of matter, e.g. mass, volume, total energy.</li>
-    </ul>
-  </section>
+  <div class="page" id="page-2">
+    <section class="topic-section">
+      <h2>2. Intensive vs Extensive Properties</h2>
+      <ul>
+        <li><strong>Intensive property</strong> — does not depend on the size (amount) or quantity of matter, e.g. temperature, pressure, density, concentration.</li>
+        <li><strong>Extensive property</strong> — depends on the size/quantity of matter, e.g. mass, volume, total energy.</li>
+      </ul>
+    </section>
+  </div>
 
-  <section id="s3">
-    <h2>3. Pressure Drop in Pipe Flow <span class="tag">Fanning / Darcy friction factor</span></h2>
-    <div class="eq" id="eq-pdrop"></div>
-    <p class="note">
-      where <strong>f</strong> = friction factor, <strong>ρ</strong> = fluid density, <strong>v</strong> = velocity,
-      <strong>L</strong> = length of pipe, <strong>D</strong> = diameter of pipe, and <strong>g<sub>c</sub></strong> = 32.174 lbm·ft/(lbf·s²) — needed only in English engineering units (omitted in SI).
-    </p>
-  </section>
+  <div class="page" id="page-3">
+    <section class="topic-section">
+      <h2>3. Pressure Drop in Pipe Flow <span class="tag">Fanning / Darcy friction factor</span></h2>
+      <div class="eq" id="eq-pdrop"></div>
+      <p class="note">
+        where <strong>f</strong> = friction factor, <strong>ρ</strong> = fluid density, <strong>v</strong> = velocity,
+        <strong>L</strong> = length of pipe, <strong>D</strong> = diameter of pipe, and <strong>g<sub>c</sub></strong> = 32.174 lbm·ft/(lbf·s²) — needed only in English engineering units (omitted in SI).
+      </p>
+    </section>
+  </div>
 
-  <section id="s4">
-    <h2>4. Moles &amp; Molecular Weight</h2>
-    <div class="grid2">
-      <div>
-        <div class="eq" id="eq-gmol"></div>
-        <div class="eq" id="eq-lbmol"></div>
+  <div class="page" id="page-4">
+    <section class="topic-section">
+      <h2>4. Moles &amp; Molecular Weight</h2>
+      <div class="grid2">
+        <div>
+          <div class="eq" id="eq-gmol"></div>
+          <div class="eq" id="eq-lbmol"></div>
+        </div>
+        <div>
+          <div class="eq" id="eq-mavg"></div>
+          <div class="eq" id="eq-molefrac"></div>
+        </div>
       </div>
-      <div>
-        <div class="eq" id="eq-mavg"></div>
-        <div class="eq" id="eq-molefrac"></div>
+      <p class="note">For an ideal gas mixture: <span id="eq-yi"></span> (Dalton's law — mole fraction equals the partial-pressure fraction).</p>
+    </section>
+  </div>
+
+  <div class="page" id="page-5">
+    <section class="topic-section">
+      <h2>5. Molar Concentration &amp; Ideal Gas Relations</h2>
+      <div class="eq" id="eq-conc"></div>
+      <div class="eq" id="eq-pv"></div>
+      <p class="note">Combining the ideal gas law with concentration gives <span id="eq-ci2"></span>, i.e. concentration of a species is directly proportional to its partial pressure at fixed T.</p>
+    </section>
+  </div>
+
+  <div class="page" id="page-6">
+    <section class="topic-section">
+      <h2>6. Specific Gravity, Specific Volume &amp; API Gravity</h2>
+      <div class="eq" id="eq-sg"></div>
+      <div class="eq" id="eq-truesg"></div>
+      <p class="note">Reference for liquids/solids: water at 4°C, 1 atm, ρ = 1000 kg/m³.</p>
+      <div class="eq" id="eq-specvol"></div>
+      <div class="eq" id="eq-appsg"></div>
+      <div class="eq" id="eq-api"></div>
+      <p class="note">API &gt; 10 → substance is <strong>lighter</strong> than water (floats). API &lt; 10 → substance is <strong>heavier</strong> than water (sinks).</p>
+    </section>
+  </div>
+
+  <div class="page" id="page-7">
+    <section class="topic-section">
+      <h2>7. Mixture Density &amp; Superficial Velocity</h2>
+      <div class="eq" id="eq-mixrho"></div>
+      <p class="note">Mass-fraction weighted average of component densities (assumes volumes are additive).</p>
+      <div class="eq" id="eq-superv"></div>
+    </section>
+  </div>
+
+  <div class="page" id="page-8">
+    <section class="topic-section">
+      <h2>8. Temperature &amp; Pressure Conversions</h2>
+      <div class="grid2">
+        <div>
+          <div class="eq" id="eq-tk"></div>
+          <div class="eq" id="eq-tf"></div>
+          <div class="eq" id="eq-tr"></div>
+        </div>
+        <div>
+          <div class="eq" id="eq-pabs1"></div>
+          <div class="eq" id="eq-pabs2"></div>
+        </div>
       </div>
-    </div>
-    <p class="note">For an ideal gas mixture: <span id="eq-yi"></span> (Dalton's law — mole fraction equals the partial-pressure fraction).</p>
-  </section>
+      <table>
+        <tr><th>1 atm =</th></tr>
+        <tr><td>1.013 bar &nbsp;=&nbsp; 101.3 kPa &nbsp;=&nbsp; 760 Torr &nbsp;=&nbsp; 760 mmHg &nbsp;=&nbsp; 14.696 psi</td></tr>
+      </table>
+    </section>
+  </div>
 
-  <section id="s5">
-    <h2>5. Molar Concentration &amp; Ideal Gas Relations</h2>
-    <div class="eq" id="eq-conc"></div>
-    <div class="eq" id="eq-pv"></div>
-    <p class="note">Combining the ideal gas law with concentration gives <span id="eq-ci2"></span>, i.e. concentration of a species is directly proportional to its partial pressure at fixed T.</p>
-  </section>
+  <div class="page" id="page-9">
+    <section class="topic-section">
+      <h2>9. Material Balance</h2>
+      <div class="sub">General Balance Equation — Single Compartment</div>
+      <div class="eq" id="eq-genmb"></div>
+      <p class="note">In words: <strong>Accumulation = In − Out + Generation − Consumption</strong>, taken over the system boundary between times t₁ and t₂.</p>
+      <ul>
+        <li><strong>System boundary</strong> — the defined control volume across which mass entering/leaving is tracked.</li>
+        <li><strong>Inlet / outlet streams</strong> — flows crossing the boundary, driving the change in the total mass retained inside the control volume.</li>
+      </ul>
+      <h3>Steady State vs Unsteady State</h3>
+      <ul>
+        <li><strong>Steady-state system</strong> — Accumulation = 0 (nothing changes with time inside the control volume).</li>
+        <li><strong>Unsteady-state system</strong> — Accumulation ≠ 0 (conditions change with time).</li>
+      </ul>
+      <h3>Multi-Compartment Material Balance</h3>
+      <div class="eq" id="eq-multi"></div>
+      <p class="note">i.e. Σ(mass in) − Σ(mass out) = Accumulation, applied compartment by compartment / species by species.</p>
+    </section>
+  </div>
 
-  <section id="s6">
-    <h2>6. Specific Gravity, Specific Volume &amp; API Gravity</h2>
-    <div class="eq" id="eq-sg"></div>
-    <div class="eq" id="eq-truesg"></div>
-    <p class="note">Reference for liquids/solids: water at 4°C, 1 atm, ρ = 1000 kg/m³.</p>
-    <div class="eq" id="eq-specvol"></div>
-    <div class="eq" id="eq-appsg"></div>
-    <div class="eq" id="eq-api"></div>
-    <p class="note">API &gt; 10 → substance is <strong>lighter</strong> than water (floats). API &lt; 10 → substance is <strong>heavier</strong> than water (sinks).</p>
-  </section>
+  <div class="page" id="page-10">
+    <section class="topic-section">
+      <h2>10. Degree of Freedom Analysis (Material Balance)</h2>
+      <div class="eq" id="eq-dof"></div>
+      <table>
+        <tr><th>Result</th><th>Meaning</th></tr>
+        <tr><td>N<sub>DF</sub> = 0</td><td>Exactly specified — system can be solved</td></tr>
+        <tr><td>N<sub>DF</sub> &gt; 0</td><td>Under-specified — need more equations/information</td></tr>
+        <tr><td>N<sub>DF</sub> &lt; 0</td><td>Over-specified — redundant/inconsistent equations</td></tr>
+      </table>
+    </section>
+  </div>
 
-  <section id="s7">
-    <h2>7. Mixture Density &amp; Superficial Velocity</h2>
-    <div class="eq" id="eq-mixrho"></div>
-    <p class="note">Mass-fraction weighted average of component densities (assumes volumes are additive).</p>
-    <div class="eq" id="eq-superv"></div>
-  </section>
+  <div class="page" id="page-11">
+    <section class="topic-section">
+      <h2>11. Reaction Engineering — DOF &amp; Extent of Reaction</h2>
+      <h3>Problem-Solving Steps</h3>
+      <ol>
+        <li>Write the material balance / rate equations</li>
+        <li>Calculate a basis</li>
+        <li>Account for stoichiometry / specifications</li>
+        <li>Account for implicit relations</li>
+      </ol>
+      <h3>Degree of Freedom for a Reacting System</h3>
+      <div class="eq" id="eq-dof-r"></div>
+      <p class="note"><strong>N<sub>u</sub></strong> = number of unknowns, <strong>N<sub>E</sub></strong> = number of independent equations.</p>
+      <table>
+        <tr><th>Condition</th><th>Result</th></tr>
+        <tr><td>N<sub>u</sub> = N<sub>E</sub></td><td>N<sub>D</sub> = 0 → uniquely determined (single, unique solution)</td></tr>
+        <tr><td>N<sub>u</sub> &gt; N<sub>E</sub></td><td>N<sub>D</sub> &gt; 0 → under-specified (infinite solutions)</td></tr>
+        <tr><td>N<sub>u</sub> &lt; N<sub>E</sub></td><td>N<sub>D</sub> &lt; 0 → over-specified (no consistent solution)</td></tr>
+      </table>
+      <h3>Extent of Reaction (ξ)</h3>
+      <div class="eq" id="eq-extent"></div>
+      <p class="note">
+        <strong>n<sub>i</sub></strong> = moles of species i present after reaction &nbsp;·&nbsp;
+        <strong>n<sub>i0</sub></strong> = moles of species i initially present &nbsp;·&nbsp;
+        <strong>ν<sub>i</sub></strong> = stoichiometric coefficient of species i (negative for reactants, positive for products)
+      </p>
+    </section>
+  </div>
 
-  <section id="s8">
-    <h2>8. Temperature &amp; Pressure Conversions</h2>
-    <div class="grid2">
-      <div>
-        <div class="eq" id="eq-tk"></div>
-        <div class="eq" id="eq-tf"></div>
-        <div class="eq" id="eq-tr"></div>
+  <div class="page" id="page-12">
+    <section class="topic-section">
+      <h2>12. Limiting Reagent, Conversion, Selectivity &amp; Yield</h2>
+      <ul>
+        <li><strong>Limiting Reagent (LR)</strong> — the reactant present in the smallest stoichiometric amount; it is fully consumed first if the reaction goes to completion.</li>
+        <li><strong>Excess Reagent (ER)</strong> — any reactant present in an amount greater than that required to react with the limiting reagent.</li>
+      </ul>
+      <h3>Fractional Conversion</h3>
+      <div class="eq" id="eq-conv"></div>
+      <div class="eq" id="eq-conv2"></div>
+      <h3>Selectivity</h3>
+      <div class="eq" id="eq-select"></div>
+      <h3>Yield</h3>
+      <div class="eq" id="eq-yield"></div>
+      <h3>General Balance with Reaction</h3>
+      <div class="eq" id="eq-accum-rxn"></div>
+      <div class="eq" id="eq-multirxn"></div>
+      <p class="note">Used for systems with multiple simultaneous reactions, summing the contribution of each reaction j to species i.</p>
+    </section>
+  </div>
+
+  <div class="page" id="page-13">
+    <section class="topic-section">
+      <h2>13. Combustion System Terminology</h2>
+      <ul>
+        <li><strong>Flue gas / stack gas</strong> — all gases resulting from a combustion process.</li>
+        <li><strong>Orsat analysis (dry basis)</strong> — flue-gas composition reported excluding water vapour.</li>
+        <li><strong>Theoretical (stoichiometric) air</strong> — the amount of air required to completely combust all combustible elements to their highest oxidation state, with no leftover oxygen.</li>
+        <li><strong>Complete combustion</strong> — all combustible elements are oxidized to their highest oxidation state (C → CO₂, H → H₂O).</li>
+        <li><strong>Partial / incomplete combustion</strong> — produces CO and/or unburned carbon.</li>
+      </ul>
+      <div class="eq" id="eq-excessair"></div>
+    </section>
+  </div>
+
+  <div class="page" id="page-14">
+    <section class="topic-section">
+      <h2>14. Recycle, Purge &amp; Bypass Systems</h2>
+      <ul>
+        <li><strong>Recycle</strong> — a portion of an output stream is returned and combined with the fresh feed.</li>
+        <li><strong>Purge</strong> — a small stream is bled off from a recycle loop to prevent the build-up of inerts or impurities.</li>
+        <li><strong>Bypass</strong> — a stream skips a process unit entirely and rejoins the process downstream.</li>
+      </ul>
+      <div class="diagram">
+        <svg viewBox="0 0 720 220" xmlns="http://www.w3.org/2000/svg" font-family="Arial, Helvetica, sans-serif" font-size="13">
+          <defs>
+            <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+              <path d="M0,0 L6,3 L0,6 z" fill="#1a1a1a"/>
+            </marker>
+          </defs>
+          <line x1="20" y1="70" x2="90" y2="70" stroke="#1a1a1a" stroke-width="1.6" marker-end="url(#arrow)"/>
+          <text x="10" y="55">Fresh Feed</text>
+          <rect x="90" y="45" width="70" height="50" fill="none" stroke="#1a1a1a" stroke-width="1.6"/>
+          <text x="102" y="75">Mixer</text>
+          <line x1="160" y1="70" x2="230" y2="70" stroke="#1a1a1a" stroke-width="1.6" marker-end="url(#arrow)"/>
+          <rect x="230" y="30" width="110" height="80" fill="none" stroke="#1a1a1a" stroke-width="1.6"/>
+          <text x="248" y="75">Reactor</text>
+          <line x1="340" y1="70" x2="410" y2="70" stroke="#1a1a1a" stroke-width="1.6" marker-end="url(#arrow)"/>
+          <rect x="410" y="30" width="110" height="80" fill="none" stroke="#1a1a1a" stroke-width="1.6"/>
+          <text x="420" y="65">Separator</text>
+          <line x1="520" y1="70" x2="600" y2="70" stroke="#1a1a1a" stroke-width="1.6" marker-end="url(#arrow)"/>
+          <text x="605" y="65">Product</text>
+          <line x1="465" y1="110" x2="465" y2="170" stroke="#1a1a1a" stroke-width="1.6"/>
+          <line x1="465" y1="170" x2="125" y2="170" stroke="#1a1a1a" stroke-width="1.6"/>
+          <line x1="125" y1="170" x2="125" y2="96" stroke="#1a1a1a" stroke-width="1.6" marker-end="url(#arrow)"/>
+          <text x="270" y="188">Recycle</text>
+          <line x1="465" y1="170" x2="465" y2="200" stroke="#1a1a1a" stroke-width="1.6" marker-end="url(#arrow)"/>
+          <text x="440" y="215">Purge</text>
+        </svg>
       </div>
-      <div>
-        <div class="eq" id="eq-pabs1"></div>
-        <div class="eq" id="eq-pabs2"></div>
+      <h3>Definitions</h3>
+      <div class="eq" id="eq-fov"></div>
+      <div class="eq" id="eq-fsp"></div>
+      <div class="eq" id="eq-extentpp"></div>
+      <p class="note">
+        <strong>f<sub>ov</sub></strong> (overall conversion) is based on fresh feed to the whole process; <strong>f<sub>sp</sub></strong> (single-pass conversion) is based on the LR actually entering the reactor (fresh feed + recycle).
+      </p>
+    </section>
+  </div>
+
+  <div class="page" id="page-15">
+    <section class="topic-section">
+      <h2>15. Ideal Gas Law &amp; Standard Conditions</h2>
+      <div class="grid2">
+        <div>
+          <div class="eq" id="eq-idealgas"></div>
+          <div class="eq" id="eq-idealgas2"></div>
+          <div class="eq" id="eq-partialp"></div>
+          <div class="eq" id="eq-partialv"></div>
+        </div>
+        <div>
+          <table>
+            <tr><th colspan="2">Standard Conditions (STP)</th></tr>
+            <tr><td>T</td><td>273.15 K (0°C)</td></tr>
+            <tr><td>P</td><td>1 atm = 101.325 kPa = 760 mmHg</td></tr>
+            <tr><td></td><td>= 14.696 psia</td></tr>
+            <tr><th colspan="2">Natural-Gas Industry Standard (SCF)</th></tr>
+            <tr><td>T</td><td>60°F</td></tr>
+            <tr><td>P</td><td>1 atm</td></tr>
+          </table>
+        </div>
       </div>
-    </div>
-    <table>
-      <tr><th>1 atm =</th></tr>
-      <tr><td>1.013 bar &nbsp;=&nbsp; 101.3 kPa &nbsp;=&nbsp; 760 Torr &nbsp;=&nbsp; 760 mmHg &nbsp;=&nbsp; 14.696 psi</td></tr>
-    </table>
-  </section>
+      <p class="note">
+        <strong>P<sub>i</sub> = y<sub>i</sub> P</strong> (Dalton's law of partial pressures) and <strong>V<sub>i</sub> = y<sub>i</sub> V</strong> (Amagat's law of partial volumes) both apply to ideal-gas mixtures.
+      </p>
+    </section>
+  </div>
 
-  <section id="s9">
-    <h2>9. Material Balance</h2>
-    <div class="sub">General Balance Equation — Single Compartment</div>
-    <div class="eq" id="eq-genmb"></div>
-    <p class="note">In words: <strong>Accumulation = In − Out + Generation − Consumption</strong>, taken over the system boundary between times t₁ and t₂.</p>
-    <ul>
-      <li><strong>System boundary</strong> — the defined control volume across which mass entering/leaving is tracked.</li>
-      <li><strong>Inlet / outlet streams</strong> — flows crossing the boundary, driving the change in the total mass retained inside the control volume.</li>
-    </ul>
-
-    <h3>Steady State vs Unsteady State</h3>
-    <ul>
-      <li><strong>Steady-state system</strong> — Accumulation = 0 (nothing changes with time inside the control volume).</li>
-      <li><strong>Unsteady-state system</strong> — Accumulation ≠ 0 (conditions change with time).</li>
-    </ul>
-
-    <h3>Multi-Compartment Material Balance</h3>
-    <div class="eq" id="eq-multi"></div>
-    <p class="note">i.e. Σ(mass in) − Σ(mass out) = Accumulation, applied compartment by compartment / species by species.</p>
-  </section>
-
-  <section id="s10">
-    <h2>10. Degree of Freedom Analysis (Material Balance)</h2>
-    <div class="eq" id="eq-dof"></div>
-    <table>
-      <tr><th>Result</th><th>Meaning</th></tr>
-      <tr><td>N<sub>DF</sub> = 0</td><td>Exactly specified — system can be solved</td></tr>
-      <tr><td>N<sub>DF</sub> &gt; 0</td><td>Under-specified — need more equations/information</td></tr>
-      <tr><td>N<sub>DF</sub> &lt; 0</td><td>Over-specified — redundant/inconsistent equations</td></tr>
-    </table>
-  </section>
-
-  <section id="s11">
-    <h2>11. Reaction Engineering — DOF &amp; Extent of Reaction</h2>
-    <h3>Problem-Solving Steps</h3>
-    <ol>
-      <li>Write the material balance / rate equations</li>
-      <li>Calculate a basis</li>
-      <li>Account for stoichiometry / specifications</li>
-      <li>Account for implicit relations</li>
-    </ol>
-
-    <h3>Degree of Freedom for a Reacting System</h3>
-    <div class="eq" id="eq-dof-r"></div>
-    <p class="note"><strong>N<sub>u</sub></strong> = number of unknowns, <strong>N<sub>E</sub></strong> = number of independent equations.</p>
-    <table>
-      <tr><th>Condition</th><th>Result</th></tr>
-      <tr><td>N<sub>u</sub> = N<sub>E</sub></td><td>N<sub>D</sub> = 0 → uniquely determined (single, unique solution)</td></tr>
-      <tr><td>N<sub>u</sub> &gt; N<sub>E</sub></td><td>N<sub>D</sub> &gt; 0 → under-specified (infinite solutions)</td></tr>
-      <tr><td>N<sub>u</sub> &lt; N<sub>E</sub></td><td>N<sub>D</sub> &lt; 0 → over-specified (no consistent solution)</td></tr>
-    </table>
-
-    <h3>Extent of Reaction (ξ)</h3>
-    <div class="eq" id="eq-extent"></div>
-    <p class="note">
-      <strong>n<sub>i</sub></strong> = moles of species i present after reaction &nbsp;·&nbsp;
-      <strong>n<sub>i0</sub></strong> = moles of species i initially present &nbsp;·&nbsp;
-      <strong>ν<sub>i</sub></strong> = stoichiometric coefficient of species i (negative for reactants, positive for products)
-    </p>
-  </section>
-
-  <section id="s12">
-    <h2>12. Limiting Reagent, Conversion, Selectivity &amp; Yield</h2>
-    <ul>
-      <li><strong>Limiting Reagent (LR)</strong> — the reactant present in the smallest stoichiometric amount; it is fully consumed first if the reaction goes to completion.</li>
-      <li><strong>Excess Reagent (ER)</strong> — any reactant present in an amount greater than that required to react with the limiting reagent.</li>
-    </ul>
-
-    <h3>Fractional Conversion</h3>
-    <div class="eq" id="eq-conv"></div>
-    <div class="eq" id="eq-conv2"></div>
-
-    <h3>Selectivity</h3>
-    <div class="eq" id="eq-select"></div>
-
-    <h3>Yield</h3>
-    <div class="eq" id="eq-yield"></div>
-
-    <h3>General Balance with Reaction</h3>
-    <div class="eq" id="eq-accum-rxn"></div>
-    <div class="eq" id="eq-multirxn"></div>
-    <p class="note">Used for systems with multiple simultaneous reactions, summing the contribution of each reaction j to species i.</p>
-  </section>
-
-  <section id="s13">
-    <h2>13. Combustion System Terminology</h2>
-    <ul>
-      <li><strong>Flue gas / stack gas</strong> — all gases resulting from a combustion process.</li>
-      <li><strong>Orsat analysis (dry basis)</strong> — flue-gas composition reported excluding water vapour.</li>
-      <li><strong>Theoretical (stoichiometric) air</strong> — the amount of air required to completely combust all combustible elements to their highest oxidation state, with no leftover oxygen.</li>
-      <li><strong>Complete combustion</strong> — all combustible elements are oxidized to their highest oxidation state (C → CO₂, H → H₂O).</li>
-      <li><strong>Partial / incomplete combustion</strong> — produces CO and/or unburned carbon.</li>
-    </ul>
-    <div class="eq" id="eq-excessair"></div>
-  </section>
-
-  <section id="s14">
-    <h2>14. Recycle, Purge &amp; Bypass Systems</h2>
-    <ul>
-      <li><strong>Recycle</strong> — a portion of an output stream is returned and combined with the fresh feed.</li>
-      <li><strong>Purge</strong> — a small stream is bled off from a recycle loop to prevent the build-up of inerts or impurities.</li>
-      <li><strong>Bypass</strong> — a stream skips a process unit entirely and rejoins the process downstream.</li>
-    </ul>
-
-    <div class="diagram">
-      <svg viewBox="0 0 720 220" xmlns="http://www.w3.org/2000/svg" font-family="Arial, Helvetica, sans-serif" font-size="13">
-        <defs>
-          <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
-            <path d="M0,0 L6,3 L0,6 z" fill="#1a1a1a"/>
-          </marker>
-        </defs>
-        <!-- Fresh feed -->
-        <line x1="20" y1="70" x2="90" y2="70" stroke="#1a1a1a" stroke-width="1.6" marker-end="url(#arrow)"/>
-        <text x="10" y="55">Fresh Feed</text>
-
-        <!-- Mixer box -->
-        <rect x="90" y="45" width="70" height="50" fill="none" stroke="#1a1a1a" stroke-width="1.6"/>
-        <text x="102" y="75">Mixer</text>
-
-        <!-- Mixer to Reactor -->
-        <line x1="160" y1="70" x2="230" y2="70" stroke="#1a1a1a" stroke-width="1.6" marker-end="url(#arrow)"/>
-
-        <!-- Reactor box -->
-        <rect x="230" y="30" width="110" height="80" fill="none" stroke="#1a1a1a" stroke-width="1.6"/>
-        <text x="248" y="75">Reactor</text>
-
-        <!-- Reactor to Separator -->
-        <line x1="340" y1="70" x2="410" y2="70" stroke="#1a1a1a" stroke-width="1.6" marker-end="url(#arrow)"/>
-
-        <!-- Separator box -->
-        <rect x="410" y="30" width="110" height="80" fill="none" stroke="#1a1a1a" stroke-width="1.6"/>
-        <text x="420" y="65">Separator</text>
-
-        <!-- Separator to Product -->
-        <line x1="520" y1="70" x2="600" y2="70" stroke="#1a1a1a" stroke-width="1.6" marker-end="url(#arrow)"/>
-        <text x="605" y="65">Product</text>
-
-        <!-- Recycle line (bottom loop back to mixer) -->
-        <line x1="465" y1="110" x2="465" y2="170" stroke="#1a1a1a" stroke-width="1.6"/>
-        <line x1="465" y1="170" x2="125" y2="170" stroke="#1a1a1a" stroke-width="1.6"/>
-        <line x1="125" y1="170" x2="125" y2="96" stroke="#1a1a1a" stroke-width="1.6" marker-end="url(#arrow)"/>
-        <text x="270" y="188">Recycle</text>
-
-        <!-- Purge off recycle -->
-        <line x1="465" y1="170" x2="465" y2="200" stroke="#1a1a1a" stroke-width="1.6" marker-end="url(#arrow)"/>
-        <text x="440" y="215">Purge</text>
-      </svg>
-    </div>
-
-    <h3>Definitions</h3>
-    <div class="eq" id="eq-fov"></div>
-    <div class="eq" id="eq-fsp"></div>
-    <div class="eq" id="eq-extentpp"></div>
-    <p class="note">
-      <strong>f<sub>ov</sub></strong> (overall conversion) is based on fresh feed to the whole process; <strong>f<sub>sp</sub></strong> (single-pass conversion) is based on the LR actually entering the reactor (fresh feed + recycle).
-    </p>
-  </section>
-
-  <section id="s15">
-    <h2>15. Ideal Gas Law &amp; Standard Conditions</h2>
-    <div class="grid2">
-      <div>
-        <div class="eq" id="eq-idealgas"></div>
-        <div class="eq" id="eq-idealgas2"></div>
-        <div class="eq" id="eq-partialp"></div>
-        <div class="eq" id="eq-partialv"></div>
+  <div class="page" id="page-16">
+    <section class="topic-section">
+      <h2>16. Phase Equilibria &amp; Gibbs Phase Rule</h2>
+      <div class="eq" id="eq-gibbs"></div>
+      <p class="note">
+        <strong>F</strong> = degrees of freedom (number of independent intensive variables needed to fix the state) &nbsp;·&nbsp;
+        <strong>C</strong> = number of chemical components &nbsp;·&nbsp;
+        <strong>P</strong> = number of phases present &nbsp;·&nbsp;
+        <strong>r</strong> = number of independent chemical equilibria (reactions)
+      </p>
+      <table>
+        <tr><th>Region (pure component, C = 1, r = 0)</th><th>Phases</th><th>F</th></tr>
+        <tr><td>Single-phase region (solid, liquid, or vapour)</td><td>P = 1</td><td>F = 1 − 1 + 2 = 2</td></tr>
+        <tr><td>Two-phase boundary line</td><td>P = 2</td><td>F = 1 − 2 + 2 = 1</td></tr>
+        <tr><td>Triple point</td><td>P = 3</td><td>F = 1 − 3 + 2 = 0</td></tr>
+      </table>
+      <h3>Pressure–Temperature (P–T) Diagram for a Pure Component</h3>
+      <div class="diagram">
+        <svg viewBox="0 0 640 380" xmlns="http://www.w3.org/2000/svg" font-family="Arial, Helvetica, sans-serif" font-size="13">
+          <defs>
+            <marker id="arrow2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+              <path d="M0,0 L6,3 L0,6 z" fill="#1a1a1a"/>
+            </marker>
+          </defs>
+          <line x1="80" y1="30" x2="80" y2="330" stroke="#1a1a1a" stroke-width="1.6"/>
+          <line x1="80" y1="330" x2="80" y2="20" stroke="#1a1a1a" stroke-width="1.6" marker-end="url(#arrow2)"/>
+          <line x1="80" y1="330" x2="600" y2="330" stroke="#1a1a1a" stroke-width="1.6" marker-end="url(#arrow2)"/>
+          <text x="30" y="20">Pressure (P)</text>
+          <text x="540" y="355">Temperature (T)</text>
+          <circle cx="230" cy="250" r="3.5" fill="#1a1a1a"/>
+          <line x1="80" y1="250" x2="230" y2="250" stroke="#1a1a1a" stroke-width="1" stroke-dasharray="4,3"/>
+          <text x="20" y="254">P_tp</text>
+          <text x="235" y="268">Triple Point (0.01°C for H₂O)</text>
+          <circle cx="330" cy="130" r="3.5" fill="#1a1a1a"/>
+          <line x1="80" y1="130" x2="330" y2="130" stroke="#1a1a1a" stroke-width="1" stroke-dasharray="4,3"/>
+          <text x="15" y="134">P_c</text>
+          <text x="340" y="134">Critical Point (374°C, 218 atm for H₂O)</text>
+          <line x1="230" y1="250" x2="255" y2="30" stroke="#1a1a1a" stroke-width="1.6"/>
+          <text x="140" y="90">Fusion / Melting Curve</text>
+          <text x="150" y="106">(Solid–Liquid)</text>
+          <line x1="230" y1="250" x2="330" y2="130" stroke="#1a1a1a" stroke-width="1.6"/>
+          <text x="335" y="185">Vaporization Curve</text>
+          <text x="345" y="200">(Liquid–Vapour)</text>
+          <line x1="80" y1="330" x2="230" y2="250" stroke="#1a1a1a" stroke-width="1.6"/>
+          <text x="70" y="300">Sublimation Curve</text>
+          <text x="95" y="315">(Solid–Vapour)</text>
+          <text x="120" y="120" font-weight="bold">SOLID</text>
+          <text x="370" y="90" font-weight="bold">LIQUID</text>
+          <text x="330" y="300" font-weight="bold">VAPOUR / GAS</text>
+          <line x1="230" y1="330" x2="230" y2="336" stroke="#1a1a1a"/>
+          <text x="215" y="350">0°C</text>
+          <line x1="330" y1="330" x2="330" y2="336" stroke="#1a1a1a"/>
+          <text x="310" y="350">100°C</text>
+        </svg>
       </div>
-      <div>
-        <table>
-          <tr><th colspan="2">Standard Conditions (STP)</th></tr>
-          <tr><td>T</td><td>273.15 K (0°C)</td></tr>
-          <tr><td>P</td><td>1 atm = 101.325 kPa = 760 mmHg</td></tr>
-          <tr><td></td><td>= 14.696 psia</td></tr>
-          <tr><th colspan="2">Natural-Gas Industry Standard (SCF)</th></tr>
-          <tr><td>T</td><td>60°F</td></tr>
-          <tr><td>P</td><td>1 atm</td></tr>
-        </table>
-      </div>
-    </div>
-    <p class="note">
-      <strong>P<sub>i</sub> = y<sub>i</sub> P</strong> (Dalton's law of partial pressures) and <strong>V<sub>i</sub> = y<sub>i</sub> V</strong> (Amagat's law of partial volumes) both apply to ideal-gas mixtures.
-    </p>
-  </section>
-
-  <section id="s16">
-    <h2>16. Phase Equilibria &amp; Gibbs Phase Rule</h2>
-    <div class="eq" id="eq-gibbs"></div>
-    <p class="note">
-      <strong>F</strong> = degrees of freedom (number of independent intensive variables needed to fix the state) &nbsp;·&nbsp;
-      <strong>C</strong> = number of chemical components &nbsp;·&nbsp;
-      <strong>P</strong> = number of phases present &nbsp;·&nbsp;
-      <strong>r</strong> = number of independent chemical equilibria (reactions)
-    </p>
-
-    <table>
-      <tr><th>Region (pure component, C = 1, r = 0)</th><th>Phases</th><th>F</th></tr>
-      <tr><td>Single-phase region (solid, liquid, or vapour)</td><td>P = 1</td><td>F = 1 − 1 + 2 = 2</td></tr>
-      <tr><td>Two-phase boundary line</td><td>P = 2</td><td>F = 1 − 2 + 2 = 1</td></tr>
-      <tr><td>Triple point</td><td>P = 3</td><td>F = 1 − 3 + 2 = 0</td></tr>
-    </table>
-
-    <h3>Pressure–Temperature (P–T) Diagram for a Pure Component</h3>
-    <div class="diagram">
-      <svg viewBox="0 0 640 380" xmlns="http://www.w3.org/2000/svg" font-family="Arial, Helvetica, sans-serif" font-size="13">
-        <defs>
-          <marker id="arrow2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
-            <path d="M0,0 L6,3 L0,6 z" fill="#1a1a1a"/>
-          </marker>
-        </defs>
-        <!-- Axes -->
-        <line x1="80" y1="30" x2="80" y2="330" stroke="#1a1a1a" stroke-width="1.6" marker-end="url(#arrow2)" transform="translate(0,0)"/>
-        <line x1="80" y1="330" x2="80" y2="20" stroke="#1a1a1a" stroke-width="1.6" marker-end="url(#arrow2)"/>
-        <line x1="80" y1="330" x2="600" y2="330" stroke="#1a1a1a" stroke-width="1.6" marker-end="url(#arrow2)"/>
-        <text x="30" y="20">Pressure (P)</text>
-        <text x="540" y="355">Temperature (T)</text>
-
-        <!-- Triple point -->
-        <circle cx="230" cy="250" r="3.5" fill="#1a1a1a"/>
-        <line x1="80" y1="250" x2="230" y2="250" stroke="#1a1a1a" stroke-width="1" stroke-dasharray="4,3"/>
-        <text x="20" y="254">P_tp</text>
-        <text x="235" y="268">Triple Point (0.01°C for H₂O)</text>
-
-        <!-- Critical point -->
-        <circle cx="330" cy="130" r="3.5" fill="#1a1a1a"/>
-        <line x1="80" y1="130" x2="330" y2="130" stroke="#1a1a1a" stroke-width="1" stroke-dasharray="4,3"/>
-        <text x="15" y="134">P_c</text>
-        <text x="340" y="134">Critical Point (374°C, 218 atm for H₂O)</text>
-
-        <!-- Fusion curve (solid-liquid), steep line from triple point upward -->
-        <line x1="230" y1="250" x2="255" y2="30" stroke="#1a1a1a" stroke-width="1.6"/>
-        <text x="140" y="90">Fusion / Melting Curve</text>
-        <text x="150" y="106">(Solid–Liquid)</text>
-
-        <!-- Vaporization curve (liquid-vapor) triple point to critical point -->
-        <line x1="230" y1="250" x2="330" y2="130" stroke="#1a1a1a" stroke-width="1.6"/>
-        <text x="335" y="185">Vaporization Curve</text>
-        <text x="345" y="200">(Liquid–Vapour)</text>
-
-        <!-- Sublimation curve (solid-vapor) below triple point -->
-        <line x1="80" y1="330" x2="230" y2="250" stroke="#1a1a1a" stroke-width="1.6"/>
-        <text x="70" y="300">Sublimation Curve</text>
-        <text x="95" y="315">(Solid–Vapour)</text>
-
-        <!-- Region labels -->
-        <text x="120" y="120" font-weight="bold">SOLID</text>
-        <text x="370" y="90" font-weight="bold">LIQUID</text>
-        <text x="330" y="300" font-weight="bold">VAPOUR / GAS</text>
-
-        <!-- Temperature ticks -->
-        <line x1="230" y1="330" x2="230" y2="336" stroke="#1a1a1a"/>
-        <text x="215" y="350">0°C</text>
-        <line x1="330" y1="330" x2="330" y2="336" stroke="#1a1a1a"/>
-        <text x="310" y="350">100°C</text>
-      </svg>
-    </div>
-  </section>
+    </section>
+  </div>
 
 </main>
 
 <footer>Compiled &amp; cleaned up from handwritten short notes</footer>
 
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-  const eqs = {
-    "eq-pdrop": "\\Delta P = \\dfrac{f \\, \\rho \\, v^2 \\, L}{2 D \\, g_c}",
-    "eq-gmol": "\\text{g-mol} = \\dfrac{\\text{mass in grams}}{\\text{molecular weight}}",
-    "eq-lbmol": "\\text{lb-mol} = \\dfrac{\\text{mass in lb}}{M.W.}",
-    "eq-mavg": "M_{avg} = \\sum (y_i \\times M_i)",
-    "eq-molefrac": "x_i = \\dfrac{\\text{moles of substance } i}{\\text{total moles}} = \\dfrac{n_i}{\\sum n}",
-    "eq-yi": "y_i = \\dfrac{P_i}{P}",
-    "eq-conc": "C_i = \\dfrac{\\rho_i}{M_i}",
-    "eq-pv": "PV = nRT",
-    "eq-ci2": "C_i = \\dfrac{P_i}{RT}",
-    "eq-sg": "SG = \\dfrac{\\rho_{substance}}{\\rho_{reference}}",
-    "eq-truesg": "SG_{true} = \\dfrac{\\rho_{substance \\; at \\; T}}{\\rho_{water \\; at \\; T_{ref}(4^{\\circ}C)}}",
-    "eq-specvol": "\\hat{V} = \\dfrac{1}{\\rho}",
-    "eq-appsg": "SG_{apparent} = \\dfrac{\\text{weight of substance}}{\\text{weight of equal volume of reference}}",
-    "eq-api": "^{\\circ}API = \\dfrac{141.5}{SG} - 131.5",
-    "eq-mixrho": "\\rho_{mix} = \\sum w_i \\, \\rho_i",
-    "eq-superv": "v_{superficial} = \\dfrac{\\text{volumetric flow rate}}{\\text{cross-sectional area}}",
-    "eq-tk": "T(K) = T(^{\\circ}C) + 273",
-    "eq-tf": "T(^{\\circ}F) = 32 + \\dfrac{9}{5}\\,T(^{\\circ}C)",
-    "eq-tr": "T(^{\\circ}R) = T(^{\\circ}F) + 460",
-    "eq-pabs1": "P_{abs} = P_{atm} + P_{gauge}",
-    "eq-pabs2": "P_{abs} = P_{atm} - P_{vacuum}",
-    "eq-genmb": "\\big[\\text{Amt. in system at } t_2\\big] - \\big[\\text{Amt. in system at } t_1\\big] = \\big[\\text{In}\\big] - \\big[\\text{Out}\\big] + \\big[\\text{Generated}\\big] - \\big[\\text{Consumed}\\big]",
-    "eq-multi": "\\sum \\dot{m}_{in} - \\sum \\dot{m}_{out} = \\text{Accumulation}",
-    "eq-dof": "N_{DF} = N_{unknown} - N_{equation}",
-    "eq-dof-r": "N_D = N_u - N_E",
-    "eq-extent": "\\xi = \\dfrac{n_i - n_{i0}}{\\nu_i}",
-    "eq-conv": "X = \\dfrac{\\text{moles of LR reacted}}{\\text{moles of LR fed / introduced}}",
-    "eq-conv2": "f = \\dfrac{\\text{extent of reaction achieved}}{\\text{extent of reaction if complete}}",
-    "eq-select": "\\text{Selectivity} = \\dfrac{\\text{moles of desired product formed}}{\\text{moles of undesired (by-product) formed}}",
-    "eq-yield": "\\text{Yield} = \\dfrac{\\text{amount of desired product}}{\\text{amount of key reactant fed (theoretical max.)}}",
-    "eq-accum-rxn": "\\text{Accumulation} = \\text{Input} - \\text{Output} + \\text{Generation} - \\text{Consumption}",
-    "eq-multirxn": "n_i^{out} - n_i^{in} = \\sum_j \\nu_{i,j}\\, \\xi_j",
-    "eq-excessair": "\\%\\, \\text{Excess Air} = \\dfrac{\\text{Air fed} - \\text{Air theoretical}}{\\text{Air theoretical}} \\times 100",
-    "eq-fov": "f_{ov} = \\dfrac{\\text{moles of LR reacted}}{\\text{moles of LR fed to overall system (fresh feed)}}",
-    "eq-fsp": "f_{sp} = \\dfrac{\\text{moles of LR reacted per pass}}{\\text{moles of LR entering the reactor}}",
-    "eq-extentpp": "\\xi_{(\\text{per pass})} = f_{sp} \\times n_{LR,\\,\\text{in reactor}}",
-    "eq-idealgas": "PV = nRT",
-    "eq-idealgas2": "P\\hat{V} = RT \\quad \\left(\\hat{V} = \\dfrac{V}{n}, \\; \\text{specific molar volume}\\right)",
-    "eq-partialp": "P_i = y_i \\, P \\quad \\text{(Dalton's Law)}",
-    "eq-partialv": "V_i = y_i \\, V \\quad \\text{(Amagat's Law)}",
-    "eq-gibbs": "F = C - P + 2 - r"
-  };
-  for (const id in eqs) {
-    const el = document.getElementById(id);
-    if (el) {
-      try {
-        katex.render(eqs[id], el, {throwOnError: false, displayMode: true});
-      } catch(e) { el.textContent = eqs[id]; }
+  // ---- Topic metadata for home grid + prev/next nav ----
+  const topics = [
+    {id:1,  title:"Unit Conversions", desc:"Length and mass conversion factors"},
+    {id:2,  title:"Intensive vs Extensive Properties", desc:"What depends on system size and what doesn't"},
+    {id:3,  title:"Pressure Drop in Pipe Flow", desc:"Fanning / Darcy friction factor equation"},
+    {id:4,  title:"Moles & Molecular Weight", desc:"g-mol, lb-mol, average MW, mole fraction"},
+    {id:5,  title:"Molar Concentration & Ideal Gas", desc:"Concentration from density and from PV=nRT"},
+    {id:6,  title:"Specific Gravity & API Gravity", desc:"SG, specific volume, apparent SG, °API"},
+    {id:7,  title:"Mixture Density & Superficial Velocity", desc:"Weighted density, flow rate over area"},
+    {id:8,  title:"Temperature & Pressure Conversions", desc:"K, °F, °R and absolute/vacuum pressure"},
+    {id:9,  title:"Material Balance", desc:"General balance equation, steady vs unsteady state"},
+    {id:10, title:"Degree of Freedom (Material Balance)", desc:"Under-, over- and exactly-specified systems"},
+    {id:11, title:"Reaction Engineering — DOF & Extent", desc:"Problem-solving steps and extent of reaction ξ"},
+    {id:12, title:"Limiting Reagent, Conversion, Yield", desc:"LR, ER, conversion, selectivity, yield"},
+    {id:13, title:"Combustion System Terminology", desc:"Flue gas, Orsat basis, theoretical/excess air"},
+    {id:14, title:"Recycle, Purge & Bypass Systems", desc:"Multi-unit process flow, overall vs single-pass conversion"},
+    {id:15, title:"Ideal Gas Law & Standard Conditions", desc:"STP, SCF, Dalton's and Amagat's laws"},
+    {id:16, title:"Phase Equilibria & Gibbs Phase Rule", desc:"F = C − P + 2 − r, and the P–T diagram"}
+  ];
+
+  const grid = document.getElementById('topicGrid');
+  topics.forEach(t => {
+    const card = document.createElement('button');
+    card.className = 'topic-card';
+    card.onclick = () => openTopic(t.id);
+    card.innerHTML = `<span class="num">TOPIC ${t.id}</span>
+                       <p class="title">${t.title}</p>
+                       <p class="desc">${t.desc}</p>`;
+    grid.appendChild(card);
+  });
+
+  function allPages(){ return document.querySelectorAll('.page'); }
+
+  function openTopic(id){
+    allPages().forEach(p => p.classList.remove('active'));
+    const target = document.getElementById('page-' + id);
+    if(target){
+      target.classList.add('active');
+      addPageNav(target, id);
+      document.getElementById('backBtn').style.display = 'inline-block';
+      window.scrollTo(0,0);
+      location.hash = 'topic-' + id;
     }
   }
-});
+
+  function goHome(){
+    allPages().forEach(p => p.classList.remove('active'));
+    document.getElementById('home').classList.add('active');
+    document.getElementById('backBtn').style.display = 'none';
+    window.scrollTo(0,0);
+    history.pushState('', document.title, window.location.pathname + window.location.search);
+  }
+
+  function addPageNav(target, id){
+    let nav = target.querySelector('.pagenav');
+    if(!nav){
+      nav = document.createElement('div');
+      nav.className = 'pagenav';
+      target.querySelector('section').after(nav);
+    }
+    const prevId = id > 1 ? id - 1 : null;
+    const nextId = id < topics.length ? id + 1 : null;
+    nav.innerHTML = `
+      <button ${prevId ? '' : 'disabled'} onclick="openTopic(${prevId})">&larr; Previous</button>
+      <button onclick="goHome()">All Topics</button>
+      <button ${nextId ? '' : 'disabled'} onclick="openTopic(${nextId})">Next &rarr;</button>
+    `;
+  }
+
+  // Deep-link support: open a topic directly if URL has #topic-N
+  window.addEventListener('DOMContentLoaded', () => {
+    const m = location.hash.match(/^#topic-(\d+)$/);
+    if(m) openTopic(parseInt(m[1]));
+  });
+
+  // ---- KaTeX equation rendering ----
+  document.addEventListener("DOMContentLoaded", function() {
+    const eqs = {
+      "eq-pdrop": "\\Delta P = \\dfrac{f \\, \\rho \\, v^2 \\, L}{2 D \\, g_c}",
+      "eq-gmol": "\\text{g-mol} = \\dfrac{\\text{mass in grams}}{\\text{molecular weight}}",
+      "eq-lbmol": "\\text{lb-mol} = \\dfrac{\\text{mass in lb}}{M.W.}",
+      "eq-mavg": "M_{avg} = \\sum (y_i \\times M_i)",
+      "eq-molefrac": "x_i = \\dfrac{\\text{moles of substance } i}{\\text{total moles}} = \\dfrac{n_i}{\\sum n}",
+      "eq-yi": "y_i = \\dfrac{P_i}{P}",
+      "eq-conc": "C_i = \\dfrac{\\rho_i}{M_i}",
+      "eq-pv": "PV = nRT",
+      "eq-ci2": "C_i = \\dfrac{P_i}{RT}",
+      "eq-sg": "SG = \\dfrac{\\rho_{substance}}{\\rho_{reference}}",
+      "eq-truesg": "SG_{true} = \\dfrac{\\rho_{substance \\; at \\; T}}{\\rho_{water \\; at \\; T_{ref}(4^{\\circ}C)}}",
+      "eq-specvol": "\\hat{V} = \\dfrac{1}{\\rho}",
+      "eq-appsg": "SG_{apparent} = \\dfrac{\\text{weight of substance}}{\\text{weight of equal volume of reference}}",
+      "eq-api": "^{\\circ}API = \\dfrac{141.5}{SG} - 131.5",
+      "eq-mixrho": "\\rho_{mix} = \\sum w_i \\, \\rho_i",
+      "eq-superv": "v_{superficial} = \\dfrac{\\text{volumetric flow rate}}{\\text{cross-sectional area}}",
+      "eq-tk": "T(K) = T(^{\\circ}C) + 273",
+      "eq-tf": "T(^{\\circ}F) = 32 + \\dfrac{9}{5}\\,T(^{\\circ}C)",
+      "eq-tr": "T(^{\\circ}R) = T(^{\\circ}F) + 460",
+      "eq-pabs1": "P_{abs} = P_{atm} + P_{gauge}",
+      "eq-pabs2": "P_{abs} = P_{atm} - P_{vacuum}",
+      "eq-genmb": "\\big[\\text{Amt. in system at } t_2\\big] - \\big[\\text{Amt. in system at } t_1\\big] = \\big[\\text{In}\\big] - \\big[\\text{Out}\\big] + \\big[\\text{Generated}\\big] - \\big[\\text{Consumed}\\big]",
+      "eq-multi": "\\sum \\dot{m}_{in} - \\sum \\dot{m}_{out} = \\text{Accumulation}",
+      "eq-dof": "N_{DF} = N_{unknown} - N_{equation}",
+      "eq-dof-r": "N_D = N_u - N_E",
+      "eq-extent": "\\xi = \\dfrac{n_i - n_{i0}}{\\nu_i}",
+      "eq-conv": "X = \\dfrac{\\text{moles of LR reacted}}{\\text{moles of LR fed / introduced}}",
+      "eq-conv2": "f = \\dfrac{\\text{extent of reaction achieved}}{\\text{extent of reaction if complete}}",
+      "eq-select": "\\text{Selectivity} = \\dfrac{\\text{moles of desired product formed}}{\\text{moles of undesired (by-product) formed}}",
+      "eq-yield": "\\text{Yield} = \\dfrac{\\text{amount of desired product}}{\\text{amount of key reactant fed (theoretical max.)}}",
+      "eq-accum-rxn": "\\text{Accumulation} = \\text{Input} - \\text{Output} + \\text{Generation} - \\text{Consumption}",
+      "eq-multirxn": "n_i^{out} - n_i^{in} = \\sum_j \\nu_{i,j}\\, \\xi_j",
+      "eq-excessair": "\\%\\, \\text{Excess Air} = \\dfrac{\\text{Air fed} - \\text{Air theoretical}}{\\text{Air theoretical}} \\times 100",
+      "eq-fov": "f_{ov} = \\dfrac{\\text{moles of LR reacted}}{\\text{moles of LR fed to overall system (fresh feed)}}",
+      "eq-fsp": "f_{sp} = \\dfrac{\\text{moles of LR reacted per pass}}{\\text{moles of LR entering the reactor}}",
+      "eq-extentpp": "\\xi_{(\\text{per pass})} = f_{sp} \\times n_{LR,\\,\\text{in reactor}}",
+      "eq-idealgas": "PV = nRT",
+      "eq-idealgas2": "P\\hat{V} = RT \\quad \\left(\\hat{V} = \\dfrac{V}{n}, \\; \\text{specific molar volume}\\right)",
+      "eq-partialp": "P_i = y_i \\, P \\quad \\text{(Dalton's Law)}",
+      "eq-partialv": "V_i = y_i \\, V \\quad \\text{(Amagat's Law)}",
+      "eq-gibbs": "F = C - P + 2 - r"
+    };
+    for (const id in eqs) {
+      const el = document.getElementById(id);
+      if (el) {
+        try { katex.render(eqs[id], el, {throwOnError: false, displayMode: true}); }
+        catch(e) { el.textContent = eqs[id]; }
+      }
+    }
+  });
 </script>
 
 </body>
