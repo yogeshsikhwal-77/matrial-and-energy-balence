@@ -10,20 +10,20 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
 <style>
   :root {
-    --paper: #EFECE2;
-    --paper-raised: #F7F5EC;
-    --ink: #22271F;
-    --ink-soft: #565A4E;
-    --ink-faint: #8B8E7F;
-    --rule: #D7D2BF;
-    --rule-strong: #BFBAA4;
-    --high: #A8391F;
-    --high-bg: #F3DFD4;
-    --mid: #93650C;
-    --mid-bg: #F2E3C4;
-    --low: #4C6157;
-    --low-bg: #DCE4DD;
-    --accent-line: #A8391F;
+    --paper: #FFFFFF;
+    --paper-raised: #F9FAFB;
+    --ink: #111827;
+    --ink-soft: #4B5563;
+    --ink-faint: #9CA3AF;
+    --rule: #E5E7EB;
+    --rule-strong: #D1D5DB;
+    --high: #DC2626;
+    --high-bg: #FEE2E2;
+    --mid: #D97706;
+    --mid-bg: #FEF3C7;
+    --low: #059669;
+    --low-bg: #D1FAE5;
+    --accent-line: #DC2626;
   }
 
   @media (prefers-color-scheme: dark) {
@@ -191,7 +191,7 @@
   }
 
   .chip.high[aria-pressed="true"] { background: var(--high); border-color: var(--high); color: #fff; }
-  .chip.mid[aria-pressed="true"] { background: var(--mid); border-color: var(--mid); color: #2b1e02; }
+  .chip.mid[aria-pressed="true"] { background: var(--mid); border-color: var(--mid); color: #fff; }
   .chip.low[aria-pressed="true"] { background: var(--low); border-color: var(--low); color: #fff; }
 
   .search {
@@ -361,12 +361,18 @@
     align-items: center;
     justify-content: center;
     padding: 24px;
-    background: rgba(20, 20, 16, 0.72);
+    background: rgba(17, 24, 39, 0.72);
     backdrop-filter: blur(3px);
+    transition: padding 0.2s ease;
   }
 
   .pdf-overlay.open {
     display: flex;
+  }
+
+  /* When modal is maximized, remove overlay padding */
+  .pdf-overlay.maximized {
+    padding: 0;
   }
 
   .pdf-modal {
@@ -379,7 +385,17 @@
     border: 1px solid var(--rule-strong);
     border-radius: 14px;
     overflow: hidden;
-    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.25);
+    transition: max-width 0.2s ease, max-height 0.2s ease, border-radius 0.2s ease;
+  }
+
+  /* Maximized (fullscreen) state for the modal */
+  .pdf-modal.maximized {
+    max-width: 100%;
+    max-height: 100%;
+    height: 100%;
+    border-radius: 0;
+    border: none;
   }
 
   .pdf-modal-head {
@@ -389,6 +405,7 @@
     gap: 12px;
     padding: 14px 18px;
     border-bottom: 1px solid var(--rule);
+    background: var(--paper);
   }
 
   .pdf-modal-title {
@@ -410,8 +427,13 @@
     margin-top: 2px;
   }
 
+  .pdf-head-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
   .pdf-priority-badge {
-    flex: 0 0 auto;
     font-size: 10px;
     font-weight: 700;
     letter-spacing: 0.05em;
@@ -419,14 +441,14 @@
     padding: 5px 10px;
     border-radius: 999px;
     white-space: nowrap;
-    display: none; /* Hidden by default until a priority is set */
+    display: none; 
   }
 
   .pdf-priority-badge.high { display: inline-block; background: var(--high-bg); color: var(--high); }
   .pdf-priority-badge.mid { display: inline-block; background: var(--mid-bg); color: var(--mid); }
   .pdf-priority-badge.low { display: inline-block; background: var(--low-bg); color: var(--low); }
 
-  .pdf-close-btn {
+  .pdf-icon-btn {
     appearance: none;
     border: 1px solid var(--rule-strong);
     background: var(--paper);
@@ -434,13 +456,16 @@
     width: 30px;
     height: 30px;
     border-radius: 50%;
-    font-size: 16px;
+    font-size: 15px;
     line-height: 1;
     cursor: pointer;
     flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
-  .pdf-close-btn:hover {
+  .pdf-icon-btn:hover {
     color: var(--ink);
     border-color: var(--ink-soft);
   }
@@ -449,7 +474,7 @@
     position: relative;
     flex: 1;
     overflow: auto;
-    background: var(--paper);
+    background: var(--paper-raised);
     display: flex;
     align-items: flex-start;
     justify-content: center;
@@ -459,8 +484,9 @@
   .pdf-modal-body canvas {
     max-width: 100%;
     height: auto;
-    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.18);
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.1);
     border-radius: 4px;
+    border: 1px solid var(--rule);
   }
 
   .pdf-status {
@@ -477,6 +503,7 @@
     gap: 10px;
     padding: 12px 18px;
     border-top: 1px solid var(--rule);
+    background: var(--paper);
     flex-wrap: wrap;
   }
 
@@ -521,6 +548,7 @@
     .pdf-overlay { padding: 0; }
     .pdf-modal { max-width: 100%; max-height: 100%; height: 100%; border-radius: 0; }
     .pdf-modal-foot { justify-content: center; }
+    .pdf-fullscreen-btn { display: none; } /* Hide expand button on mobile since it's already full width */
   }
 </style>
 </head>
@@ -565,14 +593,18 @@
 
 <!-- ===== In-page PDF page viewer ===== -->
 <div class="pdf-overlay" id="pdf-overlay">
-  <div class="pdf-modal" role="dialog" aria-modal="true" aria-label="Slide viewer">
+  <div class="pdf-modal" id="pdf-modal" role="dialog" aria-modal="true" aria-label="Slide viewer">
     <div class="pdf-modal-head">
       <div class="pdf-modal-title">
         <span id="pdf-modal-title-main">Slide</span>
         <span class="sub" id="pdf-modal-title-sub"></span>
       </div>
-      <span class="pdf-priority-badge" id="pdf-priority-badge"></span>
-      <button class="pdf-close-btn" id="pdf-close-btn" aria-label="Close">✕</button>
+      
+      <div class="pdf-head-actions">
+        <span class="pdf-priority-badge" id="pdf-priority-badge"></span>
+        <button class="pdf-icon-btn pdf-fullscreen-btn" id="pdf-fullscreen-btn" aria-label="Toggle Fullscreen" title="Toggle Fullscreen">⛶</button>
+        <button class="pdf-icon-btn" id="pdf-close-btn" aria-label="Close" title="Close">✕</button>
+      </div>
     </div>
     <div class="pdf-modal-body" id="pdf-modal-body">
       <p class="pdf-status" id="pdf-status">Loading page…</p>
@@ -750,8 +782,6 @@ const DATA = [
   ]},
 ];
 
-// Pull the first numeric page out of a range like "p10–11" or "p45" so we
-// know exactly which PDF page to render first.
 function firstPageNumber(range) {
   const match = range.replace(/^p/i, '').match(/\d+/);
   return match ? parseInt(match[0], 10) : 1;
@@ -847,13 +877,14 @@ if (window.location.hash) {
 }
 
 /* =========================================================
-   PDF PAGE VIEWER — renders the exact page as an image
+   PDF PAGE VIEWER
    ========================================================= */
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
 
-const pdfCache = {};       // filename -> { promise, numPages }
+const pdfCache = {};      
 const overlay = document.getElementById('pdf-overlay');
+const modal = document.getElementById('pdf-modal');
 const canvas = document.getElementById('pdf-canvas');
 const statusEl = document.getElementById('pdf-status');
 const titleMain = document.getElementById('pdf-modal-title-main');
@@ -863,10 +894,11 @@ const prevBtn = document.getElementById('pdf-prev-btn');
 const nextBtn = document.getElementById('pdf-next-btn');
 const openLink = document.getElementById('pdf-open-link');
 const closeBtn = document.getElementById('pdf-close-btn');
+const fullscreenBtn = document.getElementById('pdf-fullscreen-btn');
 const priorityBadge = document.getElementById('pdf-priority-badge');
 const priorityLabelFull = { high: 'High priority', mid: 'Mid priority', low: 'Low priority' };
 
-let viewerState = { file: null, page: 1, numPages: 0, chapterLabel: '', priority: null, renderId: 0 };
+let viewerState = { file: null, page: 1, numPages: 0, chapterLabel: '', renderId: 0 };
 
 function getPdfDoc(file) {
   if (!pdfCache[file]) {
@@ -881,9 +913,40 @@ async function showStatus(msg) {
   canvas.style.display = 'none';
 }
 
+// Function to find the exact priority for any given page in a given file based on the DATA array
+function getPriorityForPage(file, pageNum) {
+  const chapterData = DATA.find(ch => ch.file === file);
+  if (!chapterData) return null;
+
+  for (const row of chapterData.rows) {
+    const rangeStr = row[0]; // e.g. "p10-11", "p12"
+    const priority = row[2];
+
+    // Remove the 'p' and split by - or –
+    const parts = rangeStr.replace(/^p/i, '').split(/[-–]/);
+    const start = parseInt(parts[0], 10);
+    const end = parts.length > 1 ? parseInt(parts[1], 10) : start;
+
+    if (pageNum >= start && pageNum <= end) {
+      return priority;
+    }
+  }
+  return null; // Page not found in the array map
+}
+
 async function renderPage(pageNum) {
   const myRenderId = ++viewerState.renderId;
   viewerState.page = pageNum;
+  
+  // Update priority dynamically for the newly selected page
+  const currentPriority = getPriorityForPage(viewerState.file, pageNum);
+  if (currentPriority && priorityLabelFull[currentPriority]) {
+    priorityBadge.className = 'pdf-priority-badge ' + currentPriority;
+    priorityBadge.textContent = priorityLabelFull[currentPriority];
+  } else {
+    priorityBadge.className = 'pdf-priority-badge'; 
+  }
+
   pageIndicator.textContent = viewerState.numPages
     ? `Page ${pageNum} of ${viewerState.numPages}`
     : `Page ${pageNum}`;
@@ -905,7 +968,7 @@ async function renderPage(pageNum) {
     if (myRenderId !== viewerState.renderId) return;
 
     const baseViewport = page.getViewport({ scale: 1 });
-    const targetWidth = Math.min(820, baseViewport.width * 2);
+    const targetWidth = Math.min(1200, baseViewport.width * 2);
     const scale = targetWidth / baseViewport.width;
     const viewport = page.getViewport({ scale });
 
@@ -921,46 +984,47 @@ async function renderPage(pageNum) {
   } catch (err) {
     console.error(err);
     if (myRenderId !== viewerState.renderId) return;
-    showStatus('Could not load that page. If you\'re viewing this file directly from disk, serve it over http(s) (e.g. GitHub Pages / Vercel) — browsers block PDF loading from file:// URLs.');
+    showStatus('Could not load that page. Ensure the file is served over http(s).');
   }
 }
 
-// *** MODIFIED HERE: Added priority parameter to update the badge dynamically ***
-function openViewer(file, pageNum, chapterLabel, priority) {
+function openViewer(file, pageNum, chapterLabel) {
   viewerState.file = file;
   viewerState.chapterLabel = chapterLabel;
-  viewerState.priority = priority;
   viewerState.numPages = 0;
   titleMain.textContent = 'Slide';
   
-  // Set the correct class and text based on priority
-  if (priority && priorityLabelFull[priority]) {
-    priorityBadge.className = 'pdf-priority-badge ' + priority;
-    priorityBadge.textContent = priorityLabelFull[priority];
-  } else {
-    priorityBadge.className = 'pdf-priority-badge'; 
-  }
-
   overlay.classList.add('open');
   document.body.style.overflow = 'hidden';
+  
+  // We just pass the pageNum. renderPage() will figure out the priority badge automatically.
   renderPage(pageNum);
 }
 
 function closeViewer() {
   overlay.classList.remove('open');
+  
+  // reset fullscreen state when closing
+  overlay.classList.remove('maximized');
+  modal.classList.remove('maximized');
+  
   document.body.style.overflow = '';
-  viewerState.renderId++; // cancel any in-flight render
+  viewerState.renderId++; 
 }
 
-// *** MODIFIED HERE: Extract data-priority from button and pass it into openViewer ***
+// Fullscreen toggle event listener
+fullscreenBtn.addEventListener('click', () => {
+  overlay.classList.toggle('maximized');
+  modal.classList.toggle('maximized');
+});
+
 document.getElementById('content').addEventListener('click', (e) => {
   const btn = e.target.closest('button.range');
   if (!btn) return;
   openViewer(
     btn.dataset.file, 
     parseInt(btn.dataset.page, 10), 
-    btn.dataset.chapter, 
-    btn.dataset.priority
+    btn.dataset.chapter
   );
 });
 
@@ -970,7 +1034,17 @@ overlay.addEventListener('click', (e) => {
 });
 document.addEventListener('keydown', (e) => {
   if (!overlay.classList.contains('open')) return;
-  if (e.key === 'Escape') closeViewer();
+  
+  if (e.key === 'Escape') {
+    // If it's fullscreen, exit fullscreen first. If not, close the modal.
+    if (modal.classList.contains('maximized')) {
+      overlay.classList.remove('maximized');
+      modal.classList.remove('maximized');
+    } else {
+      closeViewer();
+    }
+  }
+  
   if (e.key === 'ArrowLeft' && !prevBtn.disabled) renderPage(viewerState.page - 1);
   if (e.key === 'ArrowRight' && !nextBtn.disabled) renderPage(viewerState.page + 1);
 });
