@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
 <style>
   :root {
     --paper: #EFECE2;
@@ -71,6 +72,8 @@
     -webkit-font-smoothing: antialiased;
   }
 
+  a { color: inherit; }
+
   .wrap {
     max-width: 900px;
     margin: 0 auto;
@@ -81,6 +84,18 @@
     padding: 64px 0 36px;
     border-bottom: 2px solid var(--ink);
   }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--ink-soft);
+    text-decoration: none;
+    margin-bottom: 18px;
+  }
+
+  .back-link:hover { color: var(--ink); }
 
   .kicker {
     font-size: 13px;
@@ -210,6 +225,7 @@
 
   section.chapter {
     margin-top: 44px;
+    scroll-margin-top: 76px;
   }
 
   .chapter-head {
@@ -254,6 +270,33 @@
     color: var(--ink-faint);
     padding-top: 2px;
     white-space: nowrap;
+  }
+
+  button.range {
+    appearance: none;
+    background: none;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    border-bottom: 1px dashed var(--rule-strong);
+    color: var(--ink-faint);
+    transition: color 0.15s ease, border-color 0.15s ease;
+  }
+
+  button.range:hover {
+    color: var(--accent-line);
+    border-color: var(--accent-line);
+  }
+
+  button.range::after {
+    content: '🖼';
+    font-size: 11px;
+    opacity: 0.7;
   }
 
   .row .topic {
@@ -305,15 +348,174 @@
     .search { margin-left: 0; width: 100%; }
     nav.toolbar { gap: 8px; }
   }
+
+  /* =========================
+     PDF PAGE VIEWER MODAL
+  ========================= */
+
+  .pdf-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: rgba(20, 20, 16, 0.72);
+    backdrop-filter: blur(3px);
+  }
+
+  .pdf-overlay.open {
+    display: flex;
+  }
+
+  .pdf-modal {
+    width: 100%;
+    max-width: 880px;
+    max-height: 92vh;
+    display: flex;
+    flex-direction: column;
+    background: var(--paper-raised);
+    border: 1px solid var(--rule-strong);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+  }
+
+  .pdf-modal-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .pdf-modal-title {
+    font-family: 'Spectral', serif;
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--ink);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .pdf-modal-title .sub {
+    display: block;
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 400;
+    font-size: 12px;
+    color: var(--ink-faint);
+    margin-top: 2px;
+  }
+
+  .pdf-close-btn {
+    appearance: none;
+    border: 1px solid var(--rule-strong);
+    background: var(--paper);
+    color: var(--ink-soft);
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    font-size: 16px;
+    line-height: 1;
+    cursor: pointer;
+    flex: 0 0 auto;
+  }
+
+  .pdf-close-btn:hover {
+    color: var(--ink);
+    border-color: var(--ink-soft);
+  }
+
+  .pdf-modal-body {
+    position: relative;
+    flex: 1;
+    overflow: auto;
+    background: var(--paper);
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 18px;
+  }
+
+  .pdf-modal-body canvas {
+    max-width: 100%;
+    height: auto;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.18);
+    border-radius: 4px;
+  }
+
+  .pdf-status {
+    font-size: 13px;
+    color: var(--ink-faint);
+    text-align: center;
+    padding: 40px 20px;
+  }
+
+  .pdf-modal-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 12px 18px;
+    border-top: 1px solid var(--rule);
+    flex-wrap: wrap;
+  }
+
+  .pdf-nav-btn {
+    appearance: none;
+    border: 1px solid var(--rule-strong);
+    background: var(--paper);
+    color: var(--ink-soft);
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 13px;
+    padding: 7px 14px;
+    border-radius: 999px;
+    cursor: pointer;
+  }
+
+  .pdf-nav-btn:hover:not(:disabled) {
+    border-color: var(--ink-soft);
+    color: var(--ink);
+  }
+
+  .pdf-nav-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  .pdf-page-indicator {
+    font-size: 13px;
+    color: var(--ink-faint);
+    white-space: nowrap;
+  }
+
+  .pdf-open-link {
+    font-size: 12px;
+    color: var(--ink-faint);
+    text-decoration: underline;
+    white-space: nowrap;
+  }
+
+  .pdf-open-link:hover { color: var(--accent-line); }
+
+  @media (max-width: 620px) {
+    .pdf-overlay { padding: 0; }
+    .pdf-modal { max-width: 100%; max-height: 100%; height: 100%; border-radius: 0; }
+    .pdf-modal-foot { justify-content: center; }
+  }
 </style>
 </head>
 <body>
 <div class="wrap">
 
   <header class="hero">
+    <a class="back-link" href="index.html">&larr; Back to chapters</a>
     <p class="kicker">CHL2050 · Mechanical Unit Operations · Dept. of Chemical Engineering, IIT Jodhpur</p>
     <h1>Chapter topic map</h1>
-    <p class="dek">Every slide from Chapter 1 (Particulate Solids, Size Reduction, Agitation &amp; Mixing) and Chapter 2 (Filtration &amp; Membrane Separation), in original order, tagged by exam priority.</p>
+    <p class="dek">Every slide from Chapter 1 (Particulate Solids, Size Reduction, Agitation &amp; Mixing) and Chapter 2 (Filtration &amp; Membrane Separation), in original order, tagged by exam priority. Click any page number to see that exact slide.</p>
     <div class="stat-row">
       <div class="stat"><span class="num" id="stat-total">0</span><span class="lbl">slides mapped</span></div>
       <div class="stat high"><span class="num" id="stat-high">0</span><span class="lbl">high priority</span></div>
@@ -345,9 +547,32 @@
 
 </div>
 
+<!-- ===== In-page PDF page viewer ===== -->
+<div class="pdf-overlay" id="pdf-overlay">
+  <div class="pdf-modal" role="dialog" aria-modal="true" aria-label="Slide viewer">
+    <div class="pdf-modal-head">
+      <div class="pdf-modal-title">
+        <span id="pdf-modal-title-main">Slide</span>
+        <span class="sub" id="pdf-modal-title-sub"></span>
+      </div>
+      <button class="pdf-close-btn" id="pdf-close-btn" aria-label="Close">✕</button>
+    </div>
+    <div class="pdf-modal-body" id="pdf-modal-body">
+      <p class="pdf-status" id="pdf-status">Loading page…</p>
+      <canvas id="pdf-canvas" style="display:none;"></canvas>
+    </div>
+    <div class="pdf-modal-foot">
+      <button class="pdf-nav-btn" id="pdf-prev-btn">&larr; Prev</button>
+      <span class="pdf-page-indicator" id="pdf-page-indicator"></span>
+      <button class="pdf-nav-btn" id="pdf-next-btn">Next &rarr;</button>
+      <a class="pdf-open-link" id="pdf-open-link" href="#" target="_blank" rel="noopener noreferrer">Open full PDF ↗</a>
+    </div>
+  </div>
+</div>
+
 <script>
 const DATA = [
-  { chapter: "Chapter 1 — Particulate Solids, Size Reduction, Agitation & Mixing", rows: [
+  { chapter: "Chapter 1 — Particulate Solids, Size Reduction, Agitation & Mixing", file: "MUO-Chapter-1.pdf", rows: [
     ["p1","Course title slide — Mechanical Unit Operations (CHL2050)","low"],
     ["p2","Unit operation — definition & sugarcane processing example","high"],
     ["p3","Unit operation vs. unit process — comparison","high"],
@@ -446,7 +671,7 @@ const DATA = [
     ["p136","Muller mixers — mulling action","mid"],
     ["p137","Banbury mixer — schematic","low"],
   ]},
-  { chapter: "Chapter 2 — Filtration & Membrane Separation", rows: [
+  { chapter: "Chapter 2 — Filtration & Membrane Separation", file: "MUO-Chapter-2.pdf", rows: [
     ["p1–2","Title slide & Chapter 2 outline — filtration and membrane separation","low"],
     ["p3–4","Filtration — fundamental principle & sources of pressure differential","high"],
     ["p5","Classification of filters — cake, clarifying & crossflow filters","high"],
@@ -508,6 +733,13 @@ const DATA = [
   ]},
 ];
 
+// Pull the first numeric page out of a range like "p10–11" or "p45" so we
+// know exactly which PDF page to render first.
+function firstPageNumber(range) {
+  const match = range.replace(/^p/i, '').match(/\d+/);
+  return match ? parseInt(match[0], 10) : 1;
+}
+
 const priorityLabel = { high: "High", mid: "Mid", low: "Low" };
 const content = document.getElementById('content');
 let counts = { high: 0, mid: 0, low: 0 };
@@ -515,6 +747,7 @@ let counts = { high: 0, mid: 0, low: 0 };
 DATA.forEach((ch, ci) => {
   const section = document.createElement('section');
   section.className = 'chapter';
+  section.id = `chapter-${ci + 1}`;
 
   const head = document.createElement('div');
   head.className = 'chapter-head';
@@ -530,8 +763,9 @@ DATA.forEach((ch, ci) => {
     row.className = `row p-${priority}`;
     row.dataset.priority = priority;
     row.dataset.search = (range + ' ' + topic).toLowerCase();
+    const pageNum = firstPageNumber(range);
     row.innerHTML = `
-      <div class="range">${range}</div>
+      <button type="button" class="range" data-file="${ch.file}" data-page="${pageNum}" data-chapter="${ch.chapter}">${range}</button>
       <div class="topic">${topic}</div>
       <div class="priority ${priority}">${priorityLabel[priority]}</div>
     `;
@@ -586,6 +820,127 @@ chips.forEach(chip => {
 document.getElementById('search-input').addEventListener('input', (e) => {
   searchTerm = e.target.value.trim().toLowerCase();
   applyFilters();
+});
+
+if (window.location.hash) {
+  const target = document.querySelector(window.location.hash);
+  if (target) {
+    requestAnimationFrame(() => target.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+  }
+}
+
+/* =========================================================
+   PDF PAGE VIEWER — renders the exact page as an image
+   ========================================================= */
+
+pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+
+const pdfCache = {};       // filename -> { promise, numPages }
+const overlay = document.getElementById('pdf-overlay');
+const canvas = document.getElementById('pdf-canvas');
+const statusEl = document.getElementById('pdf-status');
+const titleMain = document.getElementById('pdf-modal-title-main');
+const titleSub = document.getElementById('pdf-modal-title-sub');
+const pageIndicator = document.getElementById('pdf-page-indicator');
+const prevBtn = document.getElementById('pdf-prev-btn');
+const nextBtn = document.getElementById('pdf-next-btn');
+const openLink = document.getElementById('pdf-open-link');
+const closeBtn = document.getElementById('pdf-close-btn');
+
+let viewerState = { file: null, page: 1, numPages: 0, chapterLabel: '', renderId: 0 };
+
+function getPdfDoc(file) {
+  if (!pdfCache[file]) {
+    pdfCache[file] = pdfjsLib.getDocument(file).promise;
+  }
+  return pdfCache[file];
+}
+
+async function showStatus(msg) {
+  statusEl.textContent = msg;
+  statusEl.style.display = 'block';
+  canvas.style.display = 'none';
+}
+
+async function renderPage(pageNum) {
+  const myRenderId = ++viewerState.renderId;
+  viewerState.page = pageNum;
+  pageIndicator.textContent = viewerState.numPages
+    ? `Page ${pageNum} of ${viewerState.numPages}`
+    : `Page ${pageNum}`;
+  prevBtn.disabled = pageNum <= 1;
+  nextBtn.disabled = viewerState.numPages ? pageNum >= viewerState.numPages : false;
+  titleSub.textContent = `${viewerState.chapterLabel} · ${viewerState.file}`;
+  openLink.href = `${viewerState.file}#page=${pageNum}`;
+
+  await showStatus('Loading page…');
+
+  try {
+    const pdf = await getPdfDoc(viewerState.file);
+    if (myRenderId !== viewerState.renderId) return;
+    viewerState.numPages = pdf.numPages;
+    pageIndicator.textContent = `Page ${pageNum} of ${pdf.numPages}`;
+    nextBtn.disabled = pageNum >= pdf.numPages;
+
+    const page = await pdf.getPage(pageNum);
+    if (myRenderId !== viewerState.renderId) return;
+
+    const baseViewport = page.getViewport({ scale: 1 });
+    const targetWidth = Math.min(820, baseViewport.width * 2);
+    const scale = targetWidth / baseViewport.width;
+    const viewport = page.getViewport({ scale });
+
+    canvas.width = viewport.width;
+    canvas.height = viewport.height;
+    const ctx = canvas.getContext('2d');
+
+    await page.render({ canvasContext: ctx, viewport }).promise;
+    if (myRenderId !== viewerState.renderId) return;
+
+    statusEl.style.display = 'none';
+    canvas.style.display = 'block';
+  } catch (err) {
+    console.error(err);
+    if (myRenderId !== viewerState.renderId) return;
+    showStatus('Could not load that page. If you\'re viewing this file directly from disk, serve it over http(s) (e.g. GitHub Pages / Vercel) — browsers block PDF loading from file:// URLs.');
+  }
+}
+
+function openViewer(file, pageNum, chapterLabel) {
+  viewerState.file = file;
+  viewerState.chapterLabel = chapterLabel;
+  viewerState.numPages = 0;
+  titleMain.textContent = 'Slide';
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  renderPage(pageNum);
+}
+
+function closeViewer() {
+  overlay.classList.remove('open');
+  document.body.style.overflow = '';
+  viewerState.renderId++; // cancel any in-flight render
+}
+
+document.getElementById('content').addEventListener('click', (e) => {
+  const btn = e.target.closest('button.range');
+  if (!btn) return;
+  openViewer(btn.dataset.file, parseInt(btn.dataset.page, 10), btn.dataset.chapter);
+});
+
+closeBtn.addEventListener('click', closeViewer);
+overlay.addEventListener('click', (e) => {
+  if (e.target === overlay) closeViewer();
+});
+document.addEventListener('keydown', (e) => {
+  if (!overlay.classList.contains('open')) return;
+  if (e.key === 'Escape') closeViewer();
+  if (e.key === 'ArrowLeft' && !prevBtn.disabled) renderPage(viewerState.page - 1);
+  if (e.key === 'ArrowRight' && !nextBtn.disabled) renderPage(viewerState.page + 1);
+});
+prevBtn.addEventListener('click', () => { if (viewerState.page > 1) renderPage(viewerState.page - 1); });
+nextBtn.addEventListener('click', () => {
+  if (!viewerState.numPages || viewerState.page < viewerState.numPages) renderPage(viewerState.page + 1);
 });
 </script>
 </body>
