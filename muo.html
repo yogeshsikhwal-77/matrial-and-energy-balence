@@ -410,6 +410,22 @@
     margin-top: 2px;
   }
 
+  .pdf-priority-badge {
+    flex: 0 0 auto;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 5px 10px;
+    border-radius: 999px;
+    white-space: nowrap;
+    display: none; /* Hidden by default until a priority is set */
+  }
+
+  .pdf-priority-badge.high { display: inline-block; background: var(--high-bg); color: var(--high); }
+  .pdf-priority-badge.mid { display: inline-block; background: var(--mid-bg); color: var(--mid); }
+  .pdf-priority-badge.low { display: inline-block; background: var(--low-bg); color: var(--low); }
+
   .pdf-close-btn {
     appearance: none;
     border: 1px solid var(--rule-strong);
@@ -555,6 +571,7 @@
         <span id="pdf-modal-title-main">Slide</span>
         <span class="sub" id="pdf-modal-title-sub"></span>
       </div>
+      <span class="pdf-priority-badge" id="pdf-priority-badge"></span>
       <button class="pdf-close-btn" id="pdf-close-btn" aria-label="Close">✕</button>
     </div>
     <div class="pdf-modal-body" id="pdf-modal-body">
@@ -765,7 +782,7 @@ DATA.forEach((ch, ci) => {
     row.dataset.search = (range + ' ' + topic).toLowerCase();
     const pageNum = firstPageNumber(range);
     row.innerHTML = `
-      <button type="button" class="range" data-file="${ch.file}" data-page="${pageNum}" data-chapter="${ch.chapter}">${range}</button>
+      <button type="button" class="range" data-file="${ch.file}" data-page="${pageNum}" data-chapter="${ch.chapter}" data-priority="${priority}">${range}</button>
       <div class="topic">${topic}</div>
       <div class="priority ${priority}">${priorityLabel[priority]}</div>
     `;
@@ -846,8 +863,10 @@ const prevBtn = document.getElementById('pdf-prev-btn');
 const nextBtn = document.getElementById('pdf-next-btn');
 const openLink = document.getElementById('pdf-open-link');
 const closeBtn = document.getElementById('pdf-close-btn');
+const priorityBadge = document.getElementById('pdf-priority-badge');
+const priorityLabelFull = { high: 'High priority', mid: 'Mid priority', low: 'Low priority' };
 
-let viewerState = { file: null, page: 1, numPages: 0, chapterLabel: '', renderId: 0 };
+let viewerState = { file: null, page: 1, numPages: 0, chapterLabel: '', priority: null, renderId: 0 };
 
 function getPdfDoc(file) {
   if (!pdfCache[file]) {
@@ -906,11 +925,22 @@ async function renderPage(pageNum) {
   }
 }
 
-function openViewer(file, pageNum, chapterLabel) {
+// *** MODIFIED HERE: Added priority parameter to update the badge dynamically ***
+function openViewer(file, pageNum, chapterLabel, priority) {
   viewerState.file = file;
   viewerState.chapterLabel = chapterLabel;
+  viewerState.priority = priority;
   viewerState.numPages = 0;
   titleMain.textContent = 'Slide';
+  
+  // Set the correct class and text based on priority
+  if (priority && priorityLabelFull[priority]) {
+    priorityBadge.className = 'pdf-priority-badge ' + priority;
+    priorityBadge.textContent = priorityLabelFull[priority];
+  } else {
+    priorityBadge.className = 'pdf-priority-badge'; 
+  }
+
   overlay.classList.add('open');
   document.body.style.overflow = 'hidden';
   renderPage(pageNum);
@@ -922,10 +952,16 @@ function closeViewer() {
   viewerState.renderId++; // cancel any in-flight render
 }
 
+// *** MODIFIED HERE: Extract data-priority from button and pass it into openViewer ***
 document.getElementById('content').addEventListener('click', (e) => {
   const btn = e.target.closest('button.range');
   if (!btn) return;
-  openViewer(btn.dataset.file, parseInt(btn.dataset.page, 10), btn.dataset.chapter);
+  openViewer(
+    btn.dataset.file, 
+    parseInt(btn.dataset.page, 10), 
+    btn.dataset.chapter, 
+    btn.dataset.priority
+  );
 });
 
 closeBtn.addEventListener('click', closeViewer);
