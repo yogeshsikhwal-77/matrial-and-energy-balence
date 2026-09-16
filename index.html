@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chemical Engineering — Study Notes</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f4f4f9;
+    --card-bg: #ffffff;
+    --text: #333333;
+    --text-muted: #666666;
+    --primary: #1f4e79;
+    --accent: #2f6fa8;
+    --hover-shadow: rgba(0, 0, 0, 0.1);
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'IBM Plex Sans', Arial, sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+  }
+
+  header {
+    width: 100%;
+    background-color: var(--primary);
+    color: #ffffff;
+    padding: 40px 20px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  }
+
+  header h1 {
+    margin: 0;
+    font-size: 2.2rem;
+    font-weight: 700;
+  }
+
+  header p {
+    margin: 10px 0 0;
+    font-size: 1.1rem;
+    opacity: 0.9;
+  }
+
+  main {
+    max-width: 900px;
+    width: 100%;
+    padding: 40px 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    box-sizing: border-box;
+  }
+
+  .subject-card {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 30px;
+    text-decoration: none;
+    color: var(--text);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+    border-top: 5px solid var(--primary);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .subject-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px var(--hover-shadow);
+    border-top-color: var(--accent);
+  }
+
+  .subject-card h2 {
+    margin: 0 0 10px;
+    font-size: 1.5rem;
+    color: var(--primary);
+  }
+
+  .subject-card p {
+    margin: 0;
+    color: var(--text-muted);
+    line-height: 1.5;
+    flex-grow: 1;
+  }
+
+  .subject-card .arrow {
+    margin-top: 20px;
+    font-weight: 600;
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .subject-card:hover .arrow {
+    text-decoration: underline;
+  }
+</style>
+</head>
+<body>
+
+  <header>
+    <h1>Chemical Engineering Portal</h1>
+    <p>Select a subject to view notes and topic maps</p>
+  </header>
+
+  <main>
+    <!-- Link to the MEB page -->
+    <a href="meb.html" class="subject-card">
+      <h2>Material & Energy Balance</h2>
+      <p>Short notes covering unit conversions, fluid flow, material balance, reaction engineering, and phase equilibria.</p>
+      <div class="arrow">View Notes &rarr;</div>
+    </a>
+
+    <!-- Link to the MUO page -->
+    <a href="muo.html" class="subject-card">
+      <h2>Mechanical Unit Operations</h2>
+      <p>Topic map covering particulate solids, size reduction, agitation, mixing, filtration, and membrane separation.</p>
+      <div class="arrow">View Topic Map &rarr;</div>
+    </a>
+  </main>
+
+</body>
+</html>
