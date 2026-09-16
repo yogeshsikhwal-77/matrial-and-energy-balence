@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mechanical Unit Operations — Topic Map</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #EFECE2;
+    --paper-raised: #F7F5EC;
+    --ink: #22271F;
+    --ink-soft: #565A4E;
+    --ink-faint: #8B8E7F;
+    --rule: #D7D2BF;
+    --rule-strong: #BFBAA4;
+    --high: #A8391F;
+    --high-bg: #F3DFD4;
+    --mid: #93650C;
+    --mid-bg: #F2E3C4;
+    --low: #4C6157;
+    --low-bg: #DCE4DD;
+    --accent-line: #A8391F;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #1B1E18;
+      --paper-raised: #23261F;
+      --ink: #E9E7DC;
+      --ink-soft: #B7B6A6;
+      --ink-faint: #7E8071;
+      --rule: #35392E;
+      --rule-strong: #454935;
+      --high: #E38561;
+      --high-bg: #3B241C;
+      --mid: #E0B45C;
+      --mid-bg: #3B330F;
+      --low: #9FC0AC;
+      --low-bg: #223229;
+      --accent-line: #E38561;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --paper: #1B1E18;
+    --paper-raised: #23261F;
+    --ink: #E9E7DC;
+    --ink-soft: #B7B6A6;
+    --ink-faint: #7E8071;
+    --rule: #35392E;
+    --rule-strong: #454935;
+    --high: #E38561;
+    --high-bg: #3B241C;
+    --mid: #E0B45C;
+    --mid-bg: #3B330F;
+    --low: #9FC0AC;
+    --low-bg: #223229;
+    --accent-line: #E38561;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'IBM Plex Sans', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 24px 96px;
+  }
+
+  header.hero {
+    padding: 64px 0 36px;
+    border-bottom: 2px solid var(--ink);
+  }
+
+  .kicker {
+    font-size: 13px;
+    letter-spacing: 0.02em;
+    color: var(--ink-soft);
+    margin: 0 0 14px;
+  }
+
+  h1 {
+    font-family: 'Spectral', serif;
+    font-weight: 600;
+    font-size: clamp(32px, 5vw, 48px);
+    line-height: 1.12;
+    margin: 0 0 16px;
+    max-width: 15ch;
+  }
+
+  .dek {
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+    max-width: 60ch;
+    margin: 0 0 28px;
+  }
+
+  .stat-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 28px;
+    margin-top: 8px;
+  }
+
+  .stat {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .stat .num {
+    font-family: 'Spectral', serif;
+    font-weight: 600;
+    font-size: 26px;
+  }
+
+  .stat .lbl {
+    font-size: 12px;
+    color: var(--ink-faint);
+  }
+
+  .stat.high .num { color: var(--high); }
+  .stat.mid .num { color: var(--mid); }
+  .stat.low .num { color: var(--low); }
+
+  nav.toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    background: var(--paper);
+    border-bottom: 1px solid var(--rule);
+    padding: 14px 0;
+    margin-bottom: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+  }
+
+  nav.toolbar .label {
+    font-size: 12px;
+    color: var(--ink-faint);
+    margin-right: 4px;
+  }
+
+  .chip {
+    appearance: none;
+    border: 1px solid var(--rule-strong);
+    background: var(--paper-raised);
+    color: var(--ink-soft);
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 13px;
+    padding: 7px 14px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
+  }
+
+  .chip:hover { border-color: var(--ink-soft); }
+
+  .chip[aria-pressed="true"] {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+  }
+
+  .chip.high[aria-pressed="true"] { background: var(--high); border-color: var(--high); color: #fff; }
+  .chip.mid[aria-pressed="true"] { background: var(--mid); border-color: var(--mid); color: #2b1e02; }
+  .chip.low[aria-pressed="true"] { background: var(--low); border-color: var(--low); color: #fff; }
+
+  .search {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--rule-strong);
+    border-radius: 999px;
+    padding: 6px 14px;
+    background: var(--paper-raised);
+    min-width: 200px;
+  }
+
+  .search input {
+    border: none;
+    background: transparent;
+    outline: none;
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 13px;
+    color: var(--ink);
+    width: 100%;
+  }
+
+  .search input::placeholder { color: var(--ink-faint); }
+
+  .count-note {
+    font-size: 12px;
+    color: var(--ink-faint);
+    margin: 10px 2px 22px;
+  }
+
+  section.chapter {
+    margin-top: 44px;
+  }
+
+  .chapter-head {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 10px;
+    margin-bottom: 4px;
+  }
+
+  .chapter-num {
+    font-family: 'Spectral', serif;
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--ink-faint);
+  }
+
+  .chapter-title {
+    font-family: 'Spectral', serif;
+    font-weight: 600;
+    font-size: 22px;
+    margin: 0;
+  }
+
+  .row {
+    display: grid;
+    grid-template-columns: 108px 1fr 84px;
+    align-items: start;
+    gap: 18px;
+    padding: 14px 4px;
+    border-bottom: 1px solid var(--rule);
+    border-left: 3px solid transparent;
+  }
+
+  .row.p-high { border-left-color: var(--high); }
+  .row.p-mid { border-left-color: var(--mid); }
+  .row.p-low { border-left-color: var(--low); }
+
+  .row .range {
+    font-size: 13px;
+    color: var(--ink-faint);
+    padding-top: 2px;
+    white-space: nowrap;
+  }
+
+  .row .topic {
+    font-size: 15.5px;
+    line-height: 1.45;
+  }
+
+  .row .priority {
+    justify-self: end;
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    white-space: nowrap;
+    text-align: center;
+  }
+
+  .priority.high { background: var(--high-bg); color: var(--high); }
+  .priority.mid { background: var(--mid-bg); color: var(--mid); }
+  .priority.low { background: var(--low-bg); color: var(--low); }
+
+  .row.hidden { display: none; }
+
+  .empty-state {
+    padding: 48px 4px;
+    text-align: center;
+    color: var(--ink-faint);
+    font-size: 14px;
+    display: none;
+  }
+
+  footer {
+    margin-top: 72px;
+    padding-top: 20px;
+    border-top: 1px solid var(--rule);
+    font-size: 12px;
+    color: var(--ink-faint);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  @media (max-width: 620px) {
+    .row {
+      grid-template-columns: 1fr;
+      gap: 6px;
+    }
+    .row .priority { justify-self: start; }
+    .search { margin-left: 0; width: 100%; }
+    nav.toolbar { gap: 8px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <p class="kicker">CHL2050 · Mechanical Unit Operations · Dept. of Chemical Engineering, IIT Jodhpur</p>
+    <h1>Chapter topic map</h1>
+    <p class="dek">Every slide from Chapter 1 (Particulate Solids, Size Reduction, Agitation &amp; Mixing) and Chapter 2 (Filtration &amp; Membrane Separation), in original order, tagged by exam priority.</p>
+    <div class="stat-row">
+      <div class="stat"><span class="num" id="stat-total">0</span><span class="lbl">slides mapped</span></div>
+      <div class="stat high"><span class="num" id="stat-high">0</span><span class="lbl">high priority</span></div>
+      <div class="stat mid"><span class="num" id="stat-mid">0</span><span class="lbl">mid priority</span></div>
+      <div class="stat low"><span class="num" id="stat-low">0</span><span class="lbl">low priority</span></div>
+    </div>
+  </header>
+
+  <nav class="toolbar">
+    <span class="label">Show</span>
+    <button class="chip" data-filter="all" aria-pressed="true">All</button>
+    <button class="chip high" data-filter="high" aria-pressed="false">High</button>
+    <button class="chip mid" data-filter="mid" aria-pressed="false">Mid</button>
+    <button class="chip low" data-filter="low" aria-pressed="false">Low</button>
+    <div class="search">
+      <input type="text" id="search-input" placeholder="Search a topic or page…" aria-label="Search topics">
+    </div>
+  </nav>
+  <p class="count-note" id="count-note"></p>
+
+  <main id="content"></main>
+
+  <p class="empty-state" id="empty-state">No slides match that search and filter combination.</p>
+
+  <footer>
+    <span>Source: MUO-Chapter-1.pdf (137 slides), MUO-Chapter-2.pdf (86 slides)</span>
+    <span>223 slides total</span>
+  </footer>
+
+</div>
+
+<script>
+const DATA = [
+  { chapter: "Chapter 1 — Particulate Solids, Size Reduction, Agitation & Mixing", rows: [
+    ["p1","Course title slide — Mechanical Unit Operations (CHL2050)","low"],
+    ["p2","Unit operation — definition & sugarcane processing example","high"],
+    ["p3","Unit operation vs. unit process — comparison","high"],
+    ["p4","Why \u201cmechanical\u201d unit operations — dominant driving force","mid"],
+    ["p5","Course contents / syllabus overview","low"],
+    ["p6","Particulate matter — definition & difference from fluids","high"],
+    ["p7","Storage of solids — hoppers, silos, bins","mid"],
+    ["p8","Particulate matter operations & equipment overview","mid"],
+    ["p9","Particle shape & sphericity (\u03A6s)","high"],
+    ["p10–11","Case studies — sphericity in cement plant & pharma lactose","mid"],
+    ["p12","Experimental determination of sphericity & effect of shape on operations","mid"],
+    ["p13","Particle size — definition, ranges & units","high"],
+    ["p14","Particle size distribution (PSD) — differential & cumulative analysis","high"],
+    ["p15","Case study — PSD in cement manufacturing","low"],
+    ["p16","Mixed particle sizes — number of particles & total surface area equations","high"],
+    ["p17–18","Case studies — asthma inhalers & pharmaceutical tablets","low"],
+    ["p19","Specific surface of a mixture (Aw)","high"],
+    ["p20","Average particle sizes — Sauter, arithmetic, mass & volume mean diameters","high"],
+    ["p21","Volume shape factor (\u03B1)","mid"],
+    ["p22","Size reduction — definition & industrial objectives","high"],
+    ["p23","Mechanisms of size reduction — compression, impact, attrition, cutting","high"],
+    ["p24","Energy & power requirements — fracture mechanism","high"],
+    ["p25","Crushing laws — Rittinger's law","high"],
+    ["p26","Crushing laws — Kick's law","high"],
+    ["p27–28","Bond's law & Bond work index (Wi)","high"],
+    ["p29","Crushing laws — solved numerical example (limestone power requirement)","high"],
+    ["p30","Classification of size reduction equipment — crushers, grinders, cutters","mid"],
+    ["p31–32","Jaw crusher — construction, working & reduction ratio","high"],
+    ["p33","Gyratory crusher","high"],
+    ["p34","Roll crushers — smooth & toothed","high"],
+    ["p35","Grinders — intermediate size reduction & classification","mid"],
+    ["p36–37","Hammer mills — construction, mechanism & capabilities","high"],
+    ["p38–40","Hammer mill case studies — corn flour, pharma powder, plastic recycling","low"],
+    ["p41–42","Roller mills (rolling-compression machines)","high"],
+    ["p43","Case study — coal pulverization in thermal power plant (VRM)","low"],
+    ["p44–45","Attrition mills — single & double runner","mid"],
+    ["p46","Case study — cocoa powder production","low"],
+    ["p47","Tumbling mills — batch vs. continuous operation","mid"],
+    ["p48","Rod mills","high"],
+    ["p49","Ball mills & pebble mills — impact grinding","high"],
+    ["p50","Tube mills — extended residence time","mid"],
+    ["p51","Case study — ceramic tile manufacturing (wet tube mill)","low"],
+    ["p52","Compartment mills","mid"],
+    ["p53–54","Conical ball mill — construction & ball loading","mid"],
+    ["p55","Critical speed of ball mill","high"],
+    ["p56","Case study — paint manufacturing using ball mill","low"],
+    ["p57","Ultrafine grinders — definition & applications","mid"],
+    ["p58–59","Classifying hammer mill","mid"],
+    ["p60–62","Fluid energy mills — principle, construction & working","high"],
+    ["p63–64","Agitated mills (wet grinding)","mid"],
+    ["p65","Fluid energy mills vs. agitated mills — comparison","mid"],
+    ["p66–68","Colloid mills — shear principle, geometry & heat generation","mid"],
+    ["p69","Size enlargement — problems with fine particles","high"],
+    ["p70–73","Spray drying — principle, spray drier & atomizers","high"],
+    ["p74–76","Prilling tower — principle & working process","high"],
+    ["p77–79","Fluidized bed agglomeration — principle & process steps","high"],
+    ["p80–81","Drum agglomerator — principle & working mechanism","mid"],
+    ["p82–83","Pan (disc) agglomerator — principle & working mechanism","mid"],
+    ["p84–87","Pug mill & extruder system — working & industrial applications","mid"],
+    ["p88","Mechanical separations — two general methods","high"],
+    ["p89","Screening — basic principle, oversize/undersize, multiple screens","high"],
+    ["p90","Stationary screens & grizzlies","mid"],
+    ["p91–92","Gyratory screens — mechanism & construction","mid"],
+    ["p93","Material balance over a screen & screen effectiveness","high"],
+    ["p94–96","Agitation & mixing — definitions, agitated vessel components, impeller overview","high"],
+    ["p97","Impellers — axial-flow vs. radial-flow classes","high"],
+    ["p98","Impeller selection by viscosity","mid"],
+    ["p99","Propellers — axial-flow impellers","mid"],
+    ["p100","Turbines — four types & functions","high"],
+    ["p101","Standard turbine design — dimensional ratios","high"],
+    ["p102","High-efficiency impellers (HE-3, A310)","mid"],
+    ["p103","Impellers for highly viscous liquids — helical ribbon & anchor","mid"],
+    ["p104","Flow patterns in agitated vessels","high"],
+    ["p105–106","Radial, longitudinal & tangential velocity components","high"],
+    ["p107","Swirling, vortex formation & its consequences","high"],
+    ["p108","Baffled vs. unbaffled vessels","high"],
+    ["p109","Prevention of swirling — off-center mounting & other methods","high"],
+    ["p110","Baffle design & specifications","mid"],
+    ["p111–112","Multi-impeller systems & draft tubes","mid"],
+    ["p113","Flow number (NQ) & impeller pumping capacity","high"],
+    ["p114","Power consumption in agitated vessels","high"],
+    ["p115","Power number (Np)","high"],
+    ["p116","Final power correlation — Reynolds, Froude & shape factors","high"],
+    ["p117","Mixing — introduction & mixedness criteria","mid"],
+    ["p118","Mixer types — tumbling, convective & others","mid"],
+    ["p119","Mixers for noncohesive solids — classification & mechanisms","mid"],
+    ["p120–121","Ribbon blender — construction, applications & constraints","high"],
+    ["p122–123","Tumbling mixers — construction & incomplete mixing limitation","mid"],
+    ["p124–125","Impact wheel mixers — design, applications & limitations","low"],
+    ["p126–127","Double-cone tumbling mixer — construction & applications","mid"],
+    ["p128","Mixer selection — comparative summary","high"],
+    ["p129","Mixers for cohesive solids — characteristics & challenges","mid"],
+    ["p130","Change-can mixers (pony mixer, beater)","mid"],
+    ["p131–133","Kneading machines & mixer blade configurations (sigma, fishtail, disperser)","mid"],
+    ["p134–135","Internal mixers (closed chamber) — Banbury mixer","mid"],
+    ["p136","Muller mixers — mulling action","mid"],
+    ["p137","Banbury mixer — schematic","low"],
+  ]},
+  { chapter: "Chapter 2 — Filtration & Membrane Separation", rows: [
+    ["p1–2","Title slide & Chapter 2 outline — filtration and membrane separation","low"],
+    ["p3–4","Filtration — fundamental principle & sources of pressure differential","high"],
+    ["p5","Classification of filters — cake, clarifying & crossflow filters","high"],
+    ["p6","How a cake filter works — cake formation","high"],
+    ["p7–8","Filter press (plate-and-frame, discontinuous)","high"],
+    ["p9–11","Rotary vacuum drum filter — construction, cycle & fluid paths","high"],
+    ["p12–13","Horizontal belt filter","mid"],
+    ["p14–16","Top-suspended batch centrifugal filter — working, advantages","mid"],
+    ["p17","Filter media — requirements & types","mid"],
+    ["p18","Filter aids — purpose & application","mid"],
+    ["p19–20","Cake filtration — flow resistance, cake & medium resistance in series","high"],
+    ["p21","Cake filtration — pressure drop distribution","high"],
+    ["p22","Clarifying filters — principle & distinction from screening","mid"],
+    ["p23","Liquid clarification equipment","low"],
+    ["p24–25","Gas cleaning — need & filter types (pad, granular bed)","mid"],
+    ["p26–27","Bag filters / baghouse — construction & flow configuration","mid"],
+    ["p28","Membrane separation — need & difficult-to-separate materials","high"],
+    ["p29–30","Classification of membrane processes — MF, UF, NF, RO & applications","high"],
+    ["p31","Nature of synthetic membranes — polymeric materials","mid"],
+    ["p32","Manufacturing polymeric membranes — phase inversion","mid"],
+    ["p33","Inorganic membranes & membrane characterisation","mid"],
+    ["p34–35","Symmetric vs. asymmetric & thin-film composite membranes","high"],
+    ["p36–37","Ion-exchange membranes — CEM & AEM selective permeability","mid"],
+    ["p38","Microfiltration — sub-10 \u00B5m filtration challenge","high"],
+    ["p39","Dead-end vs. cross-flow filtration","high"],
+    ["p40–41","Cross-flow microfiltration (CFMF) — concept & advantages","high"],
+    ["p42–43","Cross-flow process flow diagram & diafiltration","mid"],
+    ["p44","Ultrafiltration — principle & solute retention","high"],
+    ["p45","Concentration polarisation","high"],
+    ["p46–47","Mass balance integration, complete rejection & polarisation modulus","high"],
+    ["p48","Case study — whey protein concentration (dairy)","low"],
+    ["p49–50","Osmosis & osmotic pressure (\u03C0)","high"],
+    ["p51","Reverse osmosis — concept & process flow","high"],
+    ["p52","Reverse osmosis — energy considerations & advantages","mid"],
+    ["p53","Loeb–Sourirajan asymmetric membrane breakthrough","mid"],
+    ["p54","Membrane modules — definition & need","mid"],
+    ["p55","Tubular modules","high"],
+    ["p56","Flat-sheet (plate-and-frame) modules","high"],
+    ["p57","Spiral-wound modules","high"],
+    ["p58","Hollow-fibre modules","high"],
+    ["p59","Membrane plant configurations — selection criteria","mid"],
+    ["p60–61","Feed and bleed system — single stage & multistage","high"],
+    ["p62–63","Continuous single-pass configuration","high"],
+    ["p64–65","Membrane fouling — causes, consequences & fouling curve","high"],
+    ["p66","Control & mitigation of fouling","high"],
+    ["p67","Cleaning strategies — backflushing & chemical cleaning","mid"],
+    ["p68","Electrodialysis (ED) — principle & membrane types","high"],
+    ["p69–70","ED stack configuration & working process","high"],
+    ["p71–72","ED spacer designs, hydrodynamics & turbulence promotion","mid"],
+    ["p73","Major industrial applications of electrodialysis","mid"],
+    ["p74–75","ED case studies — brackish water desalination & salt production in Japan","low"],
+    ["p76–78","Pervaporation — problem solved, process setup & transport mechanism","high"],
+    ["p79","Pervaporation — high-purity alcohol / ethanol dehydration (hybrid process)","high"],
+    ["p80","Other pervaporation applications — azeotropic & close-boiling mixtures","low"],
+    ["p81–82","Pervaporation case studies — fuel ethanol (Brazil) & benzene/cyclohexane","low"],
+    ["p83–84","General membrane equation — purpose & resistance-in-series model","high"],
+    ["p85","General membrane equation — net driving force (\u0394P \u2212 \u0394\u03A0)","high"],
+    ["p86","General membrane equation — membrane & cake resistances (Rm + Rc)","high"],
+  ]},
+];
+
+const priorityLabel = { high: "High", mid: "Mid", low: "Low" };
+const content = document.getElementById('content');
+let counts = { high: 0, mid: 0, low: 0 };
+
+DATA.forEach((ch, ci) => {
+  const section = document.createElement('section');
+  section.className = 'chapter';
+
+  const head = document.createElement('div');
+  head.className = 'chapter-head';
+  head.innerHTML = `<span class="chapter-num">${String(ci + 1).padStart(2, '0')}</span><h2 class="chapter-title">${ch.chapter}</h2>`;
+  section.appendChild(head);
+
+  const rowsWrap = document.createElement('div');
+  rowsWrap.className = 'rows';
+
+  ch.rows.forEach(([range, topic, priority]) => {
+    counts[priority]++;
+    const row = document.createElement('div');
+    row.className = `row p-${priority}`;
+    row.dataset.priority = priority;
+    row.dataset.search = (range + ' ' + topic).toLowerCase();
+    row.innerHTML = `
+      <div class="range">${range}</div>
+      <div class="topic">${topic}</div>
+      <div class="priority ${priority}">${priorityLabel[priority]}</div>
+    `;
+    rowsWrap.appendChild(row);
+  });
+
+  section.appendChild(rowsWrap);
+  content.appendChild(section);
+});
+
+document.getElementById('stat-total').textContent = counts.high + counts.mid + counts.low;
+document.getElementById('stat-high').textContent = counts.high;
+document.getElementById('stat-mid').textContent = counts.mid;
+document.getElementById('stat-low').textContent = counts.low;
+
+let activeFilter = 'all';
+let searchTerm = '';
+const allRows = () => Array.from(document.querySelectorAll('.row'));
+const chips = Array.from(document.querySelectorAll('.chip'));
+const emptyState = document.getElementById('empty-state');
+const countNote = document.getElementById('count-note');
+
+function applyFilters() {
+  let visible = 0;
+  allRows().forEach(row => {
+    const matchesPriority = activeFilter === 'all' || row.dataset.priority === activeFilter;
+    const matchesSearch = !searchTerm || row.dataset.search.includes(searchTerm);
+    const show = matchesPriority && matchesSearch;
+    row.classList.toggle('hidden', !show);
+    if (show) visible++;
+  });
+
+  document.querySelectorAll('.chapter').forEach(section => {
+    const hasVisible = Array.from(section.querySelectorAll('.row')).some(r => !r.classList.contains('hidden'));
+    section.style.display = hasVisible ? '' : 'none';
+  });
+
+  emptyState.style.display = visible === 0 ? 'block' : 'none';
+  countNote.textContent = visible === (counts.high + counts.mid + counts.low)
+    ? ''
+    : `Showing ${visible} of ${counts.high + counts.mid + counts.low} slides`;
+}
+
+chips.forEach(chip => {
+  chip.addEventListener('click', () => {
+    activeFilter = chip.dataset.filter;
+    chips.forEach(c => c.setAttribute('aria-pressed', c === chip ? 'true' : 'false'));
+    applyFilters();
+  });
+});
+
+document.getElementById('search-input').addEventListener('input', (e) => {
+  searchTerm = e.target.value.trim().toLowerCase();
+  applyFilters();
+});
+</script>
+</body>
+</html>
