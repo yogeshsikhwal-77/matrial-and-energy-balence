@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#f5f3ef">
+<title>Momentum Transfer Operations — Short Notes</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<style>
+  /* 
+    Eye-Care / Soft Paper Theme for comfortable tablet studying 
+  */
+  :root {
+    --bg: #f5f3ef;         /* Soft paper background to reduce glare */
+    --panel: #ffffff;      /* Clean white for content areas */
+    --ink: #333333;        /* Charcoal text (softer than pure black) */
+    --rule: #e2ded5;       /* Very soft borders */
+    --heading: #2c5256;    /* Calm teal/slate for headings */
+    --accent: #27817b;     /* Slightly brighter teal for interactive elements */
+    --num: #75716b;        /* Muted tone for secondary text */
+    --maxw: 1100px;
+    --shadow-soft: 0 4px 12px rgba(44, 82, 86, 0.06);
+    --shadow-hover: 0 8px 24px rgba(44, 82, 86, 0.12);
+  }
+  
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.65;
+    font-size: 17px; /* Slightly larger for tablet readability */
+  }
+
+  header {
+    padding: 16px 5vw;
+    background: rgba(245, 243, 239, 0.95);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+    border-bottom: 1px solid var(--rule);
+  }
+  header .headrow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    max-width: var(--maxw);
+    margin: 0 auto;
+  }
+  header h1 {
+    font-size: clamp(1.2rem, 4vw, 1.7rem);
+    font-weight: 700;
+    margin: 0 0 4px;
+    color: var(--heading);
+    letter-spacing: -0.5px;
+  }
+  header p.tagline {
+    margin: 0;
+    color: var(--num);
+    font-size: 0.9rem;
+    display: none;
+  }
+  
+  /* Touch-friendly Back Button */
+  #backBtn {
+    display: none;
+    background: var(--heading);
+    color: #fff;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    min-height: 44px; /* Optimal touch target */
+    white-space: nowrap;
+    transition: background 0.2s, transform 0.1s;
+    box-shadow: 0 2px 6px rgba(44,82,86,0.2);
+  }
+  #backBtn:hover { background: var(--accent); }
+  #backBtn:active { transform: scale(0.96); }
+
+  main {
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 24px 5vw 80px;
+  }
+
+  #home .intro {
+    color: var(--num);
+    margin: 0 0 24px;
+    font-size: 1rem;
+    line-height: 1.6;
+    background: var(--panel);
+    padding: 16px 20px;
+    border-radius: 12px;
+    border: 1px solid var(--rule);
+    box-shadow: var(--shadow-soft);
+  }
+  
+  .topic-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  /* App-like Topic Cards */
+  .topic-card {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: var(--panel);
+    border: none;
+    border-left: 5px solid var(--heading);
+    border-radius: 12px;
+    padding: 20px;
+    cursor: pointer;
+    font-family: inherit;
+    color: var(--ink);
+    box-shadow: var(--shadow-soft);
+    transition: all 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .topic-card:hover {
+    box-shadow: var(--shadow-hover);
+    border-left-color: var(--accent);
+    transform: translateY(-2px);
+  }
+  .topic-card:active { transform: scale(0.98); }
+  .topic-card .num {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 6px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .topic-card .title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin: 0 0 6px;
+    line-height: 1.4;
+    color: var(--heading);
+  }
+  .topic-card .desc {
+    font-size: 0.9rem;
+    color: var(--num);
+    margin: 0;
+    line-height: 1.45;
+  }
+
+  .page { display: none; }
+  .page.active { display: block; animation: fadeIn 0.3s ease-out; }
+  #home.active { display: block; }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Paper-like content section */
+  section.topic-section {
+    background: var(--panel);
+    border: 1px solid var(--rule);
+    border-radius: 16px;
+    padding: 24px 20px;
+    box-shadow: var(--shadow-soft);
+  }
+  section.topic-section h2 {
+    font-size: clamp(1.2rem, 4vw, 1.5rem);
+    font-weight: 700;
+    margin: 0 0 8px;
+    color: var(--heading);
+    border-bottom: 2px solid var(--rule);
+    padding-bottom: 12px;
+    line-height: 1.35;
+  }
+  section.topic-section h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin: 24px 0 10px;
+    color: var(--accent);
+  }
+  .sub {
+    font-size: 0.85rem;
+    color: var(--num);
+    margin-bottom: 14px;
+    font-style: italic;
+  }
+  
+  /* Equation Boxes */
+  .eq {
+    background: var(--bg); /* Soft background for equations */
+    border: 1px solid var(--rule);
+    padding: 16px 12px;
+    border-radius: 10px;
+    margin: 16px 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.01);
+  }
+  .note { font-size: 0.98rem; margin-bottom: 12px; }
+  .note strong { color: var(--heading); font-weight: 600; }
+  
+  ul, ol { margin: 12px 0; padding-left: 24px; }
+  li { margin: 8px 0; }
+  
+  /* Tables optimized for touch devices */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    font-size: 0.92rem;
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 8px;
+    border: 1px solid var(--rule);
+  }
+  table tr { display: table-row; }
+  table tr:nth-child(even) { background-color: var(--bg); }
+  td, th {
+    border-bottom: 1px solid var(--rule);
+    padding: 12px 14px;
+    text-align: left;
+    white-space: normal;
+  }
+  th { 
+    background-color: var(--bg);
+    color: var(--heading); 
+    font-weight: 700; 
+    font-size: 0.85rem; 
+    text-transform: uppercase; 
+    letter-spacing: 0.5px;
+  }
+  
+  .tag {
+    display: inline-block;
+    font-size: 0.7rem;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    background: rgba(39, 129, 123, 0.05);
+    padding: 3px 8px;
+    border-radius: 4px;
+    margin-left: 0;
+    margin-top: 8px;
+    vertical-align: middle;
+    font-weight: 600;
+  }
+  .grid2 { display: grid; grid-template-columns: 1fr; gap: 16px; }
+  
+  .diagram {
+    background: var(--panel);
+    border: 1px solid var(--rule);
+    border-radius: 12px;
+    padding: 16px;
+    margin: 16px 0;
+    text-align: center;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .diagram svg { max-width: 100%; height: auto; min-width: 480px; }
+
+  /* Touch-friendly Navigation Buttons */
+  .pagenav {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 30px;
+    font-size: 0.9rem;
+  }
+  .pagenav button {
+    flex: 1;
+    background: var(--panel);
+    border: 1px solid var(--rule);
+    color: var(--heading);
+    padding: 14px 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 600;
+    min-height: 48px; /* Great for tablet tapping */
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+  }
+  .pagenav button:hover:not(:disabled) { 
+    background: var(--bg); 
+    border-color: var(--heading); 
+    color: var(--heading);
+  }
+  .pagenav button:active:not(:disabled) { transform: scale(0.97); }
+  .pagenav button:disabled { opacity: 0.4; cursor: default; background: transparent; box-shadow: none; }
+
+  footer {
+    text-align: center;
+    padding: 30px 20px;
+    color: var(--num);
+    font-size: 0.85rem;
+    border-top: 1px solid var(--rule);
+    margin-top: 20px;
+  }
+
+  .deriv-heading {
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 2px dashed var(--rule);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--heading);
+  }
+  
+  .added-flag {
+    display: inline-block;
+    font-size: 0.7rem;
+    color: #8c5b20;
+    background: #fdf6ec;
+    border: 1px solid #e0c8a6;
+    padding: 3px 8px;
+    border-radius: 4px;
+    margin-left: 10px;
+    font-weight: 600;
+    vertical-align: middle;
+  }
+
+  /* Tablet and Desktop Responsiveness */
+  @media (min-width: 641px) {
+    body { font-size: 17px; }
+    header { padding: 20px 6vw; }
+    header p.tagline { display: block; margin-top: 4px;}
+    main { padding: 32px 6vw 80px; }
+    .topic-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+    .grid2 { grid-template-columns: 1fr 1fr; }
+    section.topic-section { padding: 36px 40px; }
+    .diagram svg { min-width: 0; }
+    table { white-space: normal; display: table; }
+    .tag { margin-left: 10px; margin-top: 0; }
+    .pagenav button { flex: none; min-width: 140px; }
+  }
+
+  @media (min-width: 1025px) {
+    :root { --maxw: 1180px; }
+    body { font-size: 17px; }
+    header { padding: 24px 4vw; }
+    main { padding: 40px 4vw 90px; }
+    .topic-grid { grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    #backBtn { padding: 10px 24px; min-height: 40px; }
+  }
+
+  @media (min-width: 1440px) {
+    :root { --maxw: 1300px; }
+    .topic-grid { grid-template-columns: repeat(4, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="headrow">
+    <div>
+      <h1>Momentum Transfer Operations — Short Notes</h1>
+      <p class="tagline">Click a topic to open it</p>
+    </div>
+    <button id="backBtn" onclick="goHome()">&larr; All Topics</button>
+  </div>
+</header>
+
+<main>
+
+  <div id="home" class="page active">
+    <p class="intro">18 topics — fluid properties &amp; classification, fluid statics &amp; manometry, hydrostatic forces &amp; buoyancy, rigid body motion, control-volume analysis &amp; the Reynolds Transport Theorem, Euler/Bernoulli applications, differential (kinematic) analysis, and the second law via a control volume. Theory first, derivation follows immediately after — no numerical problems included.</p>
+    <div class="topic-grid" id="topicGrid"></div>
+  </div>
+
+  <!-- TOPIC 1 -->
+  <div class="page" id="page-1">
+    <section class="topic-section">
+      <h2>1. Stress on a Fluid Element &amp; Newton's Law of Viscosity</h2>
+      <h3>Theory</h3>
+      <p class="note">A fluid element in 3D carries <strong>normal stresses</strong> ($\sigma_{xx},\sigma_{yy},\sigma_{zz}$) acting perpendicular to each face, and <strong>shear stresses</strong> ($\tau_{ij}$) acting tangential to each face. In $\tau_{ij}$, the first index $i$ denotes the direction of the outward normal of the plane, and the second index $j$ denotes the direction of the stress itself — e.g. $\tau_{yx}$ is the shear stress on a plane whose normal is along $y$, acting in the $x$-direction.</p>
+      <p class="note">Unlike a solid, which resists a fixed shear load with a fixed (finite) deformation, a fluid <strong>continues to deform indefinitely</strong> under any sustained shear stress, however small. This continuous deformation is what defines a fluid.</p>
+
+      <h3>Stress Definitions — Normal &amp; Shear Stress (Limit Definition)</h3>
+      <p class="note">Consider a small force $\delta \mathbf F$ acting on a small area element $\delta A_n$ whose orientation is given by the unit normal $\hat n$. Resolving $\delta \mathbf F$ into a component along $\hat n$ (normal) and a component tangent to the surface (shear), and shrinking the area to a point defines the stress at that point:</p>
+      <div class="eq" id="eq1-6"></div>
+      <p class="note">On any given plane there is one normal stress and, in 3D, two independent shear components (e.g. on the plane whose normal is $x$: $\sigma_{xx}$, $\tau_{xy}$, $\tau_{xz}$). Repeating this for the $y$- and $z$-normal planes gives the full 3×3 stress array (stress tensor) at a point.</p>
+
+      <h3>Body Forces vs Surface Forces (General Classification)</h3>
+      <p class="note">All forces on a fluid can be classified as:</p>
+      <ul>
+        <li><strong>Body forces</strong> — act on the mass/volume of the element without contact, e.g. gravitational force and electromagnetic force. For an element of volume $d\forall$: $dF_B=\rho\,\mathbf g\,d\forall$ (gravitational body force per unit volume $=\rho g$).</li>
+        <li><strong>Surface forces</strong> — act by direct contact on the surface of the element, e.g. pressure force, friction, and surface tension.</li>
+      </ul>
+
+      <h3>Derivation — Rate of Deformation and Newton's Law</h3>
+      <p class="note">Consider fluid held between a fixed bottom plate and a top plate moving at velocity $u$ under an applied shear force. At time $t+\delta t$ a fluid line originally vertical has tilted by a small angle $\delta\alpha$.</p>
+      <div class="eq" id="eq1-1"></div>
+      <p class="note">For small angles, the horizontal displacement can also be written as $\delta l \approx \delta\alpha\,\delta y$. Equating the two expressions for $\delta l$:</p>
+      <div class="eq" id="eq1-2"></div>
+      <p class="note">Taking the limit as $\delta t \to 0$ gives the rate of shear strain (deformation rate):</p>
+      <div class="eq" id="eq1-3"></div>
+      <p class="note">Experiment shows that for a <strong>Newtonian fluid</strong>, shear stress is directly proportional to this rate of deformation. Introducing the dynamic viscosity $\mu$ as the proportionality constant:</p>
+      <div class="eq" id="eq1-4"></div>
+      <p class="note"><strong>Kinematic viscosity</strong> is defined as $\nu = \mu/\rho$, with SI units of m²/s.</p>
+
+      <h3>Classification of Fluids (Theory)</h3>
+      <ul>
+        <li><strong>Newtonian fluids</strong> — shear stress is linearly proportional to shear rate through a constant $\mu$ (e.g. water, air).</li>
+        <li><strong>Non-Newtonian fluids</strong> — the shear stress/shear rate relationship is not a single straight line through the origin:
+          <ul>
+            <li><strong>Pseudoplastic (shear-thinning)</strong> — apparent viscosity decreases as shear rate increases (e.g. polymer solutions, blood).</li>
+            <li><strong>Dilatant (shear-thickening)</strong> — apparent viscosity increases as shear rate increases (e.g. cornstarch/starch suspension).</li>
+            <li><strong>Bingham/ideal plastic</strong> — requires a finite yield stress before flow begins (e.g. toothpaste, drilling mud).</li>
+          </ul>
+        </li>
+        <li><strong>Time-dependent fluids</strong> — apparent viscosity depends on the duration of shearing, not just its rate:
+          <ul>
+            <li><strong>Thixotropic</strong> — apparent viscosity decreases with time under a constant applied shear rate (e.g. paints, gels).</li>
+            <li><strong>Rheopectic</strong> — apparent viscosity increases with time under a constant applied shear rate (rare; e.g. some gypsum/clay pastes).</li>
+          </ul>
+        </li>
+      </ul>
+      <p class="note"><strong>Power-Law (Ostwald–de Waele) model:</strong> $\tau_{yx}=K\left(\dfrac{du}{dy}\right)^n$, where $K$ is the flow consistency index and $n$ is the flow behaviour index. The apparent viscosity is $\eta = K\left(\dfrac{du}{dy}\right)^{n-1}$. For $n=1$ this reduces to a Newtonian fluid ($K=\mu$); $n<1$ gives shear-thinning behaviour; $n>1$ gives shear-thickening behaviour.</p>
+      <p class="note"><strong>Bingham plastic model:</strong> $\tau_{yx}=\tau_y+\mu_p\left(\dfrac{du}{dy}\right)$ — the fluid requires a yield stress $\tau_y$ before it begins to flow, then behaves linearly.</p>
+
+      <h3>Wetting &amp; Reynolds Number (Theory)</h3>
+      <p class="note"><strong>Contact angle</strong> $\theta$ describes surface wetting: hydrophilic/wetting surfaces have $\theta<90^\circ$ (liquid spreads); hydrophobic/non-wetting surfaces have $\theta>90^\circ$ (liquid beads up).</p>
+      <div class="eq" id="eq1-5"></div>
+      <p class="note">$Re$ is the ratio of inertial to viscous forces. Low $Re\ll1$ → viscous (creeping/laminar) flow dominates; high $Re\gg1$ → inertial/pressure forces dominate, flow tends toward turbulence. Pipe flow is classed as laminar for $Re<2300$, transitional for $2300<Re<4000$, and turbulent for $Re>4000$.</p>
+
+      <h3>Continuum Flow Classification (Theory)</h3>
+      <p class="note">Flows are broadly classified as:</p>
+      <ul>
+        <li><strong>Inviscid flow</strong> ($\mu\to0$, idealized, frictionless) vs <strong>viscous flow</strong> (real fluid, friction present). Viscous flow is further split into <strong>laminar</strong> (smooth, layered) and <strong>turbulent</strong> (chaotic, mixing) regimes, separated by the no-slip condition at solid boundaries.</li>
+        <li><strong>Compressible</strong> (density varies significantly, e.g. gas flow at high speed) vs <strong>incompressible</strong> (density essentially constant, most liquid flows).</li>
+        <li><strong>Internal flow</strong> (bounded by solid walls, e.g. pipe flow) vs <strong>external flow</strong> (fluid flows over an immersed body, e.g. flow past an aerofoil).</li>
+        <li><strong>Stagnation points</strong> — points on a body (commonly labelled A, C, etc.) where the local fluid velocity relative to the body is zero, marking where the approaching flow divides and rejoins.</li>
+      </ul>
+    </section>
+  </div>
+
+  <!-- TOPIC 2 -->
+  <div class="page" id="page-2">
+    <section class="topic-section">
+      <h2>2. Fluid Statics — Differential Force Balance</h2>
+      <h3>Theory</h3>
+      <p class="note">In a static fluid there is no relative motion between fluid layers, so all shear stresses vanish ($\tau=0$). Only two kinds of forces act on a differential fluid element of volume $dV=dx\,dy\,dz$: <strong>surface (pressure) forces</strong> and <strong>body forces</strong> such as gravity.</p>
+      <h3>Derivation</h3>
+      <p class="note"><strong>Body force:</strong> for mass element $dm=\rho\,dV$,</p>
+      <div class="eq" id="eq2-1"></div>
+      <p class="note"><strong>Surface force:</strong> expanding pressure by a first-order Taylor series about the element's centre (pressure $P$), the net pressure force on the pair of faces normal to each axis is:</p>
+      <div class="eq" id="eq2-2"></div>
+      <p class="note">Summing all three directions gives the net surface force vector:</p>
+      <div class="eq" id="eq2-3"></div>
+      <p class="note">Adding surface and body force and dividing by $dV$ gives the force per unit volume, and applying Newton's second law with zero acceleration (static fluid) gives the <strong>fluid statics equilibrium equation</strong>:</p>
+      <div class="eq" id="eq2-4"></div>
+      <p class="note">Expanded into Cartesian components:</p>
+      <div class="eq" id="eq2-5"></div>
+    </section>
+  </div>
+
+  <!-- TOPIC 3 -->
+  <div class="page" id="page-3">
+    <section class="topic-section">
+      <h2>3. Hydrostatic Equation, Pressure Definitions &amp; Manometry</h2>
+      <h3>Theory</h3>
+      <p class="note">Taking $z$ vertically upward, gravity has components $g_x=0,\ g_y=0,\ g_z=-g$. Pressure therefore does not vary horizontally, and varies only with elevation.</p>
+      <h3>Derivation — Hydrostatic Equation</h3>
+      <div class="eq" id="eq3-1"></div>
+      <p class="note">For an incompressible fluid ($\rho=$ constant), integrating from a reference elevation $z_0$ (pressure $P_0$) to elevation $z$ (pressure $P$):</p>
+      <div class="eq" id="eq3-2"></div>
+      <p class="note">Writing depth below the surface as $h=z_0-z$, this becomes the familiar hydrostatic relation:</p>
+      <div class="eq" id="eq3-3"></div>
+      <p class="note"><strong>Gauge pressure:</strong> $P_{gauge}=P_{absolute}-P_{atm}$.</p>
+      <h3>Inclined Tube Manometer — Derivation</h3>
+      <p class="note">An inclined manometer amplifies a small pressure difference into a larger, more readable displacement along an inclined limb at angle $\theta$. Equating the volume displaced from the reservoir (diameter $D$, drop $h_1$) to the volume that enters the inclined tube (diameter $d$, displacement $L$):</p>
+      <div class="eq" id="eq3-4"></div>
+      <p class="note">The vertical rise in the inclined tube is $h_2=L\sin\theta$. The hydrostatic pressure difference is $\Delta P=\rho g(h_1+h_2)$; substituting $h_1$ and $h_2$:</p>
+      <div class="eq" id="eq3-5"></div>
+      <p class="note">so the scale reading length is:</p>
+      <div class="eq" id="eq3-6"></div>
+      <p class="note"><strong>Sensitivity factor:</strong> for a standard vertical U-tube, $\Delta P=\rho g h \Rightarrow h=\Delta P/(\rho g)$. Sensitivity is the ratio of observed inclined-tube movement $L$ to the equivalent vertical head $h$:</p>
+      <div class="eq" id="eq3-7"></div>
+      <p class="note">Decreasing $\theta$ or the diameter ratio $d/D$ increases sensitivity. Typical optimal parameters: S.G. $\approx0.8$, $d/D\approx0.1$, $\theta\approx10^\circ$.</p>
+      <h3>Multi-Fluid Manometer (General Relation)</h3>
+      <div class="eq" id="eq3-8"></div>
+      <p class="note">Desirable manometer-fluid properties: smallest possible specific gravity (for larger, more readable displacement), safe/non-toxic, immiscible with the process fluid, low vapour pressure, and minimal capillary/surface-tension effects.</p>
+    </section>
+  </div>
+
+  <!-- TOPIC 4 -->
+  <div class="page" id="page-4">
+    <section class="topic-section">
+      <h2>4. Atmospheric Pressure Variation (Linear Temperature Lapse Rate)</h2>
+      <h3>Theory</h3>
+      <p class="note">Unlike a liquid, the atmosphere is compressible: density depends on both pressure and temperature through the ideal gas law, and temperature itself falls roughly linearly with altitude. This coupling must be built into the hydrostatic equation before it can be integrated.</p>
+      <h3>Derivation</h3>
+      <p class="note">Starting from the hydrostatic differential equation and the ideal gas relation $P=\rho RT \Rightarrow \rho = P/RT$:</p>
+      <div class="eq" id="eq4-1"></div>
+      <p class="note">With a linear temperature distribution $T=T_0-mz$ ($T_0$ = sea-level temperature, $m$ = lapse rate $=-dT/dz$), integrating from $0$ to $z$:</p>
+      <div class="eq" id="eq4-2"></div>
+      <p class="note">Evaluating the integral and exponentiating gives the atmospheric pressure profile:</p>
+      <div class="eq" id="eq4-3"></div>
+    </section>
+  </div>
+
+  <!-- TOPIC 5 -->
+  <div class="page" id="page-5">
+    <section class="topic-section">
+      <h2>5. Hydrostatic Force on a Submerged Inclined Surface &amp; Centre of Pressure</h2>
+      <h3>Theory</h3>
+      <p class="note">For a planar surface submerged at angle $\theta$ to a free surface, the local absolute pressure grows linearly with depth $h=y\sin\theta$ measured along the plane from the surface, so the resultant force and its line of action (centre of pressure) must be found by integrating the pressure distribution over the area.</p>
+      <h3>Derivation — Resultant Force</h3>
+      <p class="note">Local pressure on an element $dA$ at distance $y$ along the plane: $P=P_0+\rho g y\sin\theta$. The differential force is $dF=P\,dA$; integrating over the area and using the centroid definition $\int_A y\,dA=y_cA$:</p>
+      <div class="eq" id="eq5-1"></div>
+      <p class="note">which simplifies to:</p>
+      <div class="eq" id="eq5-2"></div>
+      <p class="note">i.e. the resultant force equals the pressure at the centroid ($P_c=P_0+\rho g h_c$) times the total area.</p>
+      <h3>Derivation — Centre of Pressure</h3>
+      <p class="note">Taking moments of the pressure force about the axis of rotation at the free surface, and using the parallel-axis theorem $\int_A y^2\,dA = I_{xx}+Ay_c^2$:</p>
+      <div class="eq" id="eq5-3"></div>
+      <p class="note">Dividing through by $F_R$ gives the coordinates of the centre of pressure:</p>
+      <div class="eq" id="eq5-4"></div>
+      <p class="note">$I_{xx}$ is the area moment of inertia about the horizontal centroidal axis, and $I_{xy}$ the product of inertia; for areas symmetric about the vertical centroidal axis, $I_{xy}=0$ and $x'=x_c$.</p>
+    </section>
+  </div>
+
+  <!-- TOPIC 6 -->
+  <div class="page" id="page-6">
+    <section class="topic-section">
+      <h2>6. Buoyancy — Archimedes' Principle</h2>
+      <h3>Theory</h3>
+      <p class="note">Buoyancy is the net upward hydrostatic force exerted by a fluid on a submerged (or floating) body. It arises simply because pressure increases with depth, so the upward push on the bottom of a submerged body exceeds the downward push on its top.</p>
+      <h3>Derivation</h3>
+      <p class="note">Consider a vertical fluid column of cross-sectional area $dA$ passing through a submerged body, from depth $h_1$ (top) to depth $h_2$ (bottom):</p>
+      <div class="eq" id="eq6-1"></div>
+      <p class="note">The net upward force on this element is:</p>
+      <div class="eq" id="eq6-2"></div>
+      <p class="note">Since $dV=(h_2-h_1)\,dA$ is the volume of the element, $dF_z=\rho g\,dV$. Integrating over the whole submerged volume gives the total buoyant force:</p>
+      <div class="eq" id="eq6-3"></div>
+      <p class="note">i.e. the buoyant force equals the weight of the fluid displaced by the body — <strong>Archimedes' Principle</strong>.</p>
+    </section>
+  </div>
+
+  <!-- TOPIC 7 -->
+  <div class="page" id="page-7">
+    <section class="topic-section">
+      <h2>7. Rigid Body Motion of Fluids (Accelerating Fluid Systems)</h2>
+      <h3>Theory</h3>
+      <p class="note">When an entire body of fluid accelerates uniformly (e.g. a tank of liquid accelerating linearly or rotating as a rigid body), there is still no relative motion between fluid layers, so shear stress remains zero — but unlike static fluid, the element now has a non-zero acceleration $a$.</p>
+      <h3>Derivation</h3>
+      <p class="note">Applying Newton's second law to the differential fluid volume $dV$:</p>
+      <div class="eq" id="eq7-1"></div>
+      <p class="note">The pressure-gradient and body-force terms are the same as in the static case, so:</p>
+      <div class="eq" id="eq7-2"></div>
+      <p class="note">which rearranges to the general equation of motion for rigid-body fluid acceleration:</p>
+      <div class="eq" id="eq7-3"></div>
+      <p class="note">In Cartesian components:</p>
+      <div class="eq" id="eq7-4"></div>
+      <p class="note">The same balance can be written in cylindrical coordinates using $\nabla P = \dfrac{\partial P}{\partial r}\hat e_r+\dfrac{1}{r}\dfrac{\partial P}{\partial\theta}\hat e_\theta+\dfrac{\partial P}{\partial z}\hat e_z$, useful for rigid-body rotation problems.</p>
+    </section>
+  </div>
+
+  <!-- TOPIC 8 -->
+  <div class="page" id="page-8">
+    <section class="topic-section">
+      <h2>8. System Conservation Laws &amp; the Reynolds Transport Theorem (RTT)</h2>
+      <h3>Theory</h3>
+      <p class="note">Conservation laws (mass, momentum, angular momentum, energy, entropy) are naturally stated for a fixed mass of matter — a <strong>system</strong>. In fluid mechanics it is far more convenient to work with a fixed region of space — a <strong>control volume (CV)</strong>. The Reynolds Transport Theorem is the mathematical bridge between the two viewpoints.</p>
+      <p class="note">Every extensive property $N$ (mass, momentum, energy, etc.) can be written as an integral of its corresponding intensive property $\eta=dN/dm$ over the system:</p>
+      <div class="eq" id="eq8-1"></div>
+      <table>
+        <tr><th>Extensive property $N$</th><th>Intensive property $\eta=dN/dm$</th></tr>
+        <tr><td>Mass, $m$</td><td>$1$</td></tr>
+        <tr><td>Linear momentum, $\mathbf P$</td><td>$\mathbf V$</td></tr>
+        <tr><td>Angular momentum, $\mathbf H$</td><td>$\mathbf r\times\mathbf V$</td></tr>
+        <tr><td>Total energy, $E$</td><td>$e=u+V^2/2+gz$</td></tr>
+        <tr><td>Entropy, $S$</td><td>$s$</td></tr>
+      </table>
+      <h3>Derivation — Reynolds Transport Theorem</h3>
+      <p class="note">Consider a system that at time $t_0$ exactly coincides with a fixed control volume: $N_s(t_0)=N_{CV}(t_0)$. At $t_0+\Delta t$ the system has moved, splitting space into: Region I (newly entered the CV — was outside the system before), Region II (still common to both CV and system), and Region III (has left the CV, but still belongs to the system). Then:</p>
+      <div class="eq" id="eq8-2"></div>
+      <p class="note">By definition of a time derivative,</p>
+      <div class="eq" id="eq8-3"></div>
+      <p class="note">Substituting $N_{II}=N_{CV}-N_I$ and rearranging into three separate limits:</p>
+      <div class="eq" id="eq8-4"></div>
+      <p class="note">The first limit is the <strong>rate of accumulation</strong> of the property inside the fixed CV:</p>
+      <div class="eq" id="eq8-5"></div>
+      <p class="note">The other two limits become surface-flux integrals. For a differential element of the control surface with outward area vector $d\mathbf A$, the volume swept out in time $\Delta t$ is $d\forall=(\mathbf V\cdot d\mathbf A)\Delta t$, so $dN=\eta\rho(\mathbf V\cdot d\mathbf A)\Delta t$. Outflow (Region III) gives a positive flux term and inflow (Region I) a negative one; combined over the entire closed control surface $CS$ (using the sign convention that $\mathbf V\cdot d\mathbf A>0$ for outflow and $<0$ for inflow), the two limits merge into a single net-flux integral. Combining accumulation and net flux gives the final <strong>Reynolds Transport Theorem</strong>:</p>
+      <div class="eq" id="eq8-6"></div>
+      <p class="note">In words: the rate of change of any extensive property for a system equals the rate of storage of that property inside the fixed control volume, plus the net rate at which it is carried out across the control surface.</p>
+    </section>
+  </div>
+
+  <!-- TOPIC 9 -->
+  <div class="page" id="page-9">
+    <section class="topic-section">
+      <h2>9. Continuity Equation (Conservation of Mass) <span class="added-flag">derivation added</span></h2>
+      <h3>Theory</h3>
+      <p class="note">Conservation of mass for a system states simply that $\dfrac{dm}{dt}\Big|_{system}=0$. Applying the RTT with $N=m$ and $\eta=dm/dm=1$ converts this system statement into a control-volume statement — the continuity equation. The same physical law can also be derived directly from a mass balance on a differential (point-sized) control volume, giving the equivalent differential form.</p>
+      <h3>Derivation — General Integral Form (via RTT)</h3>
+      <div class="eq" id="eq9-1"></div>
+      <h3>Special Case 1 — Incompressible Flow</h3>
+      <p class="note">If $\rho$ is constant, the CV volume is fixed, so the accumulation term vanishes identically ($\partial(\rho\forall)/\partial t=0$). Dividing by the constant $\rho$ leaves:</p>
+      <div class="eq" id="eq9-2"></div>
+      <p class="note">i.e. regardless of whether the flow is steady or unsteady, the net volumetric flow rate into and out of the CV must be zero for an incompressible fluid.</p>
+      <h3>Special Case 2 — Steady Compressible Flow</h3>
+      <p class="note">If the flow is steady ($\partial/\partial t=0$) but density varies spatially ($\rho=\rho(x,y,z)$), the accumulation term is zero, leaving:</p>
+      <div class="eq" id="eq9-3"></div>
+      <p class="note">i.e. total mass flow rate entering the CV equals total mass flow rate leaving it, $\sum\dot m_{in}=\sum\dot m_{out}$.</p>
+
+      <h3>Summary — Special-Case Integral Forms</h3>
+      <table>
+        <tr><th>Condition</th><th>Simplified relation</th></tr>
+        <tr><td>Incompressible flow</td><td>$\oiint_{CS}\mathbf V\cdot d\mathbf A=0$</td></tr>
+        <tr><td>Uniform flow (over each port)</td><td>$\sum_{CS}\mathbf V\cdot\mathbf A=0$</td></tr>
+        <tr><td>Steady flow</td><td>$\oiint_{CS}\rho\,\mathbf V\cdot d\mathbf A=0$</td></tr>
+        <tr><td>Steady + uniform flow</td><td>$\sum_{CS}\rho\,\mathbf V\cdot\mathbf A=0$</td></tr>
+      </table>
+
+      <h3>Derivation — Differential (Point) Form of the Continuity Equation</h3>
+      <p class="note">The same law can be derived directly on a differential control volume $dx\,dy\,dz$ fixed in space, by writing a mass balance across each pair of opposite faces. Expanding density and the $x$-velocity component by a first-order Taylor series about the element's centre, the values at the two faces normal to $x$ are:</p>
+      <div class="eq" id="eq9-4"></div>
+      <p class="note">The mass flux entering the left ($-x$) face and leaving the right ($+x$) face (each multiplied by the face area $dy\,dz$) are formed by multiplying the corresponding $\rho$ and $u$ values above. Expanding the products and keeping only first-order terms in $dx$ (i.e. dropping the $(dx)^2$ term), the <strong>net</strong> outflow of mass in the $x$-direction is:</p>
+      <div class="eq" id="eq9-5"></div>
+      <p class="note">Repeating the same Taylor-expansion argument for the $y$- and $z$-direction faces gives analogous net outflows $\dfrac{\partial(\rho v)}{\partial y}\,dx\,dy\,dz$ and $\dfrac{\partial(\rho w)}{\partial z}\,dx\,dy\,dz$. Adding the net outflow through all six faces gives the total net mass efflux rate from the element:</p>
+      <div class="eq" id="eq9-6"></div>
+      <p class="note">By conservation of mass, this net outward flux must equal the rate at which mass stored inside the element is decreasing, $-\dfrac{\partial \rho}{\partial t}\,dx\,dy\,dz$. Equating the two and dividing through by the element volume $dx\,dy\,dz$ gives the <strong>differential (point) form of the continuity equation</strong>:</p>
+      <div class="eq" id="eq9-7"></div>
+      <p class="note">This is exactly the point-form limit of the general integral continuity equation of Topic 9 as the control volume shrinks to a point — the two derivations (RTT-based integral form and direct differential-element flux balance) are fully consistent.</p>
+    </section>
+  </div>
+
+  <!-- TOPIC 10 -->
+  <div class="page" id="page-10">
+    <section class="topic-section">
+      <h2>10. Linear Momentum Equation (Inertial &amp; Non-Inertial Control Volumes)</h2>
+      <h3>Theory</h3>
+      <p class="note">Newton's second law for a system states $\mathbf F=\dfrac{d\mathbf P}{dt}\Big|_{system}$, where $\mathbf P=\int_{system}\mathbf V\,dm$. Applying the RTT with $N=\mathbf P$ and $\eta=\mathbf V$ converts this into a control-volume momentum balance.</p>
+      <h3>Derivation — Inertial (Non-Accelerating) Control Volume</h3>
+      <p class="note">Substituting into the general RTT, and noting that at the instant considered the system and CV coincide so $\mathbf F_{on\,system}=\mathbf F_{on\,CV}=\mathbf F_S+\mathbf F_B$ (surface plus body forces):</p>
+      <div class="eq" id="eq10-1"></div>
+      <p class="note">In Cartesian component form:</p>
+      <div class="eq" id="eq10-2"></div>
+      <h3>Derivation — Non-Inertial (Rectilinearly Accelerating) Control Volume</h3>
+      <p class="note">If the CV itself accelerates with rectilinear acceleration $\mathbf a_{rf}$, the absolute velocity relates to the relative velocity by $\mathbf V_{XYZ}=\mathbf V_{xyz}+\mathbf V_{rf}$, so absolute acceleration is $\mathbf a_{XYZ}=\mathbf a_{xyz}+\mathbf a_{rf}$. Newton's second law in the fixed frame, rewritten in terms of relative quantities, gives an extra apparent (fictitious/inertial) body-force term:</p>
+      <div class="eq" id="eq10-3"></div>
+      <p class="note">Applying the RTT to the relative momentum then gives the full non-inertial control-volume momentum equation:</p>
+      <div class="eq" id="eq10-4"></div>
+      <p class="note">The term $-\int_{CV}\mathbf a_{rf}\,\rho\,d\forall$ is the apparent body force arising purely from the acceleration of the reference frame.</p>
+    </section>
+  </div>
+
+  <!-- TOPIC 11 -->
+  <div class="page" id="page-11">
+    <section class="topic-section">
+      <h2>11. Energy Equation (First Law of Thermodynamics via RTT)</h2>
+      <h3>Theory</h3>
+      <p class="note">The First Law for a closed system is $\dot Q-\dot W=\dfrac{dE}{dt}\Big|_{system}$, where total energy $E=\int_{system}e\,dm$ and specific energy $e=u+\dfrac{V^2}{2}+gz$ (internal + kinetic + potential energy per unit mass).</p>
+      <h3>Derivation</h3>
+      <p class="note">Applying the RTT with $N=E$ and $\eta=e$ converts the system energy balance into its control-volume form:</p>
+      <div class="eq" id="eq11-1"></div>
+      <p class="note">The work-transfer rate $\dot W$ crossing the control surface is classified into distinct physical contributions:</p>
+      <div class="eq" id="eq11-2"></div>
+      <p class="note">where $\dot W_{shaft}$ is work transmitted by rotating machinery, $\dot W_{normal\,stress}$ is flow work done against normal (pressure) stresses at the boundary, and $\dot W_{shear\,stress}$ is work done against tangential viscous stresses at moving boundaries.</p>
+    </section>
+  </div>
+
+  <!-- TOPIC 12 -->
+  <div class="page" id="page-12">
+    <section class="topic-section">
+      <h2>12. Euler's Equation &amp; Bernoulli's Equation</h2>
+      <h3>Theory</h3>
+      <p class="note">Euler's equation is Newton's second law applied to a fluid particle moving along a streamline, for the special case of an <strong>inviscid</strong> (frictionless) fluid — i.e. with the viscous term dropped from the general momentum balance.</p>
+      <h3>Derivation — Euler's Equation</h3>
+      <p class="note">Along the streamline coordinate $s$, balancing pressure force, gravity, and inertia on an infinitesimal fluid element:</p>
+      <div class="eq" id="eq12-1"></div>
+      <p class="note">which can be rewritten in the differential form:</p>
+      <div class="eq" id="eq12-2"></div>
+      <h3>Derivation — Bernoulli's Equation</h3>
+      <p class="note">Integrating Euler's equation along the streamline under four assumptions — (1) steady flow, (2) inviscid/frictionless flow, (3) motion along a single streamline, (4) incompressible fluid — gives:</p>
+      <div class="eq" id="eq12-3"></div>
+      <p class="note">or, between any two points 1 and 2 on the same streamline:</p>
+      <div class="eq" id="eq12-4"></div>
+      <h3>Application — Horizontal Pipe Contraction (Venturi)</h3>
+      <p class="note">For horizontal flow ($z_1=z_2$), Bernoulli's equation reduces to a direct relation between pressure drop and velocity change:</p>
+      <div class="eq" id="eq12-5"></div>
+      <p class="note">Using continuity, $A_1V_1=A_2V_2=Q \Rightarrow V_2=V_1(A_1/A_2)$. Substituting into the pressure-drop expression and writing areas in terms of diameters ($A=\pi D^2/4$) gives the pressure drop purely in terms of flow rate and geometry:</p>
+      <div class="eq" id="eq12-6"></div>
+    </section>
+  </div>
+
+  <!-- TOPIC 13 -->
+  <div class="page" id="page-13">
+    <section class="topic-section">
+      <h2>13. Jet Impingement on a Moving Vane (Momentum Analysis in a Relative Frame)</h2>
+      <h3>Theory</h3>
+      <p class="note">A jet of absolute velocity $V$ strikes a curved vane moving at constant horizontal speed $U$ and is deflected through an angle $\theta$. Because the vane itself is moving, the problem is only steady when viewed from a frame of reference that moves <em>with</em> the vane — so the control volume is attached to the vane and analysed using the <strong>relative velocity</strong> $V_r=V-U$.</p>
+      <h3>Derivation</h3>
+      <p class="note">Assumptions in the moving frame: (1) steady flow relative to the vane, (2) negligible friction along the vane surface so the magnitude of relative velocity is unchanged, $v_{r1}=v_{r2}=V-U$, (3) body forces negligible, (4) incompressible fluid, (5) atmospheric pressure acts uniformly so the net pressure force on the jet is zero, leaving only the vane's reaction force $R_x$.</p>
+      <p class="note">Applying the $x$-momentum equation to the control volume, split into inlet and exit ports, with the relative mass flow rate $\dot m_r=\rho v_{r1}A_1=\rho v_{r2}A_2$:</p>
+      <div class="eq" id="eq13-1"></div>
+      <p class="note">The inlet and exit horizontal velocity components (in the fixed frame) are $u_1=V-U$ and $u_2=(V-U)\cos\theta$. Substituting:</p>
+      <div class="eq" id="eq13-2"></div>
+      <p class="note">This is the reaction force <em>on the fluid</em>; by Newton's third law, the force exerted <em>by the jet on the vane</em> is equal and opposite:</p>
+      <div class="eq" id="eq13-3"></div>
+    </section>
+  </div>
+
+  <!-- TOPIC 14 -->
+  <div class="page" id="page-14">
+    <section class="topic-section">
+      <h2>14. Fluid Kinematics — Velocity Field, Material Derivative, Streamlines &amp; Pathlines <span class="added-flag">derivation added</span></h2>
+      <h3>Theory</h3>
+      <p class="note">Differential (kinematic) analysis describes fluid motion point-by-point through a velocity field $\mathbf V(x,y,z,t)=u\,\hat i+v\,\hat j+w\,\hat k$, rather than through integral balances over a whole control volume. A key subtlety is that any fluid property carried by a moving particle changes both because the field itself changes with time at a fixed point, and because the particle is convected to a new point where the field value differs.</p>
+
+      <h3>Dimensionality of a Flow Field (Theory)</h3>
+      <p class="note">Flows are also classified by how many spatial coordinates the velocity depends on:</p>
+      <div class="eq" id="eq14-6"></div>
+      <p class="note">A flow is called <strong>uniform</strong> if the velocity does not change across a given cross-section of the flow at an instant, i.e. $u$ is constant throughout that section.</p>
+
+      <h3>Derivation — Material (Substantive) Derivative</h3>
+      <p class="note">For any property $f(x,y,z,t)$ attached to a moving fluid particle, the chain rule along the particle's path $x(t),y(t),z(t)$ gives:</p>
+      <div class="eq" id="eq14-1"></div>
+      <p class="note">Since $dx/dt=u,\ dy/dt=v,\ dz/dt=w$ for a particle moving with the flow, this becomes the material derivative operator:</p>
+      <div class="eq" id="eq14-2"></div>
+      <p class="note">Applying this operator to the velocity vector itself gives the fluid acceleration — a <strong>local</strong> (unsteady) part plus a <strong>convective</strong> part:</p>
+      <div class="eq" id="eq14-3"></div>
+
+      <h3>Streamlines, Pathlines, Streaklines &amp; Timelines (Theory)</h3>
+      <p class="note">A streamline is everywhere tangent to the instantaneous velocity vector, so a displacement $(dx,dy,dz)$ along it must be parallel to $(u,v,w)$:</p>
+      <div class="eq" id="eq14-4"></div>
+      <p class="note">A pathline is the actual trajectory traced by one fluid particle over time, obtained by integrating:</p>
+      <div class="eq" id="eq14-5"></div>
+      <p class="note">Formally, if the particle that was at $(x_0,y_0)$ at reference time $t_0$ is followed forward in time, its position at any later time $t$ is written $x_{particle}(t)=x(t;x_0,y_0,t_0)$ — this locus, for one fixed $t_0$ traced over varying $t$, is the pathline. A <strong>streakline</strong>, by contrast, is the locus at one instant $t$ of <em>all</em> particles that have earlier passed through the same fixed point $(x_0,y_0)$, parametrized by their different release times $t_0$: $x_{streak}(t_0)=x(t;x_0,y_0,t_0)$ evaluated at the current time $t$ for varying $t_0$ (e.g. the continuous streak of smoke/exhaust trailing behind a moving vehicle). A <strong>timeline</strong> is a line formed by marking a set of adjacent fluid particles at the same instant and observing how that line deforms and is carried downstream as time advances.</p>
+      <p class="note">For steady flow, streamlines, pathlines, and streaklines all coincide.</p>
+
+      <h3>Derivation — General Method: Streamline &amp; Pathline for a Linear Velocity Field</h3>
+      <p class="note">As a worked general technique, consider a velocity field of the form $\mathbf V=Ax\,\hat i - Ay\,\hat j$, with $A$ a constant. The streamline equation follows from $\dfrac{dy}{dx}\Big|_{streamline}=\dfrac{v}{u}$:</p>
+      <div class="eq" id="eq14-8"></div>
+      <p class="note">For the pathline, the particle's own velocity components equal the local field values along its path, $u_p=\dfrac{dx}{dt}=Ax$ and $v_p=\dfrac{dy}{dt}=-Ay$. Separating variables and integrating from the particle's initial position $(x_0,y_0)$ at $t=0$:</p>
+      <div class="eq" id="eq14-9"></div>
+      <p class="note">Eliminating $t$ between the two results gives $xy=x_0y_0=$ constant — identical in form to the streamline family found above, confirming that for this steady velocity field the pathlines and streamlines coincide, as expected.</p>
+    </section>
+  </div>
+
+  <!-- TOPIC 15 -->
+  <div class="page" id="page-15">
+    <section class="topic-section">
+      <h2>15. Strain Rate &amp; Vorticity <span class="added-flag">derivation added</span></h2>
+      <h3>Theory</h3>
+      <p class="note">As a fluid element moves, it can simultaneously translate, rotate, stretch (linear strain) and shear (angular strain). Separating the velocity field into these components is the basis of differential fluid-motion analysis and later of the viscous stress terms in the Navier–Stokes equations.</p>
+      <h3>Derivation</h3>
+      <p class="note">Consider two neighbouring points separated by $(dx,dy)$ inside a moving fluid element, with velocity components $u,v$ at the reference point. A first-order Taylor expansion gives the velocity at the neighbouring point as $u+\dfrac{\partial u}{\partial x}dx+\dfrac{\partial u}{\partial y}dy$ (similarly for $v$). The relative velocity field can be decomposed into: elongation along $x$ at rate $\partial u/\partial x$ per unit length (a <strong>linear strain rate</strong>), elongation along $y$ at rate $\partial v/\partial y$, and a combination of shearing and rotation captured by the cross-derivative terms $\partial u/\partial y$ and $\partial v/\partial x$.</p>
+      <p class="note">The symmetric part of this cross-derivative combination is the <strong>shear strain rate</strong> (pure angular deformation with no net rotation), while the antisymmetric part is the local <strong>rigid-body rotation</strong>. This decomposition gives:</p>
+      <div class="eq" id="eq15-1"></div>
+      <div class="eq" id="eq15-2"></div>
+      <p class="note">Twice the local angular velocity of the fluid element is called the <strong>vorticity</strong>, obtained by taking the curl of the velocity field:</p>
+      <div class="eq" id="eq15-3"></div>
+      <p class="note">A flow with $\boldsymbol\zeta=0$ everywhere is called <strong>irrotational</strong>.</p>
+    </section>
+  </div>
+
+  <!-- TOPIC 16 -->
+  <div class="page" id="page-16">
+    <section class="topic-section">
+      <h2>16. Stream Function &amp; Velocity Potential <span class="added-flag">derivation added</span></h2>
+      <h3>Theory</h3>
+      <p class="note">For 2D flow, tracking two velocity components $u,v$ separately is redundant once continuity is imposed; a single scalar function can be defined so that continuity (or irrotationality) is satisfied automatically, reducing the problem to one unknown.</p>
+      <h3>Derivation — Stream Function $\psi$ (2D Incompressible Flow)</h3>
+      <p class="note">The 2D incompressible continuity equation is $\dfrac{\partial u}{\partial x}+\dfrac{\partial v}{\partial y}=0$. Defining velocities in terms of a stream function $\psi(x,y)$ as:</p>
+      <div class="eq" id="eq16-1"></div>
+      <p class="note">automatically satisfies continuity identically, since $\dfrac{\partial^2\psi}{\partial x\partial y}-\dfrac{\partial^2\psi}{\partial y\partial x}=0$ for any smooth $\psi$. Lines of constant $\psi$ are streamlines, and the difference in $\psi$ between two streamlines equals the volumetric flow rate between them.</p>
+      <h3>Derivation — Velocity Potential $\phi$ (Irrotational Flow)</h3>
+      <p class="note">For an irrotational flow ($\nabla\times\mathbf V=0$), a scalar potential $\phi$ can be defined such that:</p>
+      <div class="eq" id="eq16-2"></div>
+      <p class="note">since the curl of any gradient is identically zero, this automatically guarantees $\nabla\times\mathbf V=0$.</p>
+      <h3>Cauchy–Riemann Conditions</h3>
+      <p class="note">When a flow is both incompressible and irrotational, both $\psi$ and $\phi$ exist simultaneously. Equating the two definitions of $u$ and $v$ gives the Cauchy–Riemann conditions, which show that lines of constant $\psi$ and constant $\phi$ intersect at right angles (an orthogonal flow net):</p>
+      <div class="eq" id="eq16-3"></div>
+    </section>
+  </div>
+
+  <!-- TOPIC 17 -->
+  <div class="page" id="page-17">
+    <section class="topic-section">
+      <h2>17. Navier–Stokes Equations <span class="added-flag">derivation added</span></h2>
+      <h3>Theory</h3>
+      <p class="note">Euler's equation applies only to inviscid flow. To include the effect of viscosity, the total stress on a fluid element must include not just pressure but also viscous (frictional) stresses arising from velocity gradients — leading to the Navier–Stokes equations, the general equation of motion for a Newtonian fluid.</p>
+      <h3>Derivation</h3>
+      <p class="note">Starting from Newton's second law for a fluid element, $\rho\,\dfrac{D\mathbf V}{Dt}=\sum(\text{forces per unit volume})$, the forces are: the pressure-gradient force $-\nabla P$, the body force $\rho\mathbf g$, and the net viscous force from the divergence of the viscous stress tensor. For a Newtonian, incompressible fluid with constant viscosity, each viscous stress component is directly proportional to the corresponding rate of strain (from Topic 15), and the divergence of the viscous stress tensor reduces to $\mu\nabla^2\mathbf V$. Assembling all terms:</p>
+      <div class="eq" id="eq17-1"></div>
+      <p class="note">Expanded into Cartesian scalar components (using the material derivative from Topic 14):</p>
+      <div class="eq" id="eq17-2"></div>
+      <div class="eq" id="eq17-3"></div>
+      <div class="eq" id="eq17-4"></div>
+      <p class="note">Each equation states: (mass) × (acceleration) = (pressure force) + (gravity/body force) + (net viscous force), per unit volume, in that coordinate direction. Setting $\mu=0$ recovers Euler's equation (Topic 12) as a special case.</p>
+    </section>
+  </div>
+
+  <!-- TOPIC 18 -->
+  <div class="page" id="page-18">
+    <section class="topic-section">
+      <h2>18. Second Law of Thermodynamics — Entropy Equation for a Control Volume <span class="added-flag">added topic</span></h2>
+      <h3>Theory</h3>
+      <p class="note">The Second Law states that the entropy of a system can never decrease except through heat transfer — for any real (irreversible) process, entropy generation is $\geq 0$. For a system receiving heat at rate $\dot Q$ at absolute temperature $T$, this is stated as an inequality on the rate of change of system entropy $S=\int_{system}s\,dm$.</p>
+      <div class="eq" id="eq18-1"></div>
+      <h3>Derivation — Control Volume Form via RTT</h3>
+      <p class="note">Applying the Reynolds Transport Theorem with $N=S$ and $\eta=s$ converts the system entropy rate into control-volume form:</p>
+      <div class="eq" id="eq18-2"></div>
+      <p class="note">Combining this with the Second Law inequality (writing the heat interaction as a flux $\delta\dot Q/dA$ distributed over the control surface) gives the <strong>Second Law for a control volume</strong>:</p>
+      <div class="eq" id="eq18-3"></div>
+      <p class="note">In words: the rate of entropy storage inside the CV plus the net rate of entropy leaving through the control surface must be at least as large as the net rate of entropy transfer into the CV by heat addition — equality holds only for a reversible process.</p>
+    </section>
+  </div>
+
+</main>
+
+<footer>Compiled &amp; organized from handwritten/derived short notes — theory followed by derivation, no numerical problems included</footer>
+
+<script>
+  const topics = [
+    {id:1,  title:"Stress on a Fluid Element & Newton's Law of Viscosity", desc:"Stress limit definitions, body/surface forces, shear deformation, fluid classification (Newtonian, non-Newtonian, time-dependent), flow classification, Reynolds number"},
+    {id:2,  title:"Fluid Statics — Differential Force Balance", desc:"Surface & body forces on a differential element, statics equilibrium equation"},
+    {id:3,  title:"Hydrostatic Equation & Manometry", desc:"Pressure-depth relation, gauge pressure, inclined tube & multi-fluid manometers"},
+    {id:4,  title:"Atmospheric Pressure Variation", desc:"Hydrostatics + ideal gas + linear temperature lapse rate"},
+    {id:5,  title:"Hydrostatic Force on Submerged Surfaces", desc:"Resultant force and centre of pressure on an inclined plane"},
+    {id:6,  title:"Buoyancy — Archimedes' Principle", desc:"Net vertical pressure force on a submerged fluid column"},
+    {id:7,  title:"Rigid Body Motion of Fluids", desc:"Equation of motion for accelerating/rotating fluid systems"},
+    {id:8,  title:"System Laws & the Reynolds Transport Theorem", desc:"System vs control volume, extensive/intensive properties, full RTT derivation"},
+    {id:9,  title:"Continuity Equation", desc:"General (RTT), incompressible & steady special cases, plus the differential (point) form derived from a flux balance"},
+    {id:10, title:"Linear Momentum Equation", desc:"Inertial and non-inertial (accelerating) control volume momentum balance"},
+    {id:11, title:"Energy Equation (First Law via RTT)", desc:"Control-volume energy balance and classification of work transfer"},
+    {id:12, title:"Euler's & Bernoulli's Equations", desc:"Streamline momentum balance, Bernoulli integration, Venturi application"},
+    {id:13, title:"Jet Impingement on a Moving Vane", desc:"Relative-velocity control volume momentum analysis"},
+    {id:14, title:"Fluid Kinematics", desc:"Velocity field, dimensionality, material derivative, streamlines/pathlines/streaklines/timelines, worked general derivation"},
+    {id:15, title:"Strain Rate & Vorticity", desc:"Linear/shear strain rate derivation and the vorticity vector"},
+    {id:16, title:"Stream Function & Velocity Potential", desc:"ψ and φ derivations, Cauchy–Riemann conditions"},
+    {id:17, title:"Navier–Stokes Equations", desc:"General viscous equation of motion, Cartesian component form"},
+    {id:18, title:"Second Law — Entropy Equation (Control Volume)", desc:"System entropy inequality converted to control-volume form via RTT"}
+  ];
+
+  const grid = document.getElementById('topicGrid');
+  topics.forEach(t => {
+    const card = document.createElement('button');
+    card.className = 'topic-card';
+    card.onclick = () => openTopic(t.id);
+    card.innerHTML = `<span class="num">TOPIC ${t.id}</span>
+                       <p class="title">${t.title}</p>
+                       <p class="desc">${t.desc}</p>`;
+    grid.appendChild(card);
+  });
+
+  function allPages(){ return document.querySelectorAll('.page'); }
+
+  function openTopic(id){
+    allPages().forEach(p => p.classList.remove('active'));
+    const target = document.getElementById('page-' + id);
+    if(target){
+      target.classList.add('active');
+      addPageNav(target, id);
+      document.getElementById('backBtn').style.display = 'inline-block';
+      window.scrollTo(0,0);
+      location.hash = 'topic-' + id;
+    }
+  }
+
+  function goHome(){
+    allPages().forEach(p => p.classList.remove('active'));
+    document.getElementById('home').classList.add('active');
+    document.getElementById('backBtn').style.display = 'none';
+    window.scrollTo(0,0);
+    history.pushState('', document.title, window.location.pathname + window.location.search);
+  }
+
+  function addPageNav(target, id){
+    let nav = target.querySelector('.pagenav');
+    if(!nav){
+      nav = document.createElement('div');
+      nav.className = 'pagenav';
+      target.querySelector('section').after(nav);
+    }
+    const prevId = id > 1 ? id - 1 : null;
+    const nextId = id < topics.length ? id + 1 : null;
+    nav.innerHTML = `
+      <button ${prevId ? '' : 'disabled'} onclick="openTopic(${prevId})">&larr; Previous</button>
+      <button onclick="goHome()">All Topics</button>
+      <button ${nextId ? '' : 'disabled'} onclick="openTopic(${nextId})">Next &rarr;</button>
+    `;
+  }
+
+  window.addEventListener('DOMContentLoaded', () => {
+    const m = location.hash.match(/^#topic-(\d+)$/);
+    if(m) openTopic(parseInt(m[1]));
+  });
+
+  document.addEventListener("DOMContentLoaded", function() {
+    const eqs = {
+      "eq1-1": "\\delta l = \\delta u \\cdot \\delta t",
+      "eq1-2": "\\delta u \\cdot \\delta t = \\delta \\alpha \\cdot \\delta y \\implies \\dfrac{\\delta \\alpha}{\\delta t} = \\dfrac{\\delta u}{\\delta y}",
+      "eq1-3": "\\text{Rate of shear strain} = \\lim_{\\delta t \\to 0}\\dfrac{\\delta \\alpha}{\\delta t} = \\dfrac{d\\alpha}{dt} = \\dfrac{du}{dy}",
+      "eq1-4": "\\tau_{yx} \\propto \\dfrac{du}{dy} \\implies \\boxed{\\tau_{yx} = \\mu\\dfrac{du}{dy}}",
+      "eq1-5": "Re = \\dfrac{L\\,v\\,\\rho}{\\mu}",
+      "eq1-6": "\\sigma_{nn} = \\lim_{\\delta A_n \\to 0}\\dfrac{\\delta F_n}{\\delta A_n} \\ \\text{(normal stress)}, \\qquad \\tau_{nt} = \\lim_{\\delta A_n \\to 0}\\dfrac{\\delta F_t}{\\delta A_n} \\ \\text{(shear stress)}",
+      "eq2-1": "dm = \\rho\\,dV = \\rho\\,dx\\,dy\\,dz \\implies dF_B = \\rho \\mathbf{g}\\,dV",
+      "eq2-2": "dF_{S,x} = -\\dfrac{\\partial P}{\\partial x}dx\\,dy\\,dz\\,\\hat i \\qquad dF_{S,y} = -\\dfrac{\\partial P}{\\partial y}dx\\,dy\\,dz\\,\\hat j \\qquad dF_{S,z} = -\\dfrac{\\partial P}{\\partial z}dx\\,dy\\,dz\\,\\hat k",
+      "eq2-3": "d\\mathbf{F}_S = -\\left(\\dfrac{\\partial P}{\\partial x}\\hat i + \\dfrac{\\partial P}{\\partial y}\\hat j + \\dfrac{\\partial P}{\\partial z}\\hat k\\right)dV = -\\nabla P\\,dV",
+      "eq2-4": "\\boxed{-\\nabla P + \\rho \\mathbf{g} = 0}",
+      "eq2-5": "-\\dfrac{\\partial P}{\\partial x}+\\rho g_x = 0 \\qquad -\\dfrac{\\partial P}{\\partial y}+\\rho g_y = 0 \\qquad -\\dfrac{\\partial P}{\\partial z}+\\rho g_z = 0",
+      "eq3-1": "\\dfrac{\\partial P}{\\partial x}=0,\\ \\dfrac{\\partial P}{\\partial y}=0 \\qquad \\dfrac{dP}{dz}=-\\rho g",
+      "eq3-2": "\\int_{P_0}^{P} dP = -\\int_{z_0}^{z}\\rho g\\,dz \\implies P-P_0 = -\\rho g(z-z_0) = \\rho g(z_0-z)",
+      "eq3-3": "\\boxed{\\Delta P = P-P_0 = \\rho g h}",
+      "eq3-4": "\\dfrac{\\pi}{4}D^2 h_1 = \\dfrac{\\pi}{4}d^2 L \\implies h_1 = L\\left(\\dfrac{d}{D}\\right)^2",
+      "eq3-5": "\\Delta P = \\rho g\\left[L\\left(\\dfrac{d}{D}\\right)^2 + L\\sin\\theta\\right] = \\rho g L\\left[\\left(\\dfrac{d}{D}\\right)^2+\\sin\\theta\\right]",
+      "eq3-6": "L = \\dfrac{\\Delta P}{\\rho g\\left[\\left(\\dfrac{d}{D}\\right)^2+\\sin\\theta\\right]}",
+      "eq3-7": "S=\\dfrac{L}{h}=\\dfrac{1}{\\left(\\dfrac{d}{D}\\right)^2+\\sin\\theta}",
+      "eq3-8": "\\Delta P = g\\sum \\rho_i h_i",
+      "eq4-1": "\\dfrac{dP}{dz}=-\\rho g \\ \\text{and}\\ \\rho = \\dfrac{P}{RT} \\implies \\dfrac{dP}{P} = -\\dfrac{g}{R}\\dfrac{dz}{T}",
+      "eq4-2": "\\int_{P_0}^{P}\\dfrac{dP}{P} = -\\dfrac{g}{R}\\int_0^z \\dfrac{dz}{T_0-mz}",
+      "eq4-3": "\\boxed{P = P_0\\left(1-\\dfrac{mz}{T_0}\\right)^{g/mR}}",
+      "eq5-1": "F_R = \\int_A P\\,dA = \\int_A (P_0+\\rho g y \\sin\\theta)\\,dA = P_0\\int_A dA + \\rho g \\sin\\theta \\int_A y\\,dA = P_0 A + \\rho g \\sin\\theta (y_c A)",
+      "eq5-2": "\\boxed{F_R = (P_0+\\rho g h_c)A = P_c A}",
+      "eq5-3": "y' F_R = \\int_A y\\,P\\,dA = P_0 y_c A + \\rho g \\sin\\theta (I_{xx}+Ay_c^2)",
+      "eq5-4": "\\boxed{y' = y_c + \\dfrac{\\rho g \\sin\\theta\\,I_{xx}}{F_R}} \\qquad \\boxed{x' = x_c + \\dfrac{\\rho g \\sin\\theta\\,I_{xy}}{F_R}}",
+      "eq6-1": "dF_{top} = (P_0+\\rho g h_1)\\,dA \\qquad dF_{bottom} = (P_0+\\rho g h_2)\\,dA",
+      "eq6-2": "dF_z = (P_0+\\rho g h_2)dA - (P_0+\\rho g h_1)dA = \\rho g(h_2-h_1)dA",
+      "eq6-3": "\\boxed{F_B = \\int dF_z = \\int \\rho g\\,dV = \\rho g V}",
+      "eq7-1": "dF = dm\\cdot a = (\\rho\\,dV)\\,\\mathbf{a} \\implies \\dfrac{d\\mathbf{F}}{dV} = \\rho \\mathbf{a}",
+      "eq7-2": "-\\nabla P + \\rho \\mathbf{g} = \\rho \\mathbf{a}",
+      "eq7-3": "\\boxed{-\\nabla P + \\rho(\\mathbf{g}-\\mathbf{a}) = 0}",
+      "eq7-4": "-\\dfrac{\\partial P}{\\partial x}+\\rho g_x = \\rho a_x \\qquad -\\dfrac{\\partial P}{\\partial y}+\\rho g_y = \\rho a_y \\qquad -\\dfrac{\\partial P}{\\partial z}+\\rho g_z = \\rho a_z",
+      "eq8-1": "N_{system} = \\int_{m_{sys}} \\eta\\,dm = \\int_{\\forall_{sys}} \\eta \\rho\\,d\\forall",
+      "eq8-2": "N_s(t_0)=N_{CV}(t_0) \\qquad N_s(t_0+\\Delta t) = N_{II}(t_0+\\Delta t)+N_{III}(t_0+\\Delta t)",
+      "eq8-3": "\\dfrac{dN}{dt}\\bigg|_{sys} = \\lim_{\\Delta t \\to 0}\\dfrac{N_s(t_0+\\Delta t)-N_s(t_0)}{\\Delta t}",
+      "eq8-4": "\\dfrac{dN}{dt}\\bigg|_{sys} = \\lim_{\\Delta t\\to0}\\dfrac{N_{CV}(t_0+\\Delta t)-N_{CV}(t_0)}{\\Delta t} + \\lim_{\\Delta t\\to0}\\dfrac{N_{III}(t_0+\\Delta t)}{\\Delta t} - \\lim_{\\Delta t\\to0}\\dfrac{N_{I}(t_0+\\Delta t)}{\\Delta t}",
+      "eq8-5": "\\lim_{\\Delta t\\to0}\\dfrac{N_{CV}(t_0+\\Delta t)-N_{CV}(t_0)}{\\Delta t} = \\dfrac{\\partial}{\\partial t}\\int_{CV}\\eta\\rho\\,d\\forall",
+      "eq8-6": "\\boxed{\\dfrac{dN}{dt}\\bigg|_{sys} = \\dfrac{\\partial}{\\partial t}\\int_{CV}\\eta\\rho\\,d\\forall + \\oint_{CS}\\eta\\rho(\\mathbf V\\cdot d\\mathbf A)}",
+      "eq9-1": "0 = \\dfrac{\\partial}{\\partial t}\\iiint_{CV}\\rho\\,d\\forall + \\oiint_{CS}\\rho(\\mathbf V \\cdot d\\mathbf A)",
+      "eq9-2": "\\boxed{\\oiint_{CS} \\mathbf V \\cdot d\\mathbf A = 0}",
+      "eq9-3": "\\boxed{\\oiint_{CS}\\rho(\\mathbf V\\cdot d\\mathbf A)=0} \\iff \\sum \\dot m_{in} = \\sum \\dot m_{out}",
+      "eq9-4": "\\rho_{x-\\frac{dx}{2}} = \\rho-\\dfrac{\\partial \\rho}{\\partial x}\\dfrac{dx}{2},\\quad u_{x-\\frac{dx}{2}}=u-\\dfrac{\\partial u}{\\partial x}\\dfrac{dx}{2} \\qquad \\rho_{x+\\frac{dx}{2}} = \\rho+\\dfrac{\\partial \\rho}{\\partial x}\\dfrac{dx}{2},\\quad u_{x+\\frac{dx}{2}}=u+\\dfrac{\\partial u}{\\partial x}\\dfrac{dx}{2}",
+      "eq9-5": "\\text{net}_x = \\rho_{x+\\frac{dx}{2}}u_{x+\\frac{dx}{2}}\\,dy\\,dz \\;-\\; \\rho_{x-\\frac{dx}{2}}u_{x-\\frac{dx}{2}}\\,dy\\,dz \\;=\\; \\dfrac{\\partial(\\rho u)}{\\partial x}\\,dx\\,dy\\,dz",
+      "eq9-6": "\\text{Net efflux} = \\left[\\dfrac{\\partial(\\rho u)}{\\partial x}+\\dfrac{\\partial(\\rho v)}{\\partial y}+\\dfrac{\\partial(\\rho w)}{\\partial z}\\right]dx\\,dy\\,dz",
+      "eq9-7": "\\left[\\dfrac{\\partial(\\rho u)}{\\partial x}+\\dfrac{\\partial(\\rho v)}{\\partial y}+\\dfrac{\\partial(\\rho w)}{\\partial z}\\right] = -\\dfrac{\\partial \\rho}{\\partial t} \\implies \\boxed{\\dfrac{\\partial \\rho}{\\partial t}+\\dfrac{\\partial(\\rho u)}{\\partial x}+\\dfrac{\\partial(\\rho v)}{\\partial y}+\\dfrac{\\partial(\\rho w)}{\\partial z}=0}",
+      "eq10-1": "\\mathbf F = \\mathbf F_S+\\mathbf F_B = \\dfrac{\\partial}{\\partial t}\\iiint_{CV}\\mathbf V \\rho\\,d\\forall + \\oiint_{CS}\\mathbf V \\rho(\\mathbf V \\cdot d\\mathbf A)",
+      "eq10-2": "F_x = \\dfrac{\\partial}{\\partial t}\\iiint_{CV} u\\rho\\,d\\forall + \\oiint_{CS} u\\rho(\\mathbf V\\cdot d\\mathbf A) \\quad \\text{(similarly for } F_y,\\ F_z\\text{)}",
+      "eq10-3": "\\mathbf V_{XYZ}=\\mathbf V_{xyz}+\\mathbf V_{rf} \\implies \\mathbf a_{XYZ}=\\mathbf a_{xyz}+\\mathbf a_{rf} \\implies \\mathbf F - \\int_m \\mathbf a_{rf}\\,dm = \\dfrac{d\\mathbf P_{xyz}}{dt}\\bigg|_{sys}",
+      "eq10-4": "\\boxed{\\mathbf F_S+\\mathbf F_B-\\iiint_{CV}\\mathbf a_{rf}\\,\\rho\\,d\\forall = \\dfrac{\\partial}{\\partial t}\\iiint_{CV}\\mathbf V_{xyz}\\,\\rho\\,d\\forall + \\oiint_{CS}\\mathbf V_{xyz}\\,\\rho(\\mathbf V_{xyz}\\cdot d\\mathbf A)}",
+      "eq11-1": "\\boxed{\\dot Q - \\dot W = \\dfrac{\\partial}{\\partial t}\\iiint_{CV} e\\rho\\,d\\forall + \\oiint_{CS} e\\rho(\\mathbf V \\cdot d\\mathbf A)}",
+      "eq11-2": "\\dot W = \\dot W_{shaft}+\\dot W_{normal\\,stress}+\\dot W_{shear\\,stress}+\\dot W_{other}",
+      "eq12-1": "-\\dfrac{1}{\\rho}\\dfrac{dP}{ds}-g\\dfrac{dz}{ds}=V_s\\dfrac{dV_s}{ds}",
+      "eq12-2": "\\dfrac{dP}{\\rho}+g\\,dz+V_s\\,dV_s=0 \\implies \\dfrac{dP}{\\rho}+g\\,dz+d\\left(\\dfrac{V_s^2}{2}\\right)=0",
+      "eq12-3": "\\boxed{\\dfrac{P}{\\rho}+\\dfrac{V^2}{2}+gz = \\text{constant}}",
+      "eq12-4": "\\dfrac{P_1}{\\rho}+\\dfrac{V_1^2}{2}+gz_1 = \\dfrac{P_2}{\\rho}+\\dfrac{V_2^2}{2}+gz_2",
+      "eq12-5": "\\dfrac{P_1-P_2}{\\rho}=\\dfrac{V_2^2-V_1^2}{2} \\implies \\Delta P = \\dfrac{\\rho}{2}\\left(V_2^2-V_1^2\\right)",
+      "eq12-6": "\\boxed{\\Delta P = \\dfrac{8\\rho Q^2}{\\pi^2 D_1^4}\\left[\\left(\\dfrac{D_1}{D_2}\\right)^4-1\\right]}",
+      "eq13-1": "R_x = \\iint_{CS} u\\,\\rho(\\mathbf V_r \\cdot d\\mathbf A) = u_1(-\\rho v_{r1}A_1)+u_2(\\rho v_{r2}A_2) = \\dot m_r(u_2-u_1)",
+      "eq13-2": "R_x = \\rho A_1 (V-U)^2 (\\cos\\theta - 1)",
+      "eq13-3": "\\boxed{F_{vane,x} = -R_x = \\rho A_1 (V-U)^2 (1-\\cos\\theta)}",
+      "eq14-1": "\\dfrac{Df}{Dt} = \\dfrac{\\partial f}{\\partial t}+\\dfrac{\\partial f}{\\partial x}\\dfrac{dx}{dt}+\\dfrac{\\partial f}{\\partial y}\\dfrac{dy}{dt}+\\dfrac{\\partial f}{\\partial z}\\dfrac{dz}{dt}",
+      "eq14-2": "\\boxed{\\dfrac{D}{Dt} = \\dfrac{\\partial}{\\partial t}+u\\dfrac{\\partial}{\\partial x}+v\\dfrac{\\partial}{\\partial y}+w\\dfrac{\\partial}{\\partial z} = \\dfrac{\\partial}{\\partial t}+(\\mathbf V \\cdot \\nabla)}",
+      "eq14-3": "\\mathbf a = \\dfrac{D\\mathbf V}{Dt} = \\underbrace{\\dfrac{\\partial \\mathbf V}{\\partial t}}_{\\text{local}} + \\underbrace{(\\mathbf V \\cdot \\nabla)\\mathbf V}_{\\text{convective}}",
+      "eq14-4": "\\boxed{\\dfrac{dx}{u}=\\dfrac{dy}{v}=\\dfrac{dz}{w}}",
+      "eq14-5": "\\dfrac{dx}{dt}=u,\\qquad \\dfrac{dy}{dt}=v,\\qquad \\dfrac{dz}{dt}=w",
+      "eq14-6": "\\text{1D: } u=u(x) \\qquad \\text{2D: } u=u(r,x) \\qquad \\text{3D: } u=u(r,x,\\theta)",
+      "eq14-8": "\\dfrac{dy}{dx}\\bigg|_{streamline}=\\dfrac{v}{u}=\\dfrac{-Ay}{Ax}=-\\dfrac{y}{x} \\implies \\int\\dfrac{dy}{y}=-\\int\\dfrac{dx}{x} \\implies \\ln y = -\\ln x + \\ln C \\implies \\boxed{xy=C}",
+      "eq14-9": "\\int_{x_0}^{x}\\dfrac{dx}{x}=\\int_0^t A\\,dt \\implies x=x_0e^{At} \\qquad \\int_{y_0}^{y}\\dfrac{dy}{y}=-\\int_0^t A\\,dt \\implies y=y_0e^{-At}",
+      "eq15-1": "\\varepsilon_{xx}=\\dfrac{\\partial u}{\\partial x},\\qquad \\varepsilon_{yy}=\\dfrac{\\partial v}{\\partial y},\\qquad \\varepsilon_{zz}=\\dfrac{\\partial w}{\\partial z}",
+      "eq15-2": "\\varepsilon_{xy}=\\dfrac{1}{2}\\left(\\dfrac{\\partial u}{\\partial y}+\\dfrac{\\partial v}{\\partial x}\\right),\\ \\ \\varepsilon_{yz}=\\dfrac{1}{2}\\left(\\dfrac{\\partial v}{\\partial z}+\\dfrac{\\partial w}{\\partial y}\\right),\\ \\ \\varepsilon_{zx}=\\dfrac{1}{2}\\left(\\dfrac{\\partial w}{\\partial x}+\\dfrac{\\partial u}{\\partial z}\\right)",
+      "eq15-3": "\\boxed{\\boldsymbol\\zeta = \\nabla \\times \\mathbf V = \\left(\\dfrac{\\partial w}{\\partial y}-\\dfrac{\\partial v}{\\partial z}\\right)\\hat i + \\left(\\dfrac{\\partial u}{\\partial z}-\\dfrac{\\partial w}{\\partial x}\\right)\\hat j + \\left(\\dfrac{\\partial v}{\\partial x}-\\dfrac{\\partial u}{\\partial y}\\right)\\hat k}",
+      "eq16-1": "\\boxed{u=\\dfrac{\\partial \\psi}{\\partial y}, \\qquad v=-\\dfrac{\\partial \\psi}{\\partial x}}",
+      "eq16-2": "\\boxed{\\mathbf V = \\nabla \\phi \\implies u=\\dfrac{\\partial \\phi}{\\partial x},\\ v=\\dfrac{\\partial \\phi}{\\partial y},\\ w=\\dfrac{\\partial \\phi}{\\partial z}}",
+      "eq16-3": "\\dfrac{\\partial \\phi}{\\partial x}=\\dfrac{\\partial \\psi}{\\partial y}, \\qquad \\dfrac{\\partial \\phi}{\\partial y}=-\\dfrac{\\partial \\psi}{\\partial x}",
+      "eq17-1": "\\boxed{\\rho \\dfrac{D\\mathbf V}{Dt} = -\\nabla P + \\rho \\mathbf g + \\mu \\nabla^2 \\mathbf V}",
+      "eq17-2": "\\rho\\left(\\dfrac{\\partial u}{\\partial t}+u\\dfrac{\\partial u}{\\partial x}+v\\dfrac{\\partial u}{\\partial y}+w\\dfrac{\\partial u}{\\partial z}\\right) = -\\dfrac{\\partial P}{\\partial x}+\\rho g_x+\\mu\\left(\\dfrac{\\partial^2 u}{\\partial x^2}+\\dfrac{\\partial^2 u}{\\partial y^2}+\\dfrac{\\partial^2 u}{\\partial z^2}\\right)",
+      "eq17-3": "\\rho\\left(\\dfrac{\\partial v}{\\partial t}+u\\dfrac{\\partial v}{\\partial x}+v\\dfrac{\\partial v}{\\partial y}+w\\dfrac{\\partial v}{\\partial z}\\right) = -\\dfrac{\\partial P}{\\partial y}+\\rho g_y+\\mu\\left(\\dfrac{\\partial^2 v}{\\partial x^2}+\\dfrac{\\partial^2 v}{\\partial y^2}+\\dfrac{\\partial^2 v}{\\partial z^2}\\right)",
+      "eq17-4": "\\rho\\left(\\dfrac{\\partial w}{\\partial t}+u\\dfrac{\\partial w}{\\partial x}+v\\dfrac{\\partial w}{\\partial y}+w\\dfrac{\\partial w}{\\partial z}\\right) = -\\dfrac{\\partial P}{\\partial z}+\\rho g_z+\\mu\\left(\\dfrac{\\partial^2 w}{\\partial x^2}+\\dfrac{\\partial^2 w}{\\partial y^2}+\\dfrac{\\partial^2 w}{\\partial z^2}\\right)",
+      "eq18-1": "\\dfrac{dS}{dt}\\bigg|_{system} \\geq \\dfrac{\\dot Q}{T}, \\qquad S_{system}=\\int_{m_{sys}} s\\,dm",
+      "eq18-2": "\\dfrac{dS}{dt}\\bigg|_{system} = \\dfrac{\\partial}{\\partial t}\\int_{CV} s\\rho\\,d\\forall + \\oint_{CS} s\\rho(\\mathbf V\\cdot d\\mathbf A)",
+      "eq18-3": "\\boxed{\\dfrac{\\partial}{\\partial t}\\int_{CV} s\\rho\\,d\\forall + \\oint_{CS} s\\rho(\\mathbf V\\cdot d\\mathbf A) \\ \\geq\\ \\int_{CS}\\dfrac{1}{T}\\left(\\dfrac{\\delta \\dot Q}{dA}\\right)dA}"
+    };
+    for (const id in eqs) {
+      const el = document.getElementById(id);
+      if (el) {
+        try { katex.render(eqs[id], el, {throwOnError: false, displayMode: true}); }
+        catch(e) { el.textContent = eqs[id]; }
+      }
+    }
+    if (window.renderMathInElement) {
+      renderMathInElement(document.body, {
+        delimiters: [
+          {left: "$$", right: "$$", display: true},
+          {left: "$", right: "$", display: false}
+        ],
+        throwOnError: false
+      });
+    }
+  });
+</script>
+
+</body>
+</html>
